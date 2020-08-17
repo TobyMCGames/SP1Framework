@@ -1,13 +1,3 @@
-﻿  console.cpp
-D:\Downloads\SP1Framework\SP1Framework\Framework\console.cpp(25,17): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-D:\Downloads\SP1Framework\SP1Framework\Framework\console.cpp(25,21): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-D:\Downloads\SP1Framework\SP1Framework\Framework\console.cpp(114,27): warning C4838: conversion from 'unsigned short' to 'SHORT' requires a narrowing conversion
-D:\Downloads\SP1Framework\SP1Framework\Framework\console.cpp(114,41): warning C4838: conversion from 'unsigned short' to 'SHORT' requires a narrowing conversion
-D:\Downloads\SP1Framework\SP1Framework\Framework\console.cpp(256,78): warning C4018: '<': signed/unsigned mismatch
-D:\Downloads\SP1Framework\SP1Framework\Framework\console.cpp(319,23): warning C4018: '<': signed/unsigned mismatch
-  timer.cpp
-  game.cpp
-D:\Downloads\SP1Framework\SP1Framework\game.cpp(403,44): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-  main.cpp
-  Generating Code...
-  SP1Framework.vcxproj -> D:\Downloads\SP1Framework\Debug\SP1Framework.exe
+﻿  game.cpp
+C:\Users\Jeryl\Documents\GitHub\SP1Framework\SP1Framework\game.cpp(406,44): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
+  SP1Framework.vcxproj -> C:\Users\Jeryl\Documents\GitHub\SP1Framework\Debug\SP1Framework.exe

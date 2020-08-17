@@ -17,7 +17,8 @@ SGameChar   g_sChar;
 EGAMESTATES g_eGameState = S_SPLASHSCREEN; // initial state
 
 // Console object
-Console g_Console(213, 50, "SP1 Framework");  // Setting console size and name (width, height, programme name)
+Console g_Console(180, 42, "Escape 2020");  // Setting console size and name (width, height, programme name)
+
 
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
@@ -292,7 +293,7 @@ void render()
 void clearScreen()
 {
     // Clears the buffer with this colour attribute
-    g_Console.clearBuffer(0x1F);
+    g_Console.clearBuffer(0x0);
 }
 
 void renderToScreen()
@@ -328,7 +329,8 @@ void renderMap()
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
-
+   
+    
     COORD c;
     for (int i = 0; i < 12; ++i)
     {
@@ -337,15 +339,16 @@ void renderMap()
         colour(colors[i]);
         g_Console.writeToBuffer(c, " °±²Û", colors[i]); //How to mix from background colour to text colour
     }
+   
 }
 
 void renderCharacter()
 {
     // Draw the location of the character
-    WORD charColor = 0x1C;
+    WORD charColor = 0x0C;
     if (g_sChar.m_bActive)
     {
-        charColor = 0x1A;
+        charColor = 0x0A;
     }
     g_Console.writeToBuffer(g_sChar.m_cLocation, (char)31, charColor);
 }
@@ -357,7 +360,7 @@ void renderFramerate()
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(3);
     ss << 1.0 / g_dDeltaTime << "fps";
-    c.X = g_Console.getConsoleSize().X - 9;
+    c.X = g_Console.getConsoleSize().X - 10;
     c.Y = 0;
     g_Console.writeToBuffer(c, ss.str());
 
@@ -373,7 +376,7 @@ void renderFramerate()
 void renderInputEvents()
 {
     // keyboard events
-    COORD startPos = {50, 2};
+    COORD startPos = {160, 35};
     std::ostringstream ss;
     std::string key;
     for (int i = 0; i < K_COUNT; ++i)
