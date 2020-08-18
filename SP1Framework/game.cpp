@@ -4,6 +4,7 @@
 #include "game.h"
 #include "Framework\console.h"
 #include "Map.h"
+#include "mainmenu.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -16,8 +17,9 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 SGameChar   g_sChar;
-EGAMESTATES g_eGameState = S_SPLASHSCREEN; // initial state
+EGAMESTATES g_eGameState = S_MAINMENU; // initial state
 Map map;
+mainmenu _mainmenu;
 
 // Console object
 Console g_Console(180, 42, "Escape 2020");  // Setting console size and name (width, height, programme name)
@@ -36,7 +38,8 @@ void init( void )
     g_dElapsedTime = 0.0;    
 
     // sets the initial state for the game
-    g_eGameState = S_SPLASHSCREEN;
+    g_eGameState = S_MAINMENU;
+    _mainmenu.loadmainmenu();
 
     g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
     g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y / 2;
@@ -102,7 +105,7 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
 {    
     switch (g_eGameState)
     {
-    case S_SPLASHSCREEN: // don't handle anything for the splash screen
+    case S_MAINMENU: // don't handle anything for the splash screen
         break;
     case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
@@ -129,7 +132,7 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 {    
     switch (g_eGameState)
     {
-    case S_SPLASHSCREEN: // don't handle anything for the splash screen
+    case S_MAINMENU: // don't handle anything for the splash screen
         break;
     case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
@@ -210,7 +213,7 @@ void update(double dt)
 
     switch (g_eGameState)
     {
-        case S_SPLASHSCREEN : splashScreenWait(); // game logic for the splash screen                 #217
+        case S_MAINMENU: splashScreenWait(); // game logic for the splash screen                 #217
             break;
         case S_GAME: updateGame(); // gameplay logic when we are in the game                          #223
             break;
@@ -220,7 +223,7 @@ void update(double dt)
 
 void splashScreenWait()    // waits for time to pass in splash screen
 {
-    if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
+    if (g_dElapsedTime > 5.0) // wait for 3 seconds to switch to game mode, else do nothing
         g_eGameState = S_GAME;
 }
 
@@ -283,7 +286,7 @@ void render()
     clearScreen();      // clears the current screen and draw from scratch 
     switch (g_eGameState)
     {
-    case S_SPLASHSCREEN: renderSplashScreen();
+    case S_MAINMENU: renderMainMenu();
         break;
     case S_GAME: renderGame();
         break;
@@ -299,24 +302,21 @@ void clearScreen()
     g_Console.clearBuffer(0x0);
 }
 
+void loadMainMenu()
+{
+    _mainmenu.loadmainmenu();
+}
+
+
 void renderToScreen()
 {
     // Writes the buffer to the console, hence you will see what you have written
     g_Console.flushBufferToConsole();
 }
 
-void renderSplashScreen()  // renders the splash screen    #Loading screen
+void renderMainMenu()  // renders the main menu
 {
-    COORD c = g_Console.getConsoleSize();
-    c.Y /= 3;
-    c.X = c.X / 2 - 9;
-    g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 20;
-    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 9;
-    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
+    _mainmenu.rendermenu(g_Console);
 }
 
 void renderGame()
