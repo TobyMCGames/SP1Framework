@@ -327,7 +327,9 @@ void renderGame()
 
 void renderMap()
 {
-    map.inputMap("map1.txt");
+    if (map.getMapChange() == true) {
+        map.inputMap("map1.txt");
+    }
     map.DrawMap(g_Console);
 }
 

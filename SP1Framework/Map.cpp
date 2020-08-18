@@ -8,11 +8,17 @@ Map::Map()
 			map[row][col] = ' ';
 		}
 	}
+	mapchange = true;
 }
 
 Map::~Map()
 {
 
+}
+
+bool Map::getMapChange()
+{
+	return mapchange;
 }
 
 void Map::inputMap(std::string anothermap)
@@ -29,6 +35,7 @@ void Map::inputMap(std::string anothermap)
 		row++;
 	}
 	f.close();
+	mapchange = false;
 }
 
 void Map::DrawMap(Console& anotherC)
