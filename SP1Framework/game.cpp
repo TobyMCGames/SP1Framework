@@ -15,7 +15,7 @@ SKeyEvent g_skKeyEvent[K_COUNT];
 SMouseEvent g_mouseEvent;
 
 // Game specific variables here
-SGameChar   g_sChar;
+Player   g_sChar;
 EGAMESTATES g_eGameState = S_SPLASHSCREEN; // initial state
 Map map;
 
@@ -38,9 +38,8 @@ void init( void )
     // sets the initial state for the game
     g_eGameState = S_SPLASHSCREEN;
 
-    g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y / 2;
-    g_sChar.m_bActive = true;
+    map.getplayer(g_sChar);
+
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(0, 16, L"Consolas");
 
@@ -235,29 +234,37 @@ void moveCharacter()
 {    
     // Updating the location of the character based on the key release
     // providing a beep sound whenver we shift the character
-    if (g_skKeyEvent[K_W].keyDown && g_sChar.m_cLocation.Y > 0)
+    if (g_skKeyEvent[K_W].keyDown && g_sChar.getY() > 0)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.Y--;       
+        if (map.collides('W', g_sChar) == false) {
+            g_sChar.moveUP();
+        }
     }
-    if (g_skKeyEvent[K_A].keyDown && g_sChar.m_cLocation.X > 0)
+    if (g_skKeyEvent[K_A].keyDown && g_sChar.getX() > 0)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.X--;        
+        if (map.collides('A', g_sChar) == false) {
+            g_sChar.moveLEFT();
+        }
     }
-    if (g_skKeyEvent[K_S].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
+    if (g_skKeyEvent[K_S].keyDown && g_sChar.getY() < g_Console.getConsoleSize().Y - 1)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.Y++;        
+        if (map.collides('S', g_sChar) == false) {
+            g_sChar.moveDOWN();
+        }
     }
-    if (g_skKeyEvent[K_D].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
+    if (g_skKeyEvent[K_D].keyDown && g_sChar.getX() < g_Console.getConsoleSize().X - 1)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.X++;        
+        if (map.collides('D', g_sChar) == false) {
+            g_sChar.moveRIGHT();
+        }
     }
     if (g_skKeyEvent[K_SPACE].keyDown)
     {
-        g_sChar.m_bActive = !g_sChar.m_bActive;        
+        g_sChar.changeActive();        
     }
 
    
@@ -337,11 +344,11 @@ void renderCharacter()
 {
     // Draw the location of the character
     WORD charColor = 0x0C;
-    if (g_sChar.m_bActive)
+    if (g_sChar.is_Active())
     {
         charColor = 0x0A;
     }
-    g_Console.writeToBuffer(g_sChar.m_cLocation, (char)31, charColor);
+    map.DrawPlayer(g_Console, g_sChar, charColor);
 }
 
 void renderFramerate()
