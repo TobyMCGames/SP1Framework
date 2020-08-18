@@ -4,7 +4,7 @@ using namespace std;
 Map::Map()
 {
 	for (int row = 0; row < 42; row++) {
-		for (int col = 0; col < 91; col++) {
+		for (int col = 0; col < 45; col++) {
 			map[row][col] = ' ';
 		}
 	}
@@ -59,7 +59,7 @@ void Map::inputMap(std::string anothermap)
 	std::string data;
 	int row = 0;
 	while (getline(f, data)) {
-		for (int col = 0; col < 91; col++) {
+		for (int col = 0; col < 45; col++) {
 			map[row][col] = data[col];
 		}
 		row++;
@@ -71,12 +71,12 @@ void Map::inputMap(std::string anothermap)
 void Map::DrawMap(Console& anotherC)
 {
 	for (int row = 0; row < 42; row++) {
-		for (int col = 0; col < 91; col++) {
+		for (int col = 0; col < 45; col++) {
 			if (map[row][col] == 'W') {
-				anotherC.writeToBuffer(45 + col, row, "²", 0xF0);
+				anotherC.writeToBuffer(45 + col*2, row, "  ", 0xFF);
 			}
-			else {
-				anotherC.writeToBuffer(45 + col, row, map[row][col], 0x0F);
+			if (map[row][col] == ' ') {
+				anotherC.writeToBuffer(45 + col*2, row, "  ", 0x9F);
 			}
 		}
 	}
@@ -84,5 +84,5 @@ void Map::DrawMap(Console& anotherC)
 
 void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 {
-	anotherC.writeToBuffer(45 + anotherP.getX(), anotherP.getY(), (char)31, charColor);
+	anotherC.writeToBuffer(45 + anotherP.getX() * 2, anotherP.getY(), "  ", charColor);
 }

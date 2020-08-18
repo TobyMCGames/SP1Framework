@@ -8,7 +8,7 @@
 class Map
 {
 private:
-	char map[42][91];
+	char map[42][45];
 	bool mapchange;
 public:
 	Map();

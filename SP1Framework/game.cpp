@@ -364,7 +364,7 @@ void renderMap()
 void renderCharacter()
 {
     // Draw the location of the character
-    WORD charColor = 0x0C;
+    WORD charColor = 0xC0;
     if (g_sChar.is_Active())
     {
         charColor = 0x0A;
