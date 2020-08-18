@@ -4,11 +4,8 @@
 #include "game.h"
 #include "Framework\console.h"
 #include "Map.h"
-<<<<<<< HEAD
 #include "mainmenu.h"
 #include "UI.h"
-=======
->>>>>>> 5084f4a347e90c22162177717433968210defabc
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -21,13 +18,10 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 Player   g_sChar;
-EGAMESTATES g_eGameState = S_SPLASHSCREEN; // initial state
+EGAMESTATES g_eGameState = S_MAINMENU; // initial state
 Map map;
-<<<<<<< HEAD
 mainmenu _mainmenu;
 UI ui;
-=======
->>>>>>> 5084f4a347e90c22162177717433968210defabc
 
 // Console object
 Console g_Console(180, 42, "Escape 2020");  // Setting console size and name (width, height, programme name)
@@ -46,7 +40,8 @@ void init( void )
     g_dElapsedTime = 0.0;    
 
     // sets the initial state for the game
-    g_eGameState = S_SPLASHSCREEN;
+    g_eGameState = S_MAINMENU;
+    loadMainMenu();
 
     map.getplayer(g_sChar);
 
@@ -111,7 +106,7 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
 {    
     switch (g_eGameState)
     {
-    case S_SPLASHSCREEN: // don't handle anything for the splash screen
+    case S_MAINMENU: // don't handle anything for the splash screen
         break;
     case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
@@ -138,7 +133,7 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 {    
     switch (g_eGameState)
     {
-    case S_SPLASHSCREEN: // don't handle anything for the splash screen
+    case S_MAINMENU: // don't handle anything for the splash screen
         break;
     case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
@@ -219,7 +214,7 @@ void update(double dt)
 
     switch (g_eGameState)
     {
-        case S_SPLASHSCREEN : splashScreenWait(); // game logic for the splash screen                 #217
+        case S_MAINMENU: splashScreenWait(); // game logic for the splash screen                 #217
             break;
         case S_GAME: updateGame(); // gameplay logic when we are in the game                          #223
             break;
@@ -300,7 +295,7 @@ void render()
     clearScreen();      // clears the current screen and draw from scratch 
     switch (g_eGameState)
     {
-    case S_SPLASHSCREEN: renderSplashScreen();
+    case S_MAINMENU: renderMainMenu();
         break;
     case S_GAME: renderGame();
         break;
@@ -314,6 +309,11 @@ void clearScreen()
 {
     // Clears the buffer with this colour attribute
     g_Console.clearBuffer(0x0);
+}
+
+void loadMainMenu()
+{
+    _mainmenu.loadmainmenu();
 }
 
 void renderToScreen()
@@ -334,6 +334,11 @@ void renderSplashScreen()  // renders the splash screen    #Loading screen
     c.Y += 1;
     c.X = g_Console.getConsoleSize().X / 2 - 9;
     g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
+}
+
+void renderMainMenu()
+{
+    _mainmenu.rendermenu(g_Console);
 }
 
 void renderGame()

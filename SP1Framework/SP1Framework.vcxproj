@@ -84,11 +84,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainmenu.cpp" />
     <ClCompile Include="Map.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="UI.cpp" />
-=======
     <ClCompile Include="Player.cpp" />
->>>>>>> 5084f4a347e90c22162177717433968210defabc
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h" />
@@ -96,11 +93,8 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="Map.h" />
-<<<<<<< HEAD
     <ClInclude Include="UI.h" />
-=======
     <ClInclude Include="Player.h" />
->>>>>>> 5084f4a347e90c22162177717433968210defabc
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
