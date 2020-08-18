@@ -1,3 +1,0 @@
-﻿  game.cpp
-D:\SIDM Year 1\Studio Project\SP1Framework-master\SP1Framework\game.cpp(403,44): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-  SP1Framework.vcxproj -> D:\SIDM Year 1\Studio Project\SP1Framework-master\Debug\SP1Framework.exe
