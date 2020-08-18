@@ -3,6 +3,7 @@
 //
 #include "game.h"
 #include "Framework\console.h"
+#include "Map.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -16,6 +17,7 @@ SMouseEvent g_mouseEvent;
 // Game specific variables here
 SGameChar   g_sChar;
 EGAMESTATES g_eGameState = S_SPLASHSCREEN; // initial state
+Map map;
 
 // Console object
 Console g_Console(180, 42, "Escape 2020");  // Setting console size and name (width, height, programme name)
@@ -325,40 +327,8 @@ void renderGame()
 
 void renderMap()
 {
-    //#how to set up colors you want to use
-    //const WORD colors[] = {
-    //    0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-    //    0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-    //};
-   
-    //
-    //COORD c;
-    //for (int i = 0; i < 12; ++i)
-    //{
-    //    c.X = 5 * i;
-    //    c.Y = i + 1;
-    //    colour(colors[i]);
-    //    g_Console.writeToBuffer(c, " °±²Û", colors[i]); //How to mix from background colour to text colour
-    //}
-   
-    std::ifstream f;
-    f.open("Maps\\map1.txt");
-    char map[42][91];
-    std::string data;
-    int row = 0;
-    while (getline(f , data)) {
-        for (int col = 0; col < 91; col++) {
-            map[row][col] = data[col];
-       }
-        row++;
-    }
-    
-    for (int row = 0; row < 42; row++) {
-        for (int col = 0; col < 91; col++) {
-            g_Console.writeToBuffer(40 + col, row, map[row][col], 0x0F);
-        }
-    }
-    f.close();
+    map.inputMap("map1.txt");
+    map.DrawMap(g_Console);
 }
 
 void renderCharacter()

@@ -1,3 +1,2 @@
-﻿  game.cpp
-C:\Users\tobyc\source\repos\TobyMCGames\SP1Framework\SP1Framework\game.cpp(439,44): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
+﻿  Map.cpp
   SP1Framework.vcxproj -> C:\Users\tobyc\source\repos\TobyMCGames\SP1Framework\Debug\SP1Framework.exe
