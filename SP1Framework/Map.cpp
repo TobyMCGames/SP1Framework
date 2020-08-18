@@ -84,5 +84,5 @@ void Map::DrawMap(Console& anotherC)
 
 void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 {
-	anotherC.writeToBuffer(40 + anotherP.getX(), anotherP.getY(), (char)31, charColor);
+	anotherC.writeToBuffer(45 + anotherP.getX(), anotherP.getY(), (char)31, charColor);
 }
