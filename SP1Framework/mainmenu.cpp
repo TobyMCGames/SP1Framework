@@ -2,12 +2,15 @@
 
 
 mainmenu::mainmenu() :
-	logo{ }
+	x(180),
+	y(17),
+	logo{ },
+	option(1)
 {
 	
-	for (int row = 0; row < 149; row++)
+	for (int row = 0; row < x; row++)
 	{
-		for (int col = 0; col < 15; col++)
+		for (int col = 0; col < y; col++)
 		{
 			logo[row][col] = ' ';
 		}
@@ -27,7 +30,7 @@ void mainmenu::loadmainmenu()
 	int col = 0;
 	while (getline(f, data)) 
 	{
-		for (int datarow = 0; datarow < (149*2 - 1); datarow++) {
+		for (int datarow = 0; datarow < (x*2 - 1); datarow++) {
 			if (data[datarow] == ',')
 			{
 				continue;
@@ -47,17 +50,21 @@ void mainmenu::loadmainmenu()
 
 void mainmenu::rendermenu(Console& anotherC)
 {
-	for (int row = 0; row < 149; row++)
+	for (int row = 0; row < x; row++)
 	{
-		for (int col = 0; col < 15; col++)
+		for (int col = 0; col < y; col++)
 		{
-			if (logo[row][col] == 'B')
+			if (logo[row][col] == 'B') //Border for us to see
 			{
-				anotherC.writeToBuffer(row, 3 + col, " ", 0x1B);
+				anotherC.writeToBuffer(row, 4 + col, "Û", 0x9B);
+			}
+			else if ((logo[row][col] == 'Y'))
+			{
+				anotherC.writeToBuffer(row, 4 + col, "Û",  0x7E);
 			}
 			else 
 			{
-				anotherC.writeToBuffer(row, 3 + col, " ", 0x0F);
+				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
 			}
 		}
 	}

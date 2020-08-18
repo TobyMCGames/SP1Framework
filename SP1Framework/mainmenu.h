@@ -7,7 +7,10 @@
 class mainmenu
 {
 private:
-	char logo[149][15];
+	int x;
+	int y;
+	char logo[180][17];
+	int option;
 public:
 	mainmenu();
 	~mainmenu();
