@@ -64,6 +64,7 @@ void clearScreen();         // clears the current screen and draw from scratch
 void loadMainMenu();
 void renderMainMenu();  // renders the splash screen
 void renderGame();          // renders the game stuff
+void renderUI();            // renders UI
 void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc

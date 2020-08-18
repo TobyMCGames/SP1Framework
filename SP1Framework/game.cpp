@@ -4,7 +4,11 @@
 #include "game.h"
 #include "Framework\console.h"
 #include "Map.h"
+<<<<<<< HEAD
 #include "mainmenu.h"
+#include "UI.h"
+=======
+>>>>>>> 5084f4a347e90c22162177717433968210defabc
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -16,10 +20,14 @@ SKeyEvent g_skKeyEvent[K_COUNT];
 SMouseEvent g_mouseEvent;
 
 // Game specific variables here
-SGameChar   g_sChar;
-EGAMESTATES g_eGameState = S_MAINMENU; // initial state
+Player   g_sChar;
+EGAMESTATES g_eGameState = S_SPLASHSCREEN; // initial state
 Map map;
+<<<<<<< HEAD
 mainmenu _mainmenu;
+UI ui;
+=======
+>>>>>>> 5084f4a347e90c22162177717433968210defabc
 
 // Console object
 Console g_Console(180, 42, "Escape 2020");  // Setting console size and name (width, height, programme name)
@@ -38,12 +46,10 @@ void init( void )
     g_dElapsedTime = 0.0;    
 
     // sets the initial state for the game
-    g_eGameState = S_MAINMENU;
-    _mainmenu.loadmainmenu();
+    g_eGameState = S_SPLASHSCREEN;
 
-    g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y / 2;
-    g_sChar.m_bActive = true;
+    map.getplayer(g_sChar);
+
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(0, 16, L"Consolas");
 
@@ -105,7 +111,7 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
 {    
     switch (g_eGameState)
     {
-    case S_MAINMENU: // don't handle anything for the splash screen
+    case S_SPLASHSCREEN: // don't handle anything for the splash screen
         break;
     case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
@@ -132,7 +138,7 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 {    
     switch (g_eGameState)
     {
-    case S_MAINMENU: // don't handle anything for the splash screen
+    case S_SPLASHSCREEN: // don't handle anything for the splash screen
         break;
     case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
@@ -213,7 +219,7 @@ void update(double dt)
 
     switch (g_eGameState)
     {
-        case S_MAINMENU: splashScreenWait(); // game logic for the splash screen                 #217
+        case S_SPLASHSCREEN : splashScreenWait(); // game logic for the splash screen                 #217
             break;
         case S_GAME: updateGame(); // gameplay logic when we are in the game                          #223
             break;
@@ -223,7 +229,7 @@ void update(double dt)
 
 void splashScreenWait()    // waits for time to pass in splash screen
 {
-    if (g_dElapsedTime > 15.0) // wait for 3 seconds to switch to game mode, else do nothing
+    if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
         g_eGameState = S_GAME;
 }
 
@@ -238,29 +244,37 @@ void moveCharacter()
 {    
     // Updating the location of the character based on the key release
     // providing a beep sound whenver we shift the character
-    if (g_skKeyEvent[K_W].keyDown && g_sChar.m_cLocation.Y > 0)
+    if (g_skKeyEvent[K_W].keyDown && g_sChar.getY() > 0)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.Y--;       
+        if (map.collides('W', g_sChar) == false) {
+            g_sChar.moveUP();
+        }
     }
-    if (g_skKeyEvent[K_A].keyDown && g_sChar.m_cLocation.X > 0)
+    if (g_skKeyEvent[K_A].keyDown && g_sChar.getX() > 0)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.X--;        
+        if (map.collides('A', g_sChar) == false) {
+            g_sChar.moveLEFT();
+        }
     }
-    if (g_skKeyEvent[K_S].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
+    if (g_skKeyEvent[K_S].keyDown && g_sChar.getY() < g_Console.getConsoleSize().Y - 1)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.Y++;        
+        if (map.collides('S', g_sChar) == false) {
+            g_sChar.moveDOWN();
+        }
     }
-    if (g_skKeyEvent[K_D].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
+    if (g_skKeyEvent[K_D].keyDown && g_sChar.getX() < g_Console.getConsoleSize().X - 1)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.X++;        
+        if (map.collides('D', g_sChar) == false) {
+            g_sChar.moveRIGHT();
+        }
     }
     if (g_skKeyEvent[K_SPACE].keyDown)
     {
-        g_sChar.m_bActive = !g_sChar.m_bActive;        
+        g_sChar.changeActive();        
     }
 
    
@@ -286,7 +300,7 @@ void render()
     clearScreen();      // clears the current screen and draw from scratch 
     switch (g_eGameState)
     {
-    case S_MAINMENU: renderMainMenu();
+    case S_SPLASHSCREEN: renderSplashScreen();
         break;
     case S_GAME: renderGame();
         break;
@@ -302,27 +316,36 @@ void clearScreen()
     g_Console.clearBuffer(0x0);
 }
 
-void loadMainMenu()
-{
-    _mainmenu.loadmainmenu();
-}
-
-
 void renderToScreen()
 {
     // Writes the buffer to the console, hence you will see what you have written
     g_Console.flushBufferToConsole();
 }
 
-void renderMainMenu()  // renders the main menu
+void renderSplashScreen()  // renders the splash screen    #Loading screen
 {
-    _mainmenu.rendermenu(g_Console);
+    COORD c = g_Console.getConsoleSize();
+    c.Y /= 3;
+    c.X = c.X / 2 - 9;
+    g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
+    c.Y += 1;
+    c.X = g_Console.getConsoleSize().X / 2 - 20;
+    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
+    c.Y += 1;
+    c.X = g_Console.getConsoleSize().X / 2 - 9;
+    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
 }
 
 void renderGame()
 {
+    renderUI();
     renderMap();        // renders the map to the buffer first               #323
     renderCharacter();  // renders the character into the buffer             #341
+}
+
+void renderUI()
+{
+    ui.renderlife(g_Console);
 }
 
 void renderMap()
@@ -337,11 +360,11 @@ void renderCharacter()
 {
     // Draw the location of the character
     WORD charColor = 0x0C;
-    if (g_sChar.m_bActive)
+    if (g_sChar.is_Active())
     {
         charColor = 0x0A;
     }
-    g_Console.writeToBuffer(g_sChar.m_cLocation, (char)31, charColor);
+    map.DrawPlayer(g_Console, g_sChar, charColor);
 }
 
 void renderFramerate()
@@ -359,7 +382,7 @@ void renderFramerate()
     ss.str("");
     ss << g_dElapsedTime << "secs";
     c.X = 0;
-    c.Y = 0;
+    c.Y = 40;
     g_Console.writeToBuffer(c, ss.str(), 0x59);
 }
 
