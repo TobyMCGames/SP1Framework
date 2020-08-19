@@ -69,3 +69,45 @@ void mainmenu::rendermenu(Console& anotherC)
 		}
 	}
 }
+
+void mainmenu::renderstart(Console& anotherC, int x, int y)
+{
+	for (int row = 0; row < x; row++)
+	{
+		for (int col = 0; col < y; col++)
+		{
+			button[row][col] = ' ';
+		}
+	}
+	COORD c = { 25, 25 };
+	gotoXY(c);
+	anotherC.writeToBuffer(c, "Start Game", 0x9B);
+}
+
+void mainmenu::renderoptions(Console& anotherC, int x, int y)
+{
+	for (int row = 0; row < x; row++)
+	{
+		for (int col = 0; col < y; col++)
+		{
+			button[row][col] = ' ';
+		}
+	}
+	COORD c = { 25, 28 };
+	gotoXY(c);
+	anotherC.writeToBuffer(c, "Options", 0x9B);
+}
+
+void mainmenu::renderleave(Console& anotherC, int x, int y)
+{
+	for (int row = 0; row < x; row++)
+	{
+		for (int col = 0; col < y; col++)
+		{
+			button[row][col] = ' ';
+		}
+	}
+	COORD c = { 25, 31 };
+	gotoXY(c);
+	anotherC.writeToBuffer(c, "Leave Game", 0x9B);
+}
