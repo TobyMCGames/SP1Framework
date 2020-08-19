@@ -58,11 +58,23 @@ void Map::inputMap(std::string anothermap)
 	f.open(path);
 	std::string data;
 	int row = 0;
-	while (getline(f, data)) {
-		for (int col = 0; col < 45; col++) {
-			map[row][col] = data[col];
+	int col = 0;
+	while (getline(f, data))
+	{
+		for (int datarow = 0; datarow < (45 * 2 - 1); datarow++) {
+			if ((data[datarow] == ','))
+			{
+				continue;
+			}
+			else
+			{
+				map[row][col] = data[datarow];
+				col++;
+			}
+
 		}
 		row++;
+		col = 0;
 	}
 	f.close();
 	mapchange = false;

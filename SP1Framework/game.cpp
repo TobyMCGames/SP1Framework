@@ -356,7 +356,7 @@ void renderUI()
 void renderMap()
 {
     if (map.getMapChange() == true) {
-        map.inputMap("map1.txt");
+        map.inputMap("map1.csv");
     }
     map.DrawMap(g_Console);
 }
