@@ -4,7 +4,8 @@ UI::UI() :
 	x(9),
 	y(27),
 	state{ },
-	dgrid{ }
+	dgrid{ },
+	dicons{ }
 {
 	for (int row = 0; row < x; row++)
 	{
@@ -20,6 +21,7 @@ UI::UI() :
 			dgrid[row][col] = ' ';
 		}
 	}
+
 }
 
 
@@ -63,7 +65,7 @@ void UI::loadstate()
 	if (User.getlife() > 3)
 	{
 		std::ifstream f;
-		f.open("status(G).csv");
+		f.open("UI/status(G).csv");
 		std::string data;
 		int row = 0;
 		int col = 0;
@@ -89,7 +91,7 @@ void UI::loadstate()
 	if (User.getlife() < 2)
 	{
 		std::ifstream f;
-		f.open("status(R).csv");
+		f.open("UI/status(R).csv");
 		std::string data;
 		int row = 0;
 		int col = 0;
@@ -115,7 +117,7 @@ void UI::loadstate()
 	else
 	{
 		std::ifstream f;
-		f.open("status(Y).csv");
+		f.open("UI/status(Y).csv");
 		std::string data;
 		int row = 0;
 		int col = 0;

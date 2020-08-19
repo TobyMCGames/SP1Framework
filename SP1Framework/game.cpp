@@ -41,8 +41,10 @@ void init( void )
 
     // sets the initial state for the game
     g_eGameState = EGAMESTATES::S_MAINMENU;
+    
+    //Temporary Load
     loadMainMenu();
-
+    ui.loadstate();
     map.getplayer(g_sChar);
 
     // sets the width, height and the font name to use in the console
@@ -357,6 +359,7 @@ void renderGame()
 void renderUI()
 {
     ui.renderlife(g_Console);
+    ui.renderstate(g_Console);
 }
 
 void renderMap()
