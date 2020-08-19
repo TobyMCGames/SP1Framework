@@ -83,7 +83,7 @@ void Map::inputMap(std::string anothermap)
 	mapchange = false;
 }
 
-void Map::DrawMap(Console& anotherC, Player& player)
+void Map::DrawMap(Console& anotherC)
 {
 	for (int row = 0; row < x; row++) {
 		for (int col = 0; col < y; col++) {

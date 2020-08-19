@@ -24,7 +24,7 @@ public:
 
 	//Input and draw 
 	void inputMap(std::string anothermap);
-	void DrawMap(Console& anotherC, Player& player);
+	void DrawMap(Console& anotherC);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
 	
 };
