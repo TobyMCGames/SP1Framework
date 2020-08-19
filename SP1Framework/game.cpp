@@ -364,7 +364,7 @@ void renderMap()
     if (map.getMapChange() == true) {
         map.inputMap("map1.csv");
     }
-    map.DrawMap(g_Console);
+    map.DrawMap(g_Console, g_sChar);
 }
 
 void renderCharacter()

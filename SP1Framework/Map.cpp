@@ -83,7 +83,7 @@ void Map::inputMap(std::string anothermap)
 	mapchange = false;
 }
 
-void Map::DrawMap(Console& anotherC)
+void Map::DrawMap(Console& anotherC, Player& player)
 {
 	std::ostringstream ss1, ss2, ss3, ss4;
 	ss1 << "screen.X = " << player.getscreenX() << " screen.Y = " << player.getscreenY();
