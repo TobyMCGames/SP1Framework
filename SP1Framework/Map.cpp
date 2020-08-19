@@ -1,4 +1,4 @@
-#include "Map.h"
+﻿#include "Map.h"
 using namespace std;
 
 Map::Map():
@@ -110,6 +110,10 @@ void Map::DrawMap(Console& anotherC, Player& player)
 						anotherC.writeToBuffer(45 + col * 2, row, "  ", 0x9F);
 					}
 					break;
+				case '@':
+					anotherC.writeToBuffer(45 + col * 2, row, (char)223, 0x8F);
+					anotherC.writeToBuffer(46 + col * 2, row, (char)223, 0x8F);
+					break;
 				}		
 			}
 			else
@@ -125,6 +129,11 @@ void Map::DrawMap(Console& anotherC, Player& player)
 						anotherC.writeToBuffer(45 + col * 2, row, "  ", 0x9F);
 					}
 					break;
+				case '@':
+					anotherC.writeToBuffer(45 + col * 2, row, (char)223, 0x8F);
+					anotherC.writeToBuffer(46 + col * 2, row, (char)223, 0x8F);
+					break;
+				
 				}
 			}
 		}
