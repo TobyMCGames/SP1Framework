@@ -358,6 +358,9 @@ void renderMap()
 {
     if (map.getMapChange() == true) {
         map.inputMap("map1.csv", g_sChar);
+        /*
+        map.inputMap("Map1.csv");                //Change to TestMap.csv to well... test your items or something
+        */
     }
     map.DrawMap(g_Console, g_sChar);
 }
