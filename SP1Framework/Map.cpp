@@ -2,10 +2,12 @@
 using namespace std;
 
 Map::Map():
+	x(42),
+	y(45),
 	map{ }
 {
-	for (int row = 0; row < 42; row++) {
-		for (int col = 0; col < 45; col++) {
+	for (int row = 0; row < x; row++) {
+		for (int col = 0; col < y; col++) {
 			map[row][col] = ' ';
 		}
 	}
@@ -62,7 +64,7 @@ void Map::inputMap(std::string anothermap)
 	int col = 0;
 	while (getline(f, data))
 	{
-		for (int datarow = 0; datarow < (45 * 2 - 1); datarow++) {
+		for (int datarow = 0; datarow < (y * 2 - 1); datarow++) {
 			if ((data[datarow] == ','))
 			{
 				continue;
@@ -81,10 +83,10 @@ void Map::inputMap(std::string anothermap)
 	mapchange = false;
 }
 
-void Map::DrawMap(Console& anotherC)
+void Map::DrawMap(Console& anotherC, Player& player)
 {
-	for (int row = 0; row < 42; row++) {
-		for (int col = 0; col < 45; col++) {
+	for (int row = 0; row < x; row++) {
+		for (int col = 0; col < y; col++) {
 			if (map[row][col] == 'W') {
 				anotherC.writeToBuffer(45 + col*2, row, "  ", 0xFF);
 			}
