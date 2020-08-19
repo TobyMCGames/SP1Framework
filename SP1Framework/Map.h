@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "Framework\console.h"
 #include "Player.h"
 
@@ -23,8 +24,9 @@ public:
 	//get entities
 	void getplayer(Player& player);
 
+
 	//Input and draw 
-	void inputMap(std::string anothermap);
+	void inputMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
 	

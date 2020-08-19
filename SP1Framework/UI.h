@@ -19,10 +19,11 @@ public:
 	~UI();
 
 	void renderlife(Console& anotherC);
+	void rendermapborder(Console& anotherC);
 	void loadstate();
 	void renderstate(Console& anotherC);
-	void loaddgrid();
-	void renderdrid(Console& anotherC);
+	void loadgrid();
+	void rendergrid(Console& anotherC);
 	void loadvolcanoicon();
 	void rendervolcanoicon(Console& anotherC);
 	void loadearthquakeicon();

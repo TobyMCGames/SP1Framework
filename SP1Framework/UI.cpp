@@ -4,7 +4,8 @@ UI::UI() :
 	x(9),
 	y(27),
 	state{ },
-	dgrid{ }
+	dgrid{ },
+	dicons{ }
 {
 	for (int row = 0; row < x; row++)
 	{
@@ -55,6 +56,15 @@ void UI::renderlife(Console& anotherC)
 			}
 		}
 		
+	}
+}
+
+void UI::rendermapborder(Console& anotherC)
+{
+	for (int i = 0; i < 42; i++)
+	{
+		anotherC.writeToBuffer( 43, i, "  ", 0x8F);
+		anotherC.writeToBuffer( 135, i, "  ", 0x8F);
 	}
 }
 
@@ -172,7 +182,7 @@ void UI::renderstate(Console& anotherC)
 	}
 }
 
-void UI::loaddgrid()
+void UI::loadgrid()
 {
 	//Grid 
 	std::ifstream f;
@@ -200,7 +210,7 @@ void UI::loaddgrid()
 	f.close();
 }
 
-void UI::renderdrid(Console& anotherC)
+void UI::rendergrid(Console& anotherC)
 {
 
 	for (int row = 0; row < x; row++)

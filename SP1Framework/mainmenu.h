@@ -11,7 +11,7 @@ private:
 	int x;
 	int y;
 	char logo[17][180];
-	Button* buttons[3] = {nullptr, nullptr, nullptr};
+	Button* buttons[5] = {nullptr, nullptr, nullptr, nullptr,  nullptr};
 	int option;
 public:
 	mainmenu();

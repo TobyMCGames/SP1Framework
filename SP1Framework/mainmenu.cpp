@@ -15,9 +15,11 @@ mainmenu::mainmenu() :
 			logo[row][col] = ' ';
 		}
 	}
-	buttons[0] = new Button(25, 25, 0x9B, "Start Game");
-	buttons[1] = new Button(25, 28, 0x9B, "Options");
-	buttons[2] = new Button(25, 31, 0x9B, "Leave Game");
+	buttons[0] = new Button(25, 24, 0x0F, "    Start  Game    ");
+	buttons[1] = new Button(25, 25, 0x0F, "   How  to  play   ");
+	buttons[2] = new Button(25, 26, 0x0F, "      Options      ");
+	buttons[3] = new Button(25, 27, 0x0F, "      Credits      ");
+	buttons[4] = new Button(25, 28, 0x0F, "    Leave  Game    ");
 }
 
 mainmenu::~mainmenu()
@@ -59,20 +61,20 @@ void mainmenu::rendermenu(Console& anotherC)
 		{
 			if (logo[row][col] == 'B') 
 			{
-				anotherC.writeToBuffer(col, row + 4 , "Û", 0x9B);
+				anotherC.writeToBuffer(col, row + 2 , "Û", 0x9B);
 			}
 			else if ((logo[row][col] == 'Y'))
 			{
-				anotherC.writeToBuffer(col, row + 4, "Û",  0x7E);
+				anotherC.writeToBuffer(col, row + 2, "Û",  0x7E);
 			}
 			else 
 			{
-				anotherC.writeToBuffer(col, row + 4, " ", 0x7F);
+				anotherC.writeToBuffer(col, row + 2, " ", 0x7F);
 			}
 		}
 	}
 
-	for (int x = 0; x < 3; x++) {
+	for (int x = 0; x < 5; x++) {
 		buttons[x]->renderButton(anotherC);
 	}
 }
