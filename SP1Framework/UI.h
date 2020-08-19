@@ -3,10 +3,11 @@
 #include <iostream>
 #include <string>
 #include "Framework\console.h"
+#include "Player.h"
 class UI
 {
 private:
-	int life; //placeholder
+	Player User;
 public:
 	UI();
 	~UI();

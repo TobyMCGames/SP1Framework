@@ -1,7 +1,8 @@
 #include "Player.h"
 
+int Player::life = 5;
+
 Player::Player() {
-	health = 3;
 	location[0] = 2;
 	location[1] = 5;
 	Active = false;
@@ -26,6 +27,11 @@ int Player::getX()
 int Player::getY()
 {
 	return location[1];
+}
+
+int Player::getlife()
+{
+	return life;
 }
 
 bool Player::is_Active()

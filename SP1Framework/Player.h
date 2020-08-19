@@ -3,7 +3,7 @@ class Player
 {
 private:
 	int location[2]; //(x, y)
-	int health;
+	static int life;
 	bool Active;
 	char facing;
 
@@ -15,6 +15,7 @@ public:
 	//get functions
 	int getX();
 	int getY();
+	int getlife();
 	bool is_Active();
 
 	//movement
