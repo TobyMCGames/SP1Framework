@@ -26,7 +26,6 @@ bool Map::getMapChange()
 
 bool Map::collides(char direction, Player& anotherP)
 {
-	switch (direction){
 	if (direction == 'W') {
 		if (map[anotherP.getY() - 1][anotherP.getX()] == 'W') {
 			return true;
@@ -47,8 +46,8 @@ bool Map::collides(char direction, Player& anotherP)
 			return true;
 		}
 	}
-	return false;
-	}
+return false;
+	
 }
 
 void Map::getplayer(Player& player)
@@ -119,11 +118,13 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				{
 				case 'W':
 					anotherC.writeToBuffer(45 + col * 2, row, "  ", 0xFF);
+					break;
 				case ' ':	
 					if (player.getmapX() >= 0 && player.getmapY() >= 0)
 					{
 						anotherC.writeToBuffer(45 + col * 2, row, "  ", 0x9F);
 					}
+					break;
 				}
 			}
 		}
