@@ -8,7 +8,6 @@
 class UI
 {
 private:
-	int life; //placeholder
 	int x;
 	int y;
 	char state[9][27];

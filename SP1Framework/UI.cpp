@@ -1,7 +1,6 @@
 #include "UI.h"
 
 UI::UI() :
-	life(5),
 	x(9),
 	y(27),
 	state{ }
@@ -52,10 +51,10 @@ void UI::renderlife(Console& anotherC)
 
 void UI::loadstate()
 {
-	if (life > 3)
+	if (User.getlife() > 3)
 	{
 		std::ifstream f;
-		f.open("");
+		f.open("status(G)");
 		std::string data;
 		int row = 0;
 		int col = 0;
@@ -78,10 +77,10 @@ void UI::loadstate()
 		}
 		f.close();
 	}
-	if (life < 2)
+	if (User.getlife() < 2)
 	{
 		std::ifstream f;
-		f.open("");
+		f.open("status(R)");
 		std::string data;
 		int row = 0;
 		int col = 0;
@@ -107,7 +106,7 @@ void UI::loadstate()
 	else
 	{
 		std::ifstream f;
-		f.open("");
+		f.open("status(Y)");
 		std::string data;
 		int row = 0;
 		int col = 0;
@@ -146,11 +145,15 @@ void UI::renderstate(Console& anotherC)
 			}
 			else if ((state[row][col] == 'G'))
 			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x7E);
+				anotherC.writeToBuffer(row, 4 + col, "Û", 0x2A);
 			}
 			else if ((state[row][col] == 'Y'))
 			{
 				anotherC.writeToBuffer(row, 4 + col, "Û", 0x7E);
+			}
+			else if ((state[row][col] == 'R'))
+			{
+				anotherC.writeToBuffer(row, 4 + col, "Û", 0x4C);
 			}
 			else
 			{
