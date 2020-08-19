@@ -3,8 +3,8 @@
 int Player::life = 5;
 
 Player::Player() {
-	location[0] = 2;
-	location[1] = 5;
+	c.X = 2;
+	c.Y = 5;
 	Active = false;
 	facing = 'W';
 }
@@ -21,12 +21,12 @@ void Player::changeActive()
 
 int Player::getX()
 {
-	return location[0];
+	return c.X;
 }
 
 int Player::getY()
 {
-	return location[1];
+	return c.Y;
 }
 
 int Player::getlife()
@@ -41,20 +41,20 @@ bool Player::is_Active()
 
 void Player::moveLEFT()
 {
-	location[0]--;
+	c.X--;
 }
 
 void Player::moveRIGHT()
 {
-	location[0]++;
+	c.X++;
 }
 
 void Player::moveUP()
 {
-	location[1]--;
+	c.Y--;
 }
 
 void Player::moveDOWN()
 {
-	location[1]++;
+	c.Y++;
 }

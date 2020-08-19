@@ -8,6 +8,7 @@
 class Map
 {
 private:
+	int x, y;
 	char map[42][45];
 	bool mapchange;
 public:
@@ -23,7 +24,7 @@ public:
 
 	//Input and draw 
 	void inputMap(std::string anothermap);
-	void DrawMap(Console& anotherC);
+	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
 	
 };

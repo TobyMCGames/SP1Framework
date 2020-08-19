@@ -1,10 +1,13 @@
 #include "Map.h"
 using namespace std;
 
-Map::Map()
+Map::Map():
+	x(42),
+	y(45),
+	map{ }
 {
-	for (int row = 0; row < 42; row++) {
-		for (int col = 0; col < 45; col++) {
+	for (int row = 0; row < x; row++) {
+		for (int col = 0; col < y; col++) {
 			map[row][col] = ' ';
 		}
 	}
@@ -58,20 +61,32 @@ void Map::inputMap(std::string anothermap)
 	f.open(path);
 	std::string data;
 	int row = 0;
-	while (getline(f, data)) {
-		for (int col = 0; col < 45; col++) {
-			map[row][col] = data[col];
+	int col = 0;
+	while (getline(f, data))
+	{
+		for (int datarow = 0; datarow < (y * 2 - 1); datarow++) {
+			if ((data[datarow] == ','))
+			{
+				continue;
+			}
+			else
+			{
+				map[row][col] = data[datarow];
+				col++;
+			}
+
 		}
 		row++;
+		col = 0;
 	}
 	f.close();
 	mapchange = false;
 }
 
-void Map::DrawMap(Console& anotherC)
+void Map::DrawMap(Console& anotherC, Player& player)
 {
-	for (int row = 0; row < 42; row++) {
-		for (int col = 0; col < 45; col++) {
+	for (int row = 0; row < x; row++) {
+		for (int col = 0; col < y; col++) {
 			if (map[row][col] == 'W') {
 				anotherC.writeToBuffer(45 + col*2, row, "  ", 0xFF);
 			}
