@@ -3,7 +3,8 @@
 UI::UI() :
 	x(9),
 	y(27),
-	state{ }
+	state{ },
+	dgrid{ }
 {
 	for (int row = 0; row < x; row++)
 	{
@@ -12,7 +13,15 @@ UI::UI() :
 			state[row][col] = ' ';
 		}
 	}
+	for (int row = 0; row < x; row++)
+	{
+		for (int col = 0; col < y; col++)
+		{
+			dgrid[row][col] = ' ';
+		}
+	}
 }
+
 
 UI::~UI()
 {
@@ -139,7 +148,7 @@ void UI::renderstate(Console& anotherC)
 	{
 		for (int col = 0; col < y; col++)
 		{
-			if (state[row][col] == 'B') //Border for us to see
+			if (state[row][col] == 'B')
 			{
 				anotherC.writeToBuffer(row, 4 + col, "Û", 0x9B);
 			}
@@ -163,7 +172,7 @@ void UI::renderstate(Console& anotherC)
 	}
 }
 
-void UI::loaddindicater()
+void UI::loaddgrid()
 {
 	//Grid 
 	std::ifstream f;
@@ -180,7 +189,7 @@ void UI::loaddindicater()
 			}
 			else
 			{
-				dindicater[row][col] = data[datarow];
+				dgrid[row][col] = data[datarow];
 				row++;
 			}
 
@@ -189,7 +198,29 @@ void UI::loaddindicater()
 		col++;
 	}
 	f.close();
+}
 
+void UI::renderdrid(Console& anotherC)
+{
+
+	for (int row = 0; row < x; row++)
+	{
+		for (int col = 0; col < y; col++)
+		{
+			if (dicons[row][col] == 'B')
+			{
+				anotherC.writeToBuffer(row, 4 + col, "Û", 0x9B);
+			}
+			else
+			{
+				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
+			}
+		}
+	}
+}
+
+void UI::loadvolcanoicon()
+{
 	//Volcano icon
 	std::ifstream f;
 	f.open("volcanoicon.csv");
@@ -205,7 +236,7 @@ void UI::loaddindicater()
 			}
 			else
 			{
-				dindicater[row][col] = data[datarow];
+				dicons[row][col] = data[datarow];
 				row++;
 			}
 
@@ -214,7 +245,32 @@ void UI::loaddindicater()
 		col++;
 	}
 	f.close();
+}
 
+void UI::rendervolcanoicon(Console& anotherC)
+{
+	for (int row = 0; row < x; row++)
+	{
+		for (int col = 0; col < y; col++)
+		{
+			if ((dicons[row][col] == 'Y'))
+			{
+				anotherC.writeToBuffer(row, 4 + col, "Û", 0x7E);
+			}
+			else if ((dicons[row][col] == 'R'))
+			{
+				anotherC.writeToBuffer(row, 4 + col, "Û", 0x4C);
+			}
+			else
+			{
+				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
+			}
+		}
+	}
+}
+
+void UI::loadearthquakeicon()
+{
 	//Earthquake icon
 	std::ifstream f;
 	f.open("earthquakeicon.csv");
@@ -230,7 +286,7 @@ void UI::loaddindicater()
 			}
 			else
 			{
-				dindicater[row][col] = data[datarow];
+				dicons[row][col] = data[datarow];
 				row++;
 			}
 
@@ -239,7 +295,28 @@ void UI::loaddindicater()
 		col++;
 	}
 	f.close();
+}
 
+void UI::renderearthquakeicon(Console& anotherC)
+{
+	for (int row = 0; row < x; row++)
+	{
+		for (int col = 0; col < y; col++)
+		{
+			if ((dicons[row][col] == 'Y'))
+			{
+				anotherC.writeToBuffer(row, 4 + col, "Û", 0x7E);
+			}
+			else
+			{
+				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
+			}
+		}
+	}
+}
+
+void UI::loadtsunamiicon()
+{
 	//Tsunami icon
 	std::ifstream f;
 	f.open("tsunamiicon.csv");
@@ -255,7 +332,7 @@ void UI::loaddindicater()
 			}
 			else
 			{
-				dindicater[row][col] = data[datarow];
+				dicons[row][col] = data[datarow];
 				row++;
 			}
 
@@ -264,7 +341,32 @@ void UI::loaddindicater()
 		col++;
 	}
 	f.close();
+}
 
+void UI::rendertsunamiicon(Console& anotherC)
+{
+	for (int row = 0; row < x; row++)
+	{
+		for (int col = 0; col < y; col++)
+		{
+			if (dicons[row][col] == 'B')
+			{
+				anotherC.writeToBuffer(row, 4 + col, "Û", 0x1B);
+			}
+			else if ((dicons[row][col] == 'LB'))
+			{
+				anotherC.writeToBuffer(row, 4 + col, "Û", 0x9B);
+			}
+			else
+			{
+				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
+			}
+		}
+	}
+}
+
+void UI::loadtornadoicon()
+{
 	//Tornado icon
 	std::ifstream f;
 	f.open("tornadoicon.csv");
@@ -280,7 +382,7 @@ void UI::loaddindicater()
 			}
 			else
 			{
-				dindicater[row][col] = data[datarow];
+				dicons[row][col] = data[datarow];
 				row++;
 			}
 
@@ -291,6 +393,20 @@ void UI::loaddindicater()
 	f.close();
 }
 
-void UI::renderdindicater(Console& anotherC)
+void UI::rendertornadoicon(Console& anotherC)
 {
+	for (int row = 0; row < x; row++)
+	{
+		for (int col = 0; col < y; col++)
+		{
+			if ((dicons[row][col] == 'W'))
+			{
+				anotherC.writeToBuffer(row, 4 + col, "Û", 0x8F);
+			}
+			else
+			{
+				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
+			}
+		}
+	}
 }

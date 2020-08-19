@@ -11,7 +11,8 @@ private:
 	int x;
 	int y;
 	char state[9][27];
-	char dindicater[13][23];
+	char dgrid[13][23];
+	char dicons[5][10];
 	Player User;
 public:
 	UI();
@@ -20,7 +21,15 @@ public:
 	void renderlife(Console& anotherC);
 	void loadstate();
 	void renderstate(Console& anotherC);
-	void loaddindicater();
-	void renderdindicater(Console& anotherC);
+	void loaddgrid();
+	void renderdrid(Console& anotherC);
+	void loadvolcanoicon();
+	void rendervolcanoicon(Console& anotherC);
+	void loadearthquakeicon();
+	void renderearthquakeicon(Console& anotherC);
+	void loadtsunamiicon();
+	void rendertsunamiicon(Console& anotherC);
+	void loadtornadoicon();
+	void rendertornadoicon(Console& anotherC);
 };
 
