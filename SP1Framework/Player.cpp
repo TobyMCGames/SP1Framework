@@ -2,9 +2,12 @@
 
 int Player::life = 5;
 
-Player::Player() {
-	c.X = 2;
-	c.Y = 5;
+Player::Player()
+{
+	p_screen.X = 23;
+	p_screen.Y = 21;
+	p_map.X = 23;
+	p_map.Y = 21;
 	Active = false;
 	facing = 'W';
 }
@@ -21,12 +24,32 @@ void Player::changeActive()
 
 int Player::getX()
 {
-	return c.X;
+	return (p_screen.X + p_map.X);
 }
 
 int Player::getY()
 {
-	return c.Y;
+	return (p_screen.Y + p_map.Y);
+}
+
+int Player::getscreenX()
+{
+	return p_screen.X;
+}
+
+int Player::getscreenY()
+{
+	return p_screen.Y;
+}
+
+int Player::getmapX()
+{
+	return p_map.X;
+}
+
+int Player::getmapY()
+{
+	return p_map.Y;
 }
 
 int Player::getlife()
@@ -41,20 +64,48 @@ bool Player::is_Active()
 
 void Player::moveLEFT()
 {
-	c.X--;
+	if (getX() > 23 && getX() <= 113)
+	{
+		p_map.X--;
+	}
+	else if (getX() <= 23 || getX() >= 113)
+	{
+		p_screen.X--;
+	}
 }
 
 void Player::moveRIGHT()
 {
-	c.X++;
+	if (getX() < 113 && getX() >= 23)
+	{
+		p_map.X++;
+	}
+	else if (getX() <= 23 || getX() >= 113)
+	{
+		p_screen.X++;
+	}
 }
 
 void Player::moveUP()
 {
-	c.Y--;
+	if (getY() > 21 && getY() <= 114)
+	{
+		p_map.Y--;
+	}
+	else if (getY() <= 21 || getY() > 114)
+	{
+		p_screen.Y--;
+	}
 }
 
 void Player::moveDOWN()
 {
-	c.Y++;
+	if (getY() >= 21 && getY() <= 113)
+	{
+		p_map.Y++;
+	}
+	else if (getY() < 21 || getY() > 113)
+	{
+		p_screen.Y++;
+	}
 }

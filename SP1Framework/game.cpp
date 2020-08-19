@@ -239,28 +239,28 @@ void moveCharacter()
 {    
     // Updating the location of the character based on the key release
     // providing a beep sound whenver we shift the character
-    if (g_skKeyEvent[(int)EKEYS::K_W].keyDown && g_sChar.getY() > 0)
+    if (g_skKeyEvent[(int)EKEYS::K_W].keyDown)
     {
         //Beep(1440, 30);
         if (map.collides('W', g_sChar) == false) {
             g_sChar.moveUP();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_A].keyDown && g_sChar.getX() > 0)
+    if (g_skKeyEvent[(int)EKEYS::K_A].keyDown)
     {
         //Beep(1440, 30);
         if (map.collides('A', g_sChar) == false) {
             g_sChar.moveLEFT();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_S].keyDown && g_sChar.getY() < g_Console.getConsoleSize().Y - 1)
+    if (g_skKeyEvent[(int)EKEYS::K_S].keyDown)
     {
         //Beep(1440, 30);
         if (map.collides('S', g_sChar) == false) {
             g_sChar.moveDOWN();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_D].keyDown && g_sChar.getX() < g_Console.getConsoleSize().X - 1)
+    if (g_skKeyEvent[(int)EKEYS::K_D].keyDown)
     {
         //Beep(1440, 30);
         if (map.collides('D', g_sChar) == false) {
@@ -358,7 +358,7 @@ void renderMap()
     if (map.getMapChange() == true) {
         map.inputMap("map1.csv");
     }
-    map.DrawMap(g_Console);
+    map.DrawMap(g_Console, g_sChar);
 }
 
 void renderCharacter()

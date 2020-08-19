@@ -2,8 +2,8 @@
 using namespace std;
 
 Map::Map():
-	x(42),
-	y(45),
+	x(135),
+	y(135),
 	map{ }
 {
 	for (int row = 0; row < x; row++) {
@@ -83,15 +83,48 @@ void Map::inputMap(std::string anothermap)
 	mapchange = false;
 }
 
-void Map::DrawMap(Console& anotherC)
+void Map::DrawMap(Console& anotherC, Player& player)
 {
-	for (int row = 0; row < x; row++) {
-		for (int col = 0; col < y; col++) {
-			if (map[row][col] == 'W') {
-				anotherC.writeToBuffer(45 + col*2, row, "  ", 0xFF);
+	std::ostringstream ss1, ss2, ss3, ss4;
+	ss1 << "screen.X = " << player.getscreenX() << " screen.Y = " << player.getscreenY();
+	ss2 << "map.X = " << player.getmapX() << " map.Y = " << player.getmapY();
+	ss3 << "X = " << player.getX()<< " Y = " << player.getY();
+
+	anotherC.writeToBuffer(0 , 10, ss1.str());
+	anotherC.writeToBuffer(0,  11, ss2.str());
+	anotherC.writeToBuffer(0, 12, ss3.str());
+
+	for (int row = 0; row < 42; row++) {
+		for (int col = 0; col < 45; col++) {
+			if (player.getmapX() >= 0 && player.getmapY() >= 0)
+			{
+				if (map[row + player.getmapY()][col + player.getmapX()] == 'W')
+				{ 
+
+					anotherC.writeToBuffer(45 + col * 2, row, "  ", 0xFF);
+				}
+				if (map[row + player.getmapY()][col + player.getmapX()] == ' ')
+				{
+					if (player.getmapX() >= 0)
+					{
+						anotherC.writeToBuffer(45 + col * 2, row, "  ", 0x9F);
+					}
+				}
 			}
-			if (map[row][col] == ' ') {
-				anotherC.writeToBuffer(45 + col*2, row, "  ", 0x9F);
+			else
+			{
+				if (map[row][col] == 'W')
+				{
+
+					anotherC.writeToBuffer(45 + col * 2, row, "  ", 0xFF);
+				}
+				if (map[row][col] == ' ')
+				{
+					if (player.getmapX() >= 0 && player.getmapY() >= 0)
+					{
+						anotherC.writeToBuffer(45 + col * 2, row, "  ", 0x9F);
+					}
+				}
 			}
 		}
 	}
@@ -99,5 +132,5 @@ void Map::DrawMap(Console& anotherC)
 
 void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 {
-	anotherC.writeToBuffer(45 + anotherP.getX() * 2, anotherP.getY(), "  ", charColor);
+	anotherC.writeToBuffer(45 + anotherP.getscreenX() * 2, anotherP.getscreenY(), "  ", charColor);
 }
