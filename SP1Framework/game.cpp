@@ -314,6 +314,9 @@ void clearScreen()
 void loadMainMenu()
 {
     _mainmenu.loadmainmenu();
+    _mainmenu.renderstart(g_Console, 40, 20);
+    _mainmenu.renderoptions(g_Console, 40, 20);
+    _mainmenu.renderleave(g_Console, 40, 20);
 }
 
 void renderToScreen()
@@ -339,6 +342,9 @@ void renderSplashScreen()  // renders the splash screen    #Loading screen
 void renderMainMenu()
 {
     _mainmenu.rendermenu(g_Console);
+    _mainmenu.renderstart(g_Console, 40, 20);
+    _mainmenu.renderoptions(g_Console, 40, 20);
+    _mainmenu.renderleave(g_Console, 40, 20);
 }
 
 void renderGame()
