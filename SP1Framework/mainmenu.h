@@ -1,5 +1,6 @@
 #pragma once
 #include "Framework\console.h"
+#include "Button.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -10,7 +11,7 @@ private:
 	int x;
 	int y;
 	char logo[180][17];
-	char button[40][20];
+	Button* buttons[3] = {nullptr, nullptr, nullptr};
 	int option;
 public:
 	mainmenu();
@@ -18,8 +19,6 @@ public:
 
 	void loadmainmenu();
 	void rendermenu(Console& anotherC);
-	void renderstart(Console& anotherC, int x, int y);
-	void renderoptions(Console& anotherC, int x, int y);
-	void renderleave(Console& anotherC, int x, int y);
+	
 };
 
