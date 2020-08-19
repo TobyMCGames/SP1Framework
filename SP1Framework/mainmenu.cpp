@@ -8,14 +8,14 @@ mainmenu::mainmenu() :
 	option(1)
 {
 	
-	for (int row = 0; row < x; row++)
+	for (int row = 0; row < y; row++)
 	{
-		for (int col = 0; col < y; col++)
+		for (int col = 0; col < x; col++)
 		{
 			logo[row][col] = ' ';
 		}
 	}
-	buttons[0] = new Button(25,25, 0x9B, "Start Game");
+	buttons[0] = new Button(25, 25, 0x9B, "Start Game");
 	buttons[1] = new Button(25, 28, 0x9B, "Options");
 	buttons[2] = new Button(25, 31, 0x9B, "Leave Game");
 }
@@ -29,11 +29,11 @@ void mainmenu::loadmainmenu()
 	std::ifstream f;
 	f.open("Menu/logo.csv");
 	std::string data;
-	int row = 0;
-	int col = 0;
+	int col = 0; //x
+	int row = 0; //y
 	while (getline(f, data)) 
 	{
-		for (int datarow = 0; datarow < (x*2 - 1); datarow++) {
+		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
 			if (data[datarow] == ',')
 			{
 				continue;
@@ -41,33 +41,33 @@ void mainmenu::loadmainmenu()
 			else
 			{
 				logo[row][col] = data[datarow];
-				row++;
+				col++;
 			}
 			
 		}
-		row = 0;
-		col++;
+		col = 0;
+		row++;
 	}
 	f.close();
 }
 
 void mainmenu::rendermenu(Console& anotherC)
 {
-	for (int row = 0; row < x; row++)
+	for (int row = 0; row < y; row++) 
 	{
-		for (int col = 0; col < y; col++)
+		for (int col = 0; col < x; col++) 
 		{
-			if (logo[row][col] == 'B') //Border for us to see
+			if (logo[row][col] == 'B') 
 			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x9B);
+				anotherC.writeToBuffer(col, row + 4 , "Û", 0x9B);
 			}
 			else if ((logo[row][col] == 'Y'))
 			{
-				anotherC.writeToBuffer(row, 4 + col, "Û",  0x7E);
+				anotherC.writeToBuffer(col, row + 4, "Û",  0x7E);
 			}
 			else 
 			{
-				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
+				anotherC.writeToBuffer(col, row + 4, " ", 0x7F);
 			}
 		}
 	}

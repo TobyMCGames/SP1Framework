@@ -60,8 +60,8 @@ void Map::inputMap(std::string anothermap)
 	std::ifstream f;
 	f.open(path);
 	std::string data;
-	int row = 0;
 	int col = 0;
+	int row = 0;
 	while (getline(f, data))
 	{
 		for (int datarow = 0; datarow < (y * 2 - 1); datarow++) {

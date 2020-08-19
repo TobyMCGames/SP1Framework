@@ -10,7 +10,7 @@ class mainmenu
 private:
 	int x;
 	int y;
-	char logo[180][17];
+	char logo[17][180];
 	Button* buttons[3] = {nullptr, nullptr, nullptr};
 	int option;
 public:
