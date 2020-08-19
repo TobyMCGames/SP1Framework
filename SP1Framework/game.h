@@ -24,7 +24,7 @@ struct SMouseEvent
 };
 
 // Enumeration to store the control keys that your game will have
-enum EKEYS
+enum class EKEYS
 {
     K_W,
     K_S,
@@ -36,7 +36,7 @@ enum EKEYS
 };
 
 // Enumeration for the different screen states
-enum EGAMESTATES
+enum class EGAMESTATES
 {
     S_MAINMENU,
     S_GAME,

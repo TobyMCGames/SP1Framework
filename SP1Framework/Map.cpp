@@ -1,7 +1,8 @@
 #include "Map.h"
 using namespace std;
 
-Map::Map()
+Map::Map():
+	map{ }
 {
 	for (int row = 0; row < 42; row++) {
 		for (int col = 0; col < 45; col++) {

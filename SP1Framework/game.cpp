@@ -13,12 +13,12 @@
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
-SKeyEvent g_skKeyEvent[K_COUNT];
+SKeyEvent g_skKeyEvent[(int)EKEYS::K_COUNT];
 SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 Player   g_sChar;
-EGAMESTATES g_eGameState = S_MAINMENU; // initial state
+EGAMESTATES g_eGameState = EGAMESTATES::S_MAINMENU; // initial state
 Map map;
 mainmenu _mainmenu;
 UI ui;
@@ -40,7 +40,7 @@ void init( void )
     g_dElapsedTime = 0.0;    
 
     // sets the initial state for the game
-    g_eGameState = S_MAINMENU;
+    g_eGameState = EGAMESTATES::S_MAINMENU;
     loadMainMenu();
 
     map.getplayer(g_sChar);
@@ -106,9 +106,9 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
 {    
     switch (g_eGameState)
     {
-    case S_MAINMENU: // don't handle anything for the splash screen
+    case EGAMESTATES::S_MAINMENU: // don't handle anything for the splash screen
         break;
-    case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
+    case EGAMESTATES::S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
     }
 }
@@ -133,9 +133,9 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 {    
     switch (g_eGameState)
     {
-    case S_MAINMENU: // don't handle anything for the splash screen
+    case EGAMESTATES::S_MAINMENU: // don't handle anything for the splash screen
         break;
-    case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+    case EGAMESTATES::S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     }
 }
@@ -152,24 +152,24 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
 {
     // here, we map the key to our enums
-    EKEYS key = K_COUNT;
+    EKEYS key = EKEYS::K_COUNT;
     switch (keyboardEvent.wVirtualKeyCode)
     {
-    case 0x57: key = K_W; break;
-    case 0x53: key = K_S; break;
-    case 0x41: key = K_A; break; 
-    case 0x44: key = K_D; break; 
-    case VK_SPACE: key = K_SPACE; break;
-    case VK_ESCAPE: key = K_ESCAPE; break; 
+    case 0x57: key = EKEYS::K_W; break;
+    case 0x53: key = EKEYS::K_S; break;
+    case 0x41: key = EKEYS::K_A; break;
+    case 0x44: key = EKEYS::K_D; break;
+    case VK_SPACE: key = EKEYS::K_SPACE; break;
+    case VK_ESCAPE: key = EKEYS::K_ESCAPE; break;
     }
     // a key pressed event would be one with bKeyDown == true
     // a key released event would be one with bKeyDown == false
     // if no key is pressed, no event would be fired.
     // so we are tracking if a key is either pressed, or released
-    if (key != K_COUNT)
+    if (key != EKEYS::K_COUNT)
     {
-        g_skKeyEvent[key].keyDown = keyboardEvent.bKeyDown;
-        g_skKeyEvent[key].keyReleased = !keyboardEvent.bKeyDown;
+        g_skKeyEvent[(int)key].keyDown = keyboardEvent.bKeyDown;
+        g_skKeyEvent[(int)key].keyReleased = !keyboardEvent.bKeyDown;
     }    
 }
 
@@ -214,9 +214,9 @@ void update(double dt)
 
     switch (g_eGameState)
     {
-        case S_MAINMENU: splashScreenWait(); // game logic for the splash screen                 #217
+        case EGAMESTATES::S_MAINMENU: splashScreenWait(); // game logic for the splash screen                 #217
             break;
-        case S_GAME: updateGame(); // gameplay logic when we are in the game                          #223
+        case EGAMESTATES::S_GAME: updateGame(); // gameplay logic when we are in the game                          #223
             break;
     }
 }
@@ -225,7 +225,7 @@ void update(double dt)
 void splashScreenWait()    // waits for time to pass in splash screen
 {
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
-        g_eGameState = S_GAME;
+        g_eGameState = EGAMESTATES::S_GAME;
 }
 
 void updateGame()       // gameplay logic
@@ -239,35 +239,35 @@ void moveCharacter()
 {    
     // Updating the location of the character based on the key release
     // providing a beep sound whenver we shift the character
-    if (g_skKeyEvent[K_W].keyDown && g_sChar.getY() > 0)
+    if (g_skKeyEvent[(int)EKEYS::K_W].keyDown && g_sChar.getY() > 0)
     {
         //Beep(1440, 30);
         if (map.collides('W', g_sChar) == false) {
             g_sChar.moveUP();
         }
     }
-    if (g_skKeyEvent[K_A].keyDown && g_sChar.getX() > 0)
+    if (g_skKeyEvent[(int)EKEYS::K_A].keyDown && g_sChar.getX() > 0)
     {
         //Beep(1440, 30);
         if (map.collides('A', g_sChar) == false) {
             g_sChar.moveLEFT();
         }
     }
-    if (g_skKeyEvent[K_S].keyDown && g_sChar.getY() < g_Console.getConsoleSize().Y - 1)
+    if (g_skKeyEvent[(int)EKEYS::K_S].keyDown && g_sChar.getY() < g_Console.getConsoleSize().Y - 1)
     {
         //Beep(1440, 30);
         if (map.collides('S', g_sChar) == false) {
             g_sChar.moveDOWN();
         }
     }
-    if (g_skKeyEvent[K_D].keyDown && g_sChar.getX() < g_Console.getConsoleSize().X - 1)
+    if (g_skKeyEvent[(int)EKEYS::K_D].keyDown && g_sChar.getX() < g_Console.getConsoleSize().X - 1)
     {
         //Beep(1440, 30);
         if (map.collides('D', g_sChar) == false) {
             g_sChar.moveRIGHT();
         }
     }
-    if (g_skKeyEvent[K_SPACE].keyDown)
+    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown)
     {
         g_sChar.changeActive();        
     }
@@ -278,7 +278,7 @@ void moveCharacter()
 void processUserInput()
 {
     // quits the game if player hits the escape key
-    if (g_skKeyEvent[K_ESCAPE].keyReleased)
+    if (g_skKeyEvent[(int)EKEYS::K_ESCAPE].keyReleased)
         g_bQuitGame = true;    
 }
 
@@ -295,9 +295,9 @@ void render()
     clearScreen();      // clears the current screen and draw from scratch 
     switch (g_eGameState)
     {
-    case S_MAINMENU: renderMainMenu();
+    case EGAMESTATES::S_MAINMENU: renderMainMenu();
         break;
-    case S_GAME: renderGame();
+    case EGAMESTATES::S_GAME: renderGame();
         break;
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
@@ -398,20 +398,20 @@ void renderInputEvents()
     COORD startPos = {160, 35};
     std::ostringstream ss;
     std::string key;
-    for (int i = 0; i < K_COUNT; ++i)
+    for (int i = 0; i < (int)EKEYS::K_COUNT; ++i)
     {
         ss.str("");
         switch (i)
         {
-        case K_W: key = "UP";
+        case (int)EKEYS::K_W: key = "UP";
             break;
-        case K_S: key = "DOWN";
+        case (int)EKEYS::K_S: key = "DOWN";
             break;
-        case K_A: key = "LEFT";
+        case(int)EKEYS::K_A: key = "LEFT";
             break;
-        case K_D: key = "RIGHT";
+        case (int)EKEYS::K_D: key = "RIGHT";
             break;
-        case K_SPACE: key = "SPACE";
+        case (int)EKEYS::K_SPACE: key = "SPACE";
             break;
         default: continue;
         }
