@@ -1,8 +1,10 @@
 #pragma once
+#include "Framework/console.h"
+
 class Player
 {
 private:
-	int location[2]; //(x, y)
+	COORD c; //(x, y)
 	static int life;
 	bool Active;
 	char facing;
