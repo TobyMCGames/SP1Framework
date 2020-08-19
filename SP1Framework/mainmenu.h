@@ -10,6 +10,7 @@ private:
 	int x;
 	int y;
 	char logo[180][17];
+	char button[40][20];
 	int option;
 public:
 	mainmenu();
@@ -17,5 +18,8 @@ public:
 
 	void loadmainmenu();
 	void rendermenu(Console& anotherC);
+	void renderstart(Console& anotherC, int x, int y);
+	void renderoptions(Console& anotherC, int x, int y);
+	void renderleave(Console& anotherC, int x, int y);
 };
 

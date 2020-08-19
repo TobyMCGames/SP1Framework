@@ -239,28 +239,28 @@ void moveCharacter()
 {    
     // Updating the location of the character based on the key release
     // providing a beep sound whenver we shift the character
-    if (g_skKeyEvent[(int)EKEYS::K_W].keyDown && g_sChar.getY() > 0)
+    if (g_skKeyEvent[(int)EKEYS::K_W].keyDown)
     {
         //Beep(1440, 30);
         if (map.collides('W', g_sChar) == false) {
             g_sChar.moveUP();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_A].keyDown && g_sChar.getX() > 0)
+    if (g_skKeyEvent[(int)EKEYS::K_A].keyDown)
     {
         //Beep(1440, 30);
         if (map.collides('A', g_sChar) == false) {
             g_sChar.moveLEFT();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_S].keyDown && g_sChar.getY() < g_Console.getConsoleSize().Y - 1)
+    if (g_skKeyEvent[(int)EKEYS::K_S].keyDown)
     {
         //Beep(1440, 30);
         if (map.collides('S', g_sChar) == false) {
             g_sChar.moveDOWN();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_D].keyDown && g_sChar.getX() < g_Console.getConsoleSize().X - 1)
+    if (g_skKeyEvent[(int)EKEYS::K_D].keyDown)
     {
         //Beep(1440, 30);
         if (map.collides('D', g_sChar) == false) {
@@ -314,6 +314,9 @@ void clearScreen()
 void loadMainMenu()
 {
     _mainmenu.loadmainmenu();
+    _mainmenu.renderstart(g_Console, 40, 20);
+    _mainmenu.renderoptions(g_Console, 40, 20);
+    _mainmenu.renderleave(g_Console, 40, 20);
 }
 
 void renderToScreen()
@@ -339,6 +342,9 @@ void renderSplashScreen()  // renders the splash screen    #Loading screen
 void renderMainMenu()
 {
     _mainmenu.rendermenu(g_Console);
+    _mainmenu.renderstart(g_Console, 40, 20);
+    _mainmenu.renderoptions(g_Console, 40, 20);
+    _mainmenu.renderleave(g_Console, 40, 20);
 }
 
 void renderGame()

@@ -4,7 +4,8 @@
 class Player
 {
 private:
-	COORD c; //(x, y)
+	COORD p_screen; //coordinate of where player is on the screen
+	COORD p_map; //coordinate of where player is on the map
 	static int life;
 	bool Active;
 	char facing;
@@ -17,6 +18,13 @@ public:
 	//get functions
 	int getX();
 	int getY();
+
+	int getscreenX();
+	int getscreenY();
+
+	int getmapX();
+	int getmapY();
+
 	int getlife();
 	bool is_Active();
 

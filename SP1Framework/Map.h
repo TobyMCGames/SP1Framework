@@ -5,11 +5,12 @@
 #include "Framework\console.h"
 #include "Player.h"
 
+#include <sstream>
 class Map
 {
 private:
 	int x, y;
-	char map[42][45];
+	char map[135][135];
 	bool mapchange;
 public:
 	Map();
