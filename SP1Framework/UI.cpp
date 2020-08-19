@@ -54,7 +54,7 @@ void UI::loadstate()
 	if (User.getlife() > 3)
 	{
 		std::ifstream f;
-		f.open("status(G)");
+		f.open("status(G).csv");
 		std::string data;
 		int row = 0;
 		int col = 0;
@@ -80,7 +80,7 @@ void UI::loadstate()
 	if (User.getlife() < 2)
 	{
 		std::ifstream f;
-		f.open("status(R)");
+		f.open("status(R).csv");
 		std::string data;
 		int row = 0;
 		int col = 0;
@@ -106,7 +106,7 @@ void UI::loadstate()
 	else
 	{
 		std::ifstream f;
-		f.open("status(Y)");
+		f.open("status(Y).csv");
 		std::string data;
 		int row = 0;
 		int col = 0;
@@ -161,4 +161,136 @@ void UI::renderstate(Console& anotherC)
 			}
 		}
 	}
+}
+
+void UI::loaddindicater()
+{
+	//Grid 
+	std::ifstream f;
+	f.open("gridicon.csv");
+	std::string data;
+	int row = 0;
+	int col = 0;
+	while (getline(f, data))
+	{
+		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
+			if (data[datarow] == ',')
+			{
+				continue;
+			}
+			else
+			{
+				dindicater[row][col] = data[datarow];
+				row++;
+			}
+
+		}
+		row = 0;
+		col++;
+	}
+	f.close();
+
+	//Volcano icon
+	std::ifstream f;
+	f.open("volcanoicon.csv");
+	std::string data;
+	int row = 0;
+	int col = 0;
+	while (getline(f, data))
+	{
+		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
+			if (data[datarow] == ',')
+			{
+				continue;
+			}
+			else
+			{
+				dindicater[row][col] = data[datarow];
+				row++;
+			}
+
+		}
+		row = 0;
+		col++;
+	}
+	f.close();
+
+	//Earthquake icon
+	std::ifstream f;
+	f.open("earthquakeicon.csv");
+	std::string data;
+	int row = 0;
+	int col = 0;
+	while (getline(f, data))
+	{
+		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
+			if (data[datarow] == ',')
+			{
+				continue;
+			}
+			else
+			{
+				dindicater[row][col] = data[datarow];
+				row++;
+			}
+
+		}
+		row = 0;
+		col++;
+	}
+	f.close();
+
+	//Tsunami icon
+	std::ifstream f;
+	f.open("tsunamiicon.csv");
+	std::string data;
+	int row = 0;
+	int col = 0;
+	while (getline(f, data))
+	{
+		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
+			if (data[datarow] == ',')
+			{
+				continue;
+			}
+			else
+			{
+				dindicater[row][col] = data[datarow];
+				row++;
+			}
+
+		}
+		row = 0;
+		col++;
+	}
+	f.close();
+
+	//Tornado icon
+	std::ifstream f;
+	f.open("tornadoicon.csv");
+	std::string data;
+	int row = 0;
+	int col = 0;
+	while (getline(f, data))
+	{
+		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
+			if (data[datarow] == ',')
+			{
+				continue;
+			}
+			else
+			{
+				dindicater[row][col] = data[datarow];
+				row++;
+			}
+
+		}
+		row = 0;
+		col++;
+	}
+	f.close();
+}
+
+void UI::renderdindicater(Console& anotherC)
+{
 }
