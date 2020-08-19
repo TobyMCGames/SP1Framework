@@ -26,6 +26,7 @@ bool Map::getMapChange()
 
 bool Map::collides(char direction, Player& anotherP)
 {
+	switch (direction){
 	if (direction == 'W') {
 		if (map[anotherP.getY() - 1][anotherP.getX()] == 'W') {
 			return true;
@@ -47,6 +48,7 @@ bool Map::collides(char direction, Player& anotherP)
 		}
 	}
 	return false;
+	}
 }
 
 void Map::getplayer(Player& player)
@@ -98,28 +100,26 @@ void Map::DrawMap(Console& anotherC, Player& player)
 		for (int col = 0; col < 45; col++) {
 			if (player.getmapX() >= 0 && player.getmapY() >= 0)
 			{
-				if (map[row + player.getmapY()][col + player.getmapX()] == 'W')
-				{ 
-
-					anotherC.writeToBuffer(45 + col * 2, row, "  ", 0xFF);
-				}
-				if (map[row + player.getmapY()][col + player.getmapX()] == ' ')
+				switch (map[row + player.getmapY()][col + player.getmapX()])
 				{
+				case 'W':
+					anotherC.writeToBuffer(45 + col * 2, row, "  ", 0xFF);
+					break;
+				case ' ':
 					if (player.getmapX() >= 0)
 					{
 						anotherC.writeToBuffer(45 + col * 2, row, "  ", 0x9F);
 					}
-				}
+					break;
+				}		
 			}
 			else
 			{
-				if (map[row][col] == 'W')
+				switch (map[row][col])
 				{
-
+				case 'W':
 					anotherC.writeToBuffer(45 + col * 2, row, "  ", 0xFF);
-				}
-				if (map[row][col] == ' ')
-				{
+				case ' ':	
 					if (player.getmapX() >= 0 && player.getmapY() >= 0)
 					{
 						anotherC.writeToBuffer(45 + col * 2, row, "  ", 0x9F);
