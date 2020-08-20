@@ -8,8 +8,6 @@
 class UI
 {
 private:
-	int x;
-	int y;
 	char state[9][27];
 	char dgrid[13][23];
 	char dicons[5][10];

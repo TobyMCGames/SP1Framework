@@ -1,27 +1,17 @@
 #include "UI.h"
 
 UI::UI() :
-	x(9),
-	y(27),
 	state{ },
 	dgrid{ },
 	dicons{ }
 {
-	for (int row = 0; row < x; row++)
+	for (int row = 0; row < 33; row++)
 	{
-		for (int col = 0; col < y; col++)
+		for (int col = 0; col < 33; col++)
 		{
 			state[row][col] = ' ';
 		}
 	}
-	for (int row = 0; row < x; row++)
-	{
-		for (int col = 0; col < y; col++)
-		{
-			dgrid[row][col] = ' ';
-		}
-	}
-
 }
 
 
@@ -74,13 +64,13 @@ void UI::loadstate()
 	if (User.getlife() > 3)
 	{
 		std::ifstream f;
-		f.open("UI/status(G).csv");
+		f.open("UI/Stat(G).csv");
 		std::string data;
 		int row = 0;
 		int col = 0;
 		while (getline(f, data))
 		{
-			for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
+			for (int datarow = 0; datarow < (33 * 2 - 1); datarow++) {
 				if (data[datarow] == ',')
 				{
 					continue;
@@ -100,13 +90,13 @@ void UI::loadstate()
 	if (User.getlife() < 2)
 	{
 		std::ifstream f;
-		f.open("UI/status(R).csv");
+		f.open("UI/Stat(R).csv");
 		std::string data;
 		int row = 0;
 		int col = 0;
 		while (getline(f, data))
 		{
-			for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
+			for (int datarow = 0; datarow < (33 * 2 - 1); datarow++) {
 				if (data[datarow] == ',')
 				{
 					continue;
@@ -126,13 +116,13 @@ void UI::loadstate()
 	else
 	{
 		std::ifstream f;
-		f.open("UI/status(Y).csv");
+		f.open("UI/Stat(G).csv");
 		std::string data;
 		int row = 0;
 		int col = 0;
 		while (getline(f, data))
 		{
-			for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
+			for (int datarow = 0; datarow < (33 * 2 - 1); datarow++) {
 				if (data[datarow] == ',')
 				{
 					continue;
@@ -155,269 +145,31 @@ void UI::loadstate()
 
 void UI::renderstate(Console& anotherC)
 {
-	for (int row = 0; row < x; row++)
+	for (int row = 0; row < 33; row++)
 	{
-		for (int col = 0; col < y; col++)
+		for (int col = 0; col < 33; col++)
 		{
 			if (state[row][col] == 'B')
 			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x9B);
+				anotherC.writeToBuffer(141+row,  col, "Û", 0x9B);
 			}
 			else if ((state[row][col] == 'G'))
 			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x2A);
+				anotherC.writeToBuffer(141+row,  col, "Û", 0x2A);
 			}
 			else if ((state[row][col] == 'Y'))
 			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x7E);
+				anotherC.writeToBuffer(141+row,  col, "Û", 0x7E);
 			}
 			else if ((state[row][col] == 'R'))
 			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x4C);
+				anotherC.writeToBuffer(141+row,  col, "Û", 0x4C);
 			}
 			else
 			{
-				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
+				anotherC.writeToBuffer(141+row,  col, " ", 0x7F);
 			}
 		}
 	}
 }
 
-void UI::loadgrid()
-{
-	//Grid 
-	std::ifstream f;
-	f.open("gridicon.csv");
-	std::string data;
-	int row = 0;
-	int col = 0;
-	while (getline(f, data))
-	{
-		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
-			if (data[datarow] == ',')
-			{
-				continue;
-			}
-			else
-			{
-				dgrid[row][col] = data[datarow];
-				row++;
-			}
-
-		}
-		row = 0;
-		col++;
-	}
-	f.close();
-}
-
-void UI::rendergrid(Console& anotherC)
-{
-
-	for (int row = 0; row < x; row++)
-	{
-		for (int col = 0; col < y; col++)
-		{
-			if (dicons[row][col] == 'B')
-			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x9B);
-			}
-			else
-			{
-				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
-			}
-		}
-	}
-}
-
-void UI::loadvolcanoicon()
-{
-	//Volcano icon
-	std::ifstream f;
-	f.open("volcanoicon.csv");
-	std::string data;
-	int row = 0;
-	int col = 0;
-	while (getline(f, data))
-	{
-		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
-			if (data[datarow] == ',')
-			{
-				continue;
-			}
-			else
-			{
-				dicons[row][col] = data[datarow];
-				row++;
-			}
-
-		}
-		row = 0;
-		col++;
-	}
-	f.close();
-}
-
-void UI::rendervolcanoicon(Console& anotherC)
-{
-	for (int row = 0; row < x; row++)
-	{
-		for (int col = 0; col < y; col++)
-		{
-			if ((dicons[row][col] == 'Y'))
-			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x7E);
-			}
-			else if ((dicons[row][col] == 'R'))
-			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x4C);
-			}
-			else
-			{
-				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
-			}
-		}
-	}
-}
-
-void UI::loadearthquakeicon()
-{
-	//Earthquake icon
-	std::ifstream f;
-	f.open("earthquakeicon.csv");
-	std::string data;
-	int row = 0;
-	int col = 0;
-	while (getline(f, data))
-	{
-		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
-			if (data[datarow] == ',')
-			{
-				continue;
-			}
-			else
-			{
-				dicons[row][col] = data[datarow];
-				row++;
-			}
-
-		}
-		row = 0;
-		col++;
-	}
-	f.close();
-}
-
-void UI::renderearthquakeicon(Console& anotherC)
-{
-	for (int row = 0; row < x; row++)
-	{
-		for (int col = 0; col < y; col++)
-		{
-			if ((dicons[row][col] == 'Y'))
-			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x7E);
-			}
-			else
-			{
-				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
-			}
-		}
-	}
-}
-
-void UI::loadtsunamiicon()
-{
-	//Tsunami icon
-	std::ifstream f;
-	f.open("tsunamiicon.csv");
-	std::string data;
-	int row = 0;
-	int col = 0;
-	while (getline(f, data))
-	{
-		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
-			if (data[datarow] == ',')
-			{
-				continue;
-			}
-			else
-			{
-				dicons[row][col] = data[datarow];
-				row++;
-			}
-
-		}
-		row = 0;
-		col++;
-	}
-	f.close();
-}
-
-void UI::rendertsunamiicon(Console& anotherC)
-{
-	for (int row = 0; row < x; row++)
-	{
-		for (int col = 0; col < y; col++)
-		{
-			if (dicons[row][col] == 'B')
-			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x1B);
-			}
-			else if ((dicons[row][col] == 'LB'))
-			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x9B);
-			}
-			else
-			{
-				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
-			}
-		}
-	}
-}
-
-void UI::loadtornadoicon()
-{
-	//Tornado icon
-	std::ifstream f;
-	f.open("tornadoicon.csv");
-	std::string data;
-	int row = 0;
-	int col = 0;
-	while (getline(f, data))
-	{
-		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
-			if (data[datarow] == ',')
-			{
-				continue;
-			}
-			else
-			{
-				dicons[row][col] = data[datarow];
-				row++;
-			}
-
-		}
-		row = 0;
-		col++;
-	}
-	f.close();
-}
-
-void UI::rendertornadoicon(Console& anotherC)
-{
-	for (int row = 0; row < x; row++)
-	{
-		for (int col = 0; col < y; col++)
-		{
-			if ((dicons[row][col] == 'W'))
-			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x8F);
-			}
-			else
-			{
-				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
-			}
-		}
-	}
-}
