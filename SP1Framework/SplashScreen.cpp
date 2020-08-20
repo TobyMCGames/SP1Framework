@@ -42,15 +42,21 @@ void SplashScreen::renderSplashScreen(Console& anotherC)
 	{
 		for (int col = 0; col < 180; col++)
 		{
-			if (screen[row][col] == 'B')
+			switch (screen[row][col])
 			{
+			case'B':
 				anotherC.writeToBuffer(col, row, " ", 0x1F);
+				break;
+			case'1':
+				anotherC.writeToBuffer(col, row, "°", 0x18);
+				break;
+			case'2':
+				anotherC.writeToBuffer(col, row, "²", 0x18);
+				break;
+			default:
+				anotherC.writeToBuffer(col, row, " ", 0x88);
+				break;
 			}
-			else
-			{
-				anotherC.writeToBuffer(col, row, " ", 0xFF);
-			}
-
 		}
 	}
 }
