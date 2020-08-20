@@ -3,7 +3,7 @@ using namespace std;
 
 COORD offset;
 
-Map::Map():
+Map::Map() :
 	x(135),
 	y(135),
 	map{ }
@@ -13,7 +13,9 @@ Map::Map():
 			map[row][col] = ' ';
 		}
 	}
+	maplevel = 0;
 	mapchange = true;
+	stairs[0] = nullptr;
 }
 
 Map::~Map()
@@ -24,6 +26,12 @@ Map::~Map()
 bool Map::getMapChange()
 {
 	return mapchange;
+}
+
+string Map::getlevel()
+{
+	string level = to_string(maplevel);
+	return level;
 }
 
 bool Map::collides(char direction, Player& anotherP)
@@ -57,6 +65,22 @@ void Map::getplayer(Player& player)
 	map[player.getY()][player.getX()] = 'P';
 }
 
+void Map::changeMap(Player& player)
+{
+	if ((player.getX() >= stairs[0]->getX()) &&
+		(player.getX() <= stairs[0]->getX() + 3) &&
+		(player.getY() >= stairs[0]->getY()) &&
+		(player.getY() <= stairs[0]->getY() + 3))
+	{
+		mapchange = true;
+	}
+}
+
+void Map::nextlevel()
+{
+	maplevel++;
+}
+
 void Map::inputMap(std::string anothermap, Player& player)
 {
 	string path = "Maps\\" + anothermap;
@@ -75,11 +99,16 @@ void Map::inputMap(std::string anothermap, Player& player)
 			else
 			{
 				map[row][col] = data[datarow];
+
 				if (map[row][col] == 'P')
 				{
 					player.setX(col);
 					player.setY(row);
 					map[row][col] = ' ';
+				}
+				if (map[row][col] == '@')
+				{
+					stairs[0] = new Objects(col, row, "next", '@');
 				}
 				col++;
 			}
@@ -87,6 +116,11 @@ void Map::inputMap(std::string anothermap, Player& player)
 		}
 		row++;
 		col = 0;
+	}
+	for (int i = 0;i < 4;i++) {
+		for (int j = 0;j < 4;j++) {
+			map[stairs[0]->getY() + i][stairs[0]->getX() + j] = '@';
+		}
 	}
 	f.close();
 	mapchange = false;

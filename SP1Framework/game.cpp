@@ -17,7 +17,7 @@ SKeyEvent g_skKeyEvent[(int)EKEYS::K_COUNT];
 SMouseEvent g_mouseEvent;
 
 // Game specific variables here
-Player   g_sChar;
+Player  g_sChar;
 EGAMESTATES g_eGameState = EGAMESTATES::S_MAINMENU; // initial state
 Map map;
 mainmenu _mainmenu;
@@ -274,7 +274,7 @@ void moveCharacter()
         g_sChar.changeActive();        
     }
 
-   
+    map.changeMap(g_sChar);
 }
 
 void processUserInput()
@@ -361,10 +361,8 @@ void renderUI()
 void renderMap()
 {
     if (map.getMapChange() == true) {
-        map.inputMap("map1.csv", g_sChar);
-        /*
-        map.inputMap("Map1.csv");                //Change to TestMap.csv to well... test your items or something
-        */
+        map.nextlevel();
+        map.inputMap("map" + map.getlevel() + ".csv", g_sChar);       //Change to TestMap.csv to well... test your items or something
     }
     map.DrawMap(g_Console, g_sChar);
 }
