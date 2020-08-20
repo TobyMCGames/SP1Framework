@@ -38,6 +38,7 @@ enum class EKEYS
 // Enumeration for the different screen states
 enum class EGAMESTATES
 {
+    S_SPLASHSCREEN,
     S_MAINMENU,
     S_GAME,
     S_COUNT
@@ -62,7 +63,8 @@ void moveCharacter();       // moves the character, collision detection, physics
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
 void clearScreen();         // clears the current screen and draw from scratch 
 void loadMainMenu();
-void renderMainMenu();  // renders the splash screen
+void renderSplashScreen();  // renders the splash screen
+void renderMainMenu();      // renders the Main Menu
 void renderGame();          // renders the game stuff
 void renderUI();            // renders UI
 void renderMap();           // renders the map to the buffer first

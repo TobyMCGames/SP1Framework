@@ -86,6 +86,7 @@
     <ClCompile Include="mainmenu.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Objects.cpp" />
+    <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
@@ -97,6 +98,7 @@
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Objects.h" />
+    <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>

@@ -4,6 +4,7 @@
 #include "game.h"
 #include "Framework\console.h"
 #include "Map.h"
+#include "SplashScreen.h"
 #include "mainmenu.h"
 #include "UI.h"
 #include <iostream>
@@ -18,10 +19,11 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 Player  g_sChar;
-EGAMESTATES g_eGameState = EGAMESTATES::S_MAINMENU; // initial state
 Map map;
+SplashScreen splashscreen;
 mainmenu _mainmenu;
 UI ui;
+EGAMESTATES g_eGameState = EGAMESTATES::S_SPLASHSCREEN; // initial state
 
 // Console object
 Console g_Console(180, 42, "Escape 2020");  // Setting console size and name (width, height, programme name)
@@ -40,10 +42,12 @@ void init( void )
     g_dElapsedTime = 0.0;    
 
     // sets the initial state for the game
-    g_eGameState = EGAMESTATES::S_MAINMENU;
+    g_eGameState = EGAMESTATES::S_SPLASHSCREEN;
     
     //Temporary Load
+
     loadMainMenu();
+    splashscreen.loadSplashScreen();
     ui.loadstate();
     map.getplayer(g_sChar);
 
@@ -108,9 +112,13 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
 {    
     switch (g_eGameState)
     {
-    case EGAMESTATES::S_MAINMENU: // don't handle anything for the splash screen
+    case EGAMESTATES::S_SPLASHSCREEN:  // don't handle anything for the splash screen
         break;
-    case EGAMESTATES::S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
+    case EGAMESTATES::S_MAINMENU: 
+        gameplayKBHandler(keyboardEvent);
+        break;
+    case EGAMESTATES::S_GAME: 
+        gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
     }
 }
@@ -135,7 +143,9 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 {    
     switch (g_eGameState)
     {
-    case EGAMESTATES::S_MAINMENU: // don't handle anything for the splash screen
+    case EGAMESTATES::S_SPLASHSCREEN:  // don't handle anything for the splash screen
+        break;
+    case EGAMESTATES::S_MAINMENU: gameplayMouseHandler(mouseEvent); 
         break;
     case EGAMESTATES::S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
@@ -216,18 +226,24 @@ void update(double dt)
 
     switch (g_eGameState)
     {
-        case EGAMESTATES::S_MAINMENU: splashScreenWait(); // game logic for the splash screen                 #217
-            break;
-        case EGAMESTATES::S_GAME: updateGame(); // gameplay logic when we are in the game                          #223
-            break;
+    case EGAMESTATES::S_SPLASHSCREEN: 
+        splashScreenWait(); // game logic for the splash screen                 #217
+        break;
+    case EGAMESTATES::S_MAINMENU: 
+        processUserInput();
+        break;
+    case EGAMESTATES::S_GAME: 
+        updateGame(); // gameplay logic when we are in the game                 #223
+        break;
     }
 }
-
 
 void splashScreenWait()    // waits for time to pass in splash screen
 {
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
-        g_eGameState = EGAMESTATES::S_GAME;
+
+        //Change this to test whatever u doing
+        g_eGameState = EGAMESTATES::S_MAINMENU; 
 }
 
 void updateGame()       // gameplay logic
@@ -297,6 +313,8 @@ void render()
     clearScreen();      // clears the current screen and draw from scratch 
     switch (g_eGameState)
     {
+    case EGAMESTATES::S_SPLASHSCREEN: renderSplashScreen();
+        break;
     case EGAMESTATES::S_MAINMENU: renderMainMenu();
         break;
     case EGAMESTATES::S_GAME: renderGame();
@@ -326,16 +344,7 @@ void renderToScreen()
 
 void renderSplashScreen()  // renders the splash screen    #Loading screen
 {
-    COORD c = g_Console.getConsoleSize();
-    c.Y /= 3;
-    c.X = c.X / 2 - 9;
-    g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 20;
-    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 9;
-    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
+    splashscreen.renderSplashScreen(g_Console);
 }
 
 void renderMainMenu()

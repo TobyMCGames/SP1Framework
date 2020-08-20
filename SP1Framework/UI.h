@@ -18,6 +18,7 @@ public:
 	UI();
 	~UI();
 
+
 	void renderlife(Console& anotherC);
 	void rendermapborder(Console& anotherC);
 	void loadstate();
