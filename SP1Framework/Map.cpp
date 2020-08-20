@@ -60,11 +60,6 @@ return false;
 	
 }
 
-void Map::getplayer(Player& player)
-{
-	map[player.getY()][player.getX()] = 'P';
-}
-
 void Map::changeMap(Player& player)
 {
 	if ((player.getX() >= stairs[0]->getX()) &&
@@ -133,10 +128,30 @@ void Map::DrawMap(Console& anotherC, Player& player)
 	{
 		offset.X = player.getX() - 23 ;
 	}
+	////////////////////////////////////////////////////////////////////////////////////
+	else if (player.getX() < 23)
+	{
+		offset.X = 0;
+	}                                  //For sudden position change after changing map (x - axis)
+	else if (player.getX() > 113)
+	{
+		offset.X = 90;
+	}
+	///////////////////////////////////////////////////////////////////////////////////
 	if (player.getY() >= 21 && player.getY() <= 114)
 	{
 		offset.Y = player.getY() - 21 ;
 	}
+	////////////////////////////////////////////////////////////////////////////////////
+	else if (player.getY() < 21)
+	{
+		offset.Y = 0;
+	}                                  //For sudden position change after changing map (y - axis)
+	else if (player.getY() > 114)
+	{
+		offset.Y = 93;
+	}
+	///////////////////////////////////////////////////////////////////////////////////////
 	std::ostringstream ss1, ss2, ss3;
 	ss1 << "offset.X = " << offset.X << " offset.Y = " << offset.Y;
 	ss3 << "X = " << player.getX()<< " Y = " << player.getY();

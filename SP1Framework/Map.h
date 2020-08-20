@@ -26,9 +26,6 @@ public:
 	string getlevel();
 	bool collides(char direction, Player& anotherP);
 
-	//get entities
-	void getplayer(Player& player);
-
 
 	//Input and draw 
 	void changeMap(Player& player);
