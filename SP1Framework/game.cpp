@@ -359,6 +359,7 @@ void renderGame()
 void renderUI()
 {
     ui.renderlife(g_Console);
+
     ui.renderstate(g_Console);
 }
 
