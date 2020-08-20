@@ -49,7 +49,6 @@ void init( void )
     loadMainMenu();
     splashscreen.loadSplashScreen();
     ui.loadstate();
-    map.getplayer(g_sChar);
 
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(0, 16, L"Consolas");
@@ -243,7 +242,7 @@ void splashScreenWait()    // waits for time to pass in splash screen
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
 
         //Change this to test whatever u doing
-        g_eGameState = EGAMESTATES::S_MAINMENU; 
+        g_eGameState = EGAMESTATES::S_GAME; 
 }
 
 void updateGame()       // gameplay logic
@@ -289,8 +288,6 @@ void moveCharacter()
     {
         g_sChar.changeActive();        
     }
-
-    map.changeMap(g_sChar);
 }
 
 void processUserInput()
@@ -374,6 +371,7 @@ void renderMap()
         map.inputMap("map" + map.getlevel() + ".csv", g_sChar);       //Change to TestMap.csv to well... test your items or something
     }
     map.DrawMap(g_Console, g_sChar);
+    map.changeMap(g_sChar);
 }
 
 void renderCharacter()
