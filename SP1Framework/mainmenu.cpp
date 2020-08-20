@@ -8,13 +8,18 @@ mainmenu::mainmenu() :
 	option(1)
 {
 	
-	for (int row = 0; row < x; row++)
+	for (int row = 0; row < y; row++)
 	{
-		for (int col = 0; col < y; col++)
+		for (int col = 0; col < x; col++)
 		{
 			logo[row][col] = ' ';
 		}
 	}
+	buttons[0] = new Button(25, 24, 0x0F, "    Start  Game    ");
+	buttons[1] = new Button(25, 25, 0x0F, "   How  to  play   ");
+	buttons[2] = new Button(25, 26, 0x0F, "      Options      ");
+	buttons[3] = new Button(25, 27, 0x0F, "      Credits      ");
+	buttons[4] = new Button(25, 28, 0x0F, "    Leave  Game    ");
 }
 
 mainmenu::~mainmenu()
@@ -26,11 +31,11 @@ void mainmenu::loadmainmenu()
 	std::ifstream f;
 	f.open("Menu/logo.csv");
 	std::string data;
-	int row = 0;
-	int col = 0;
+	int col = 0; //x
+	int row = 0; //y
 	while (getline(f, data)) 
 	{
-		for (int datarow = 0; datarow < (x*2 - 1); datarow++) {
+		for (int datarow = 0; datarow < (x * 2 - 1); datarow++) {
 			if (data[datarow] == ',')
 			{
 				continue;
@@ -38,76 +43,52 @@ void mainmenu::loadmainmenu()
 			else
 			{
 				logo[row][col] = data[datarow];
-				row++;
+				col++;
 			}
 			
 		}
-		row = 0;
-		col++;
+		col = 0;
+		row++;
 	}
 	f.close();
 }
 
 void mainmenu::rendermenu(Console& anotherC)
 {
-	for (int row = 0; row < x; row++)
+	for (int row = 0; row < y; row++) 
 	{
-		for (int col = 0; col < y; col++)
+		for (int col = 0; col < x; col++) 
 		{
-			if (logo[row][col] == 'B') //Border for us to see
+			if (logo[row][col] == 'B') 
 			{
-				anotherC.writeToBuffer(row, 4 + col, "Û", 0x9B);
+				anotherC.writeToBuffer(col, row + 2 , "Û", 0x9B);
 			}
 			else if ((logo[row][col] == 'Y'))
 			{
-				anotherC.writeToBuffer(row, 4 + col, "Û",  0x7E);
+				anotherC.writeToBuffer(col, row + 2, "Û",  0x7E);
 			}
 			else 
 			{
-				anotherC.writeToBuffer(row, 4 + col, " ", 0x7F);
+				anotherC.writeToBuffer(col, row + 2, " ", 0x7F);
 			}
 		}
 	}
+
+	for (int x = 0; x < 5; x++) {
+		buttons[x]->renderButton(anotherC);
+	}
 }
 
-void mainmenu::renderstart(Console& anotherC, int x, int y)
-{
-	for (int row = 0; row < x; row++)
-	{
-		for (int col = 0; col < y; col++)
-		{
-			button[row][col] = ' ';
-		}
-	}
-	COORD c = { 25, 25 };
+	/*COORD c = { 25, 25 };
 	gotoXY(c);
-	anotherC.writeToBuffer(c, "Start Game", 0x9B);
-}
+	anotherC.writeToBuffer(c, "Start Game", 0x9B);*/
 
-void mainmenu::renderoptions(Console& anotherC, int x, int y)
-{
-	for (int row = 0; row < x; row++)
-	{
-		for (int col = 0; col < y; col++)
-		{
-			button[row][col] = ' ';
-		}
-	}
-	COORD c = { 25, 28 };
+	/*COORD c = { 25, 28 };
 	gotoXY(c);
-	anotherC.writeToBuffer(c, "Options", 0x9B);
-}
+	anotherC.writeToBuffer(c, "Options", 0x9B);*/
 
-void mainmenu::renderleave(Console& anotherC, int x, int y)
-{
-	for (int row = 0; row < x; row++)
-	{
-		for (int col = 0; col < y; col++)
-		{
-			button[row][col] = ' ';
-		}
-	}
-	COORD c = { 25, 31 };
+
+
+	/*COORD c = { 25, 31 };
 	gotoXY(c);
-	anotherC.writeToBuffer(c, "Leave Game", 0x9B);
-}
+	anotherC.writeToBuffer(c, "Leave Game", 0x9B);*/

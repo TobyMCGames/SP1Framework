@@ -60,6 +60,15 @@ void UI::renderlife(Console& anotherC)
 	}
 }
 
+void UI::rendermapborder(Console& anotherC)
+{
+	for (int i = 0; i < 42; i++)
+	{
+		anotherC.writeToBuffer( 43, i, "  ", 0x8F);
+		anotherC.writeToBuffer( 135, i, "  ", 0x8F);
+	}
+}
+
 void UI::loadstate()
 {
 	if (User.getlife() > 3)
@@ -174,7 +183,7 @@ void UI::renderstate(Console& anotherC)
 	}
 }
 
-void UI::loaddgrid()
+void UI::loadgrid()
 {
 	//Grid 
 	std::ifstream f;
@@ -202,7 +211,7 @@ void UI::loaddgrid()
 	f.close();
 }
 
-void UI::renderdrid(Console& anotherC)
+void UI::rendergrid(Console& anotherC)
 {
 
 	for (int row = 0; row < x; row++)
