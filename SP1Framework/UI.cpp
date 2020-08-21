@@ -2,8 +2,7 @@
 
 UI::UI() :
 	state{ },
-	dgrid{ },
-	dicons{ }
+	dgrid{ }
 {
 	for (int row = 0; row < 33; row++)
 	{
@@ -61,84 +60,30 @@ void UI::rendermapborder(Console& anotherC)
 
 void UI::loadstate()
 {
-	if (User.getlife() > 3)
+	
+	std::ifstream f;
+	f.open("UI/Stat(G).csv");
+	std::string data;
+	int row = 0;
+	int col = 0;
+	while (getline(f, data))
 	{
-		std::ifstream f;
-		f.open("UI/Stat(G).csv");
-		std::string data;
-		int row = 0;
-		int col = 0;
-		while (getline(f, data))
-		{
-			for (int datarow = 0; datarow < (33 * 2 - 1); datarow++) {
-				if (data[datarow] == ',')
-				{
-					continue;
-				}
-				else
-				{
-					state[row][col] = data[datarow];
-					row++;
-				}
-
+		for (int datarow = 0; datarow < (33 * 2 - 1); datarow++) {
+			if (data[datarow] == ',')
+			{
+				continue;
 			}
-			row = 0;
-			col++;
-		}
-		f.close();
-	}
-	if (User.getlife() < 2)
-	{
-		std::ifstream f;
-		f.open("UI/Stat(R).csv");
-		std::string data;
-		int row = 0;
-		int col = 0;
-		while (getline(f, data))
-		{
-			for (int datarow = 0; datarow < (33 * 2 - 1); datarow++) {
-				if (data[datarow] == ',')
-				{
-					continue;
-				}
-				else
-				{
-					state[row][col] = data[datarow];
-					row++;
-				}
-
+			else
+			{
+				state[row][col] = data[datarow];
+				row++;
 			}
-			row = 0;
-			col++;
 		}
-		f.close();
+		row = 0;
+		col++;
 	}
-	else
-	{
-		std::ifstream f;
-		f.open("UI/Stat(G).csv");
-		std::string data;
-		int row = 0;
-		int col = 0;
-		while (getline(f, data))
-		{
-			for (int datarow = 0; datarow < (33 * 2 - 1); datarow++) {
-				if (data[datarow] == ',')
-				{
-					continue;
-				}
-				else
-				{
-					state[row][col] = data[datarow];
-					row++;
-				}
-
-			}
-			row = 0;
-			col++;
-		}
-		f.close();
-	}
+	f.close();
+	
 }
 	
 	
@@ -149,27 +94,60 @@ void UI::renderstate(Console& anotherC)
 	{
 		for (int col = 0; col < 33; col++)
 		{
-			if (state[row][col] == 'B')
+			if (User.getlife() >=4) 
 			{
-				anotherC.writeToBuffer(141+row,  col, "Û", 0x9B);
+				if ((state[row][col] == 'G'))
+				{
+					anotherC.writeToBuffer(141 + row, col, "Û", 0x2A);
+				}
+				else if ((state[row][col] == 'I'))
+				{
+					anotherC.writeToBuffer(141 + row, col, "Û", 0x7F);
+				}
+				else
+				{
+					anotherC.writeToBuffer(141 + row, col, " ", 0x0A);
+				}
 			}
-			else if ((state[row][col] == 'G'))
+			else if (User.getlife() >=2)
 			{
-				anotherC.writeToBuffer(141+row,  col, "Û", 0x2A);
-			}
-			else if ((state[row][col] == 'Y'))
-			{
-				anotherC.writeToBuffer(141+row,  col, "Û", 0x7E);
-			}
-			else if ((state[row][col] == 'R'))
-			{
-				anotherC.writeToBuffer(141+row,  col, "Û", 0x4C);
+				if ((state[row][col] == 'G'))
+				{
+					anotherC.writeToBuffer(141 + row, col, "Û", 0x6E);
+				}
+				else if ((state[row][col] == 'I'))
+				{
+					anotherC.writeToBuffer(141 + row, col, "Û", 0x7F);
+				}
+				else
+				{
+					anotherC.writeToBuffer(141 + row, col, " ", 0x0A);
+				}
 			}
 			else
 			{
-				anotherC.writeToBuffer(141+row,  col, " ", 0x7F);
+				if ((state[row][col] == 'G'))
+				{
+					anotherC.writeToBuffer(141 + row, col, "Û", 0x4C);
+				}
+				else if ((state[row][col] == 'I'))
+				{
+					anotherC.writeToBuffer(141 + row, col, "Û", 0x7F);
+				}
+				else
+				{
+					anotherC.writeToBuffer(141 + row, col, " ", 0x0A);
+				}
 			}
 		}
 	}
+}
+
+void UI::loadgrid()
+{
+}
+
+void UI::rendergrid(Console& anotherC)
+{
 }
 
