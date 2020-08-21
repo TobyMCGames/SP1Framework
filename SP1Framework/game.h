@@ -32,6 +32,7 @@ enum class EKEYS
     K_D,
     K_ESCAPE,
     K_SPACE,
+    K_RETURN,
     K_COUNT
 };
 
@@ -58,6 +59,7 @@ void render      ( void );      // renders the current state of the game to the 
 void shutdown    ( void );      // do clean up, free memory
 
 void splashScreenWait();    // waits for time to pass in splash screen
+void updateMenu();          // displays what user selects on mainmenu
 void updateGame();          // gameplay logic
 void moveCharacter();       // moves the character, collision detection, physics, etc
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit

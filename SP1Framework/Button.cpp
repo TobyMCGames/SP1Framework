@@ -13,7 +13,30 @@ Button::~Button()
 
 }
 
-void Button::renderButton(Console& console)
+string Button::getName()
 {
-	console.writeToBuffer(x, y, name, color);
+	return name;
 }
+
+int Button::getX(void)
+{
+	return x;
+}
+
+int Button::getY(void)
+{
+	return y;
+}
+
+void Button::renderButton(Console& console, bool onbutton)
+{
+	if (onbutton == false)
+	{
+		console.writeToBuffer(x, y, name, color);
+	}
+	else
+	{
+		console.writeToBuffer(x-2, y, "|<"+name+">|", color);
+	}
+}
+

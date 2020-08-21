@@ -88,8 +88,6 @@ void shutdown( void )
 //--------------------------------------------------------------
 void getInput( void )
 {
-    // resets all the keyboard events
-    // memset(g_skKeyEvent, 0, K_COUNT * sizeof(*g_skKeyEvent));
     // then call the console to detect input from user
     g_Console.readConsoleInput();    
 }
@@ -171,7 +169,7 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case 0x41: key = EKEYS::K_A; break;
     case 0x44: key = EKEYS::K_D; break;
     case VK_SPACE: key = EKEYS::K_SPACE; break;
-    case VK_ESCAPE: key = EKEYS::K_ESCAPE; break;
+    case VK_RETURN: key = EKEYS::K_RETURN; break;
     }
     // a key pressed event would be one with bKeyDown == true
     // a key released event would be one with bKeyDown == false
@@ -214,7 +212,7 @@ void gameplayMouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 //
 //            If your game has multiple states, you should determine the current state, and call the relevant function here.
 //
-// Input    : dt = deltatime
+// Input    : dt = time
 // Output   : void
 //--------------------------------------------------------------
 void update(double dt)
@@ -229,6 +227,7 @@ void update(double dt)
         splashScreenWait(); // game logic for the splash screen                 #217
         break;
     case EGAMESTATES::S_MAINMENU: 
+        updateMenu();
         processUserInput();
         break;
     case EGAMESTATES::S_GAME: 
@@ -242,7 +241,44 @@ void splashScreenWait()    // waits for time to pass in splash screen
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
 
         //Change this to test whatever u doing
-        g_eGameState = EGAMESTATES::S_GAME; 
+        g_eGameState = EGAMESTATES::S_MAINMENU; 
+}
+
+bool pressW = false, pressS = false;
+void updateMenu()
+{
+    if (pressW != true)
+    {
+        if (g_skKeyEvent[(int)EKEYS::K_W].keyDown) {
+            _mainmenu.WSmenu(-1);
+        }
+    }
+    else
+    {
+        if (g_skKeyEvent[(int)EKEYS::K_W].keyReleased) {
+            pressW = false;
+        }
+    }
+    if (pressS != true)
+    {
+        if (g_skKeyEvent[(int)EKEYS::K_S].keyDown) {
+            _mainmenu.WSmenu(1);
+            pressS = true;
+        }
+    }
+    else
+    {
+        if (g_skKeyEvent[(int)EKEYS::K_S].keyReleased) {
+            pressS = false;
+        }
+    }
+    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) || (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown))
+    {
+        switch (_mainmenu.getselector()) {
+        case 0: g_eGameState = EGAMESTATES::S_GAME; break;
+        case 4: g_bQuitGame = true; break;
+        }
+    }
 }
 
 void updateGame()       // gameplay logic
@@ -258,13 +294,16 @@ void moveCharacter()
     // providing a beep sound whenver we shift the character
     if (g_skKeyEvent[(int)EKEYS::K_W].keyDown)
     {
+        g_sChar.setmodel('W');
         //Beep(1440, 30);
         if (map.collides('W', g_sChar) == false) {
             g_sChar.moveUP();
         }
+        
     }
     if (g_skKeyEvent[(int)EKEYS::K_A].keyDown)
     {
+        g_sChar.setmodel('A');
         //Beep(1440, 30);
         if (map.collides('A', g_sChar) == false) {
             g_sChar.moveLEFT();
@@ -272,19 +311,22 @@ void moveCharacter()
     }
     if (g_skKeyEvent[(int)EKEYS::K_S].keyDown)
     {
+        g_sChar.setmodel('S');
         //Beep(1440, 30);
         if (map.collides('S', g_sChar) == false) {
             g_sChar.moveDOWN();
         }
+        
     }
     if (g_skKeyEvent[(int)EKEYS::K_D].keyDown)
     {
+        g_sChar.setmodel('D');
         //Beep(1440, 30);
         if (map.collides('D', g_sChar) == false) {
             g_sChar.moveRIGHT();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown)
+    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased)
     {
         g_sChar.changeActive();        
     }
@@ -368,7 +410,9 @@ void renderMap()
 {
     if (map.getMapChange() == true) {
         map.nextlevel();
-        map.inputMap("map" + map.getlevel() + ".csv", g_sChar);       //Change to TestMap.csv to well... test your items or something
+        //Change to TestMap.csv to well... test your items or something
+        map.loadMap("TestMap.csv", g_sChar);
+        //map.inputMap("map" + map.getlevel() + ".csv", g_sChar);       
     }
     map.DrawMap(g_Console, g_sChar);
     map.changeMap(g_sChar);
@@ -377,13 +421,9 @@ void renderMap()
 void renderCharacter()
 {
     // Draw the location of the character
-    WORD charColor = 0xC0;
-    if (g_sChar.is_Active())
-    {
-        charColor = 0x0A;
-    }
-    map.DrawPlayer(g_Console, g_sChar, charColor);
+    map.DrawPlayer(g_Console, g_sChar, g_sChar.getColor());
 }
+
 
 void renderFramerate()
 {
@@ -444,17 +484,44 @@ void renderInputEvents()
     ss << "Mouse position (" << g_mouseEvent.mousePosition.X << ", " << g_mouseEvent.mousePosition.Y << ")";
     g_Console.writeToBuffer(g_mouseEvent.mousePosition, ss.str(), 0x5F);
     ss.str("");
+    
     switch (g_mouseEvent.eventFlags)
     {
     case 0:
         if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED)
-        {
-            ss.str("Left Button Pressed");
-            g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 1, ss.str(), 0x5F);
+        {      
+            switch (_mainmenu.checkButtons(g_mouseEvent.mousePosition))
+            {
+            case 0:
+                g_eGameState = EGAMESTATES::S_GAME;
+                break;
+
+            case 4:
+                g_bQuitGame = true;
+                break;
+            }
+            
         }
-        else if (g_mouseEvent.buttonState == RIGHTMOST_BUTTON_PRESSED)
+        //else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 25)
+        //{
+        //   /* ss.str("How to play");
+        //    COORD c = {70, 25};
+        //    gotoXY(c);
+        //    g_Console.writeToBuffer(c, "Survive till the end, Avoid the Disasters using WASD");*/
+        //}
+        else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 26)
         {
-            ss.str("Right Button Pressed");
+            ss.str("Options");
+            g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 2, ss.str(), 0x5F);
+        }
+        else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 27)
+        {
+            ss.str("Credits");
+            g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 2, ss.str(), 0x5F);
+        }
+        else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 28)
+        {
+            ss.str("Leave Game");
             g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 2, ss.str(), 0x5F);
         }
         else
@@ -463,7 +530,7 @@ void renderInputEvents()
             g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 3, ss.str(), 0x5F);
         }
         break;
-    case DOUBLE_CLICK:
+   /* case DOUBLE_CLICK:
         ss.str("Double Clicked");
         g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 4, ss.str(), 0x5F);
         break;        
@@ -473,7 +540,7 @@ void renderInputEvents()
         else
             ss.str("Mouse wheeled up");
         g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 5, ss.str(), 0x5F);
-        break;
+        break;*/
     default:        
         break;
     }
