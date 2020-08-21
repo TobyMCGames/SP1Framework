@@ -36,28 +36,30 @@ string Map::getlevel()
 
 bool Map::collides(char direction, Player& anotherP)
 {
-	if (direction == 'W') {
+	switch (direction)
+	{
+	case 'W':
 		if (map[anotherP.getY() - 1][anotherP.getX()] == 'W') {
 			return true;
 		}
-	}
-	if (direction == 'S') {
+		break;
+	case 'S':
 		if (map[anotherP.getY() + 1][anotherP.getX()] == 'W') {
 			return true;
 		}
-	}
-	if (direction == 'A') {
+		break;
+	case 'A':
 		if (map[anotherP.getY()][anotherP.getX() - 1] == 'W') {
 			return true;
 		}
-	}
-	if (direction == 'D') {
+		break;
+	case 'D':
 		if (map[anotherP.getY()][anotherP.getX() + 1] == 'W') {
 			return true;
 		}
+		break;
 	}
-return false;
-	
+	return false;
 }
 
 void Map::changeMap(Player& player)
