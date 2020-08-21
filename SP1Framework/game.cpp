@@ -247,28 +247,27 @@ void splashScreenWait()    // waits for time to pass in splash screen
 bool pressW = false, pressS = false;
 void updateMenu()
 {
-    if (pressW != true)
+    switch (pressW)
     {
+    case false:
         if (g_skKeyEvent[(int)EKEYS::K_W].keyDown) {
             _mainmenu.WSmenu(-1);
+            pressW = true;
         }
-    }
-    else
-    {
-        if (g_skKeyEvent[(int)EKEYS::K_W].keyReleased) {
+    case true:
+        if (g_skKeyEvent[(int)EKEYS::K_W].keyDown == false) {
             pressW = false;
         }
     }
-    if (pressS != true)
+    switch (pressS)
     {
+    case false:
         if (g_skKeyEvent[(int)EKEYS::K_S].keyDown) {
             _mainmenu.WSmenu(1);
             pressS = true;
         }
-    }
-    else
-    {
-        if (g_skKeyEvent[(int)EKEYS::K_S].keyReleased) {
+    case true:
+        if (g_skKeyEvent[(int)EKEYS::K_S].keyDown == false) {
             pressS = false;
         }
     }
