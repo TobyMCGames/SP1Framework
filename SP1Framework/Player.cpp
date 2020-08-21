@@ -4,6 +4,8 @@ int Player::life = 5;
 
 Player::Player()
 {
+	c.X = 0;
+	c.Y = 0;
 	Active = false;
 	facing = 'W';
 }

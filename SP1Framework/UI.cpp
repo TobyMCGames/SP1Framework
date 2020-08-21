@@ -2,7 +2,8 @@
 
 UI::UI() :
 	state{ },
-	dgrid{ }
+	dgrid{ },
+	dicons{ }
 {
 	for (int row = 0; row < 33; row++)
 	{

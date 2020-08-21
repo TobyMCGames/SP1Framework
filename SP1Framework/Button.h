@@ -16,6 +16,6 @@ public:
 	string getName();
 	int getX(void);
 	int getY(void);
-	void renderButton(Console& console);
+	void renderButton(Console& console, bool onbutton);
 };
 

@@ -171,7 +171,7 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case 0x41: key = EKEYS::K_A; break;
     case 0x44: key = EKEYS::K_D; break;
     case VK_SPACE: key = EKEYS::K_SPACE; break;
-    case VK_ESCAPE: key = EKEYS::K_ESCAPE; break;
+    case VK_RETURN: key = EKEYS::K_RETURN; break;
     }
     // a key pressed event would be one with bKeyDown == true
     // a key released event would be one with bKeyDown == false
@@ -229,6 +229,7 @@ void update(double dt)
         splashScreenWait(); // game logic for the splash screen                 #217
         break;
     case EGAMESTATES::S_MAINMENU: 
+        updateMenu();
         processUserInput();
         break;
     case EGAMESTATES::S_GAME: 
@@ -243,6 +244,43 @@ void splashScreenWait()    // waits for time to pass in splash screen
 
         //Change this to test whatever u doing
         g_eGameState = EGAMESTATES::S_MAINMENU; 
+}
+
+bool pressW = false, pressS = false;
+void updateMenu()
+{
+    if (pressW != true)
+    {
+        if (g_skKeyEvent[(int)EKEYS::K_W].keyDown) {
+            _mainmenu.WSmenu(-1);
+        }
+    }
+    else
+    {
+        if (g_skKeyEvent[(int)EKEYS::K_W].keyReleased) {
+            pressW = false;
+        }
+    }
+    if (pressS != true)
+    {
+        if (g_skKeyEvent[(int)EKEYS::K_S].keyDown) {
+            _mainmenu.WSmenu(1);
+            pressS = true;
+        }
+    }
+    else
+    {
+        if (g_skKeyEvent[(int)EKEYS::K_S].keyReleased) {
+            pressS = false;
+        }
+    }
+    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) || (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown))
+    {
+        switch (_mainmenu.getselector()) {
+        case 0: g_eGameState = EGAMESTATES::S_GAME; break;
+        case 4: g_bQuitGame = true; break;
+        }
+    }
 }
 
 void updateGame()       // gameplay logic
@@ -262,6 +300,7 @@ void moveCharacter()
         if (map.collides('W', g_sChar) == false) {
             g_sChar.moveUP();
         }
+        
     }
     if (g_skKeyEvent[(int)EKEYS::K_A].keyDown)
     {
@@ -276,6 +315,7 @@ void moveCharacter()
         if (map.collides('S', g_sChar) == false) {
             g_sChar.moveDOWN();
         }
+        
     }
     if (g_skKeyEvent[(int)EKEYS::K_D].keyDown)
     {
@@ -284,7 +324,7 @@ void moveCharacter()
             g_sChar.moveRIGHT();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown)
+    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased)
     {
         g_sChar.changeActive();        
     }

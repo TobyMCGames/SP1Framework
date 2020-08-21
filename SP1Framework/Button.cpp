@@ -28,8 +28,15 @@ int Button::getY(void)
 	return y;
 }
 
-void Button::renderButton(Console& console)
+void Button::renderButton(Console& console, bool onbutton)
 {
-	console.writeToBuffer(x, y, name, color);
+	if (onbutton == false)
+	{
+		console.writeToBuffer(x, y, name, color);
+	}
+	else
+	{
+		console.writeToBuffer(x-2, y, "|<"+name+">|", color);
+	}
 }
 

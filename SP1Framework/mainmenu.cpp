@@ -16,27 +16,41 @@ mainmenu::mainmenu() :
 		}
 	}
 	buttons[0] = new Button(25, 24, 0x0F, "    Start  Game    ");
-	buttons[1] = new Button(25, 25, 0x0F, "   How  to  play   ");
-	buttons[2] = new Button(25, 26, 0x0F, "      Options      ");
-	buttons[3] = new Button(25, 27, 0x0F, "      Credits      ");
-	buttons[4] = new Button(25, 28, 0x0F, "    Leave  Game    ");
+	buttons[1] = new Button(25, 26, 0x0F, "   How  to  play   ");
+	buttons[2] = new Button(25, 28, 0x0F, "      Options      ");
+	buttons[3] = new Button(25, 30, 0x0F, "      Credits      ");
+	buttons[4] = new Button(25, 32, 0x0F, "    Leave  Game    ");
+
+	selector = 0;
 }
 
 mainmenu::~mainmenu()
 {
 }
 
+int mainmenu::getselector()
+{
+	return selector;
+}
 
 int mainmenu::checkButtons(COORD c)
 {
 	for (int i = 0; i < 5; i++)
 	{
-		if ((c.X >= buttons[i]->getX()) && (c.X <= (buttons[i]->getX() + (buttons[i]->getName()).size())) && (c.Y == buttons[i]->getY()))
+		if ((c.X >= buttons[i]->getX()) && (c.X <= buttons[i]->getX() + (buttons[i]->getName()).size()) && (c.Y == buttons[i]->getY()))
 		{
 			return i;
 		}
 	}
 	return -1;
+}
+
+void mainmenu::WSmenu(int updown)
+{
+	int buffer = selector + (updown);
+	if (buffer >= 0 && buffer <= 4) {
+		selector = buffer;
+	}
 }
 
 void mainmenu::loadmainmenu()
@@ -88,22 +102,11 @@ void mainmenu::rendermenu(Console& anotherC)
 	}
 
 	for (int x = 0; x < 5; x++) {
-		buttons[x]->renderButton(anotherC);
+		bool onbutton = false;
+		if (x == selector)
+		{
+			onbutton = true;
+		}
+		buttons[x]->renderButton(anotherC, onbutton);
 	}
 }
-
-
-
-	/*COORD c = { 25, 25 };
-	gotoXY(c);
-	anotherC.writeToBuffer(c, "Start Game", 0x9B);*/
-
-	/*COORD c = { 25, 28 };
-	gotoXY(c);
-	anotherC.writeToBuffer(c, "Options", 0x9B);*/
-
-
-
-	/*COORD c = { 25, 31 };
-	gotoXY(c);
-	anotherC.writeToBuffer(c, "Leave Game", 0x9B);*/
