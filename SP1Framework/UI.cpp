@@ -62,10 +62,20 @@ void UI::renderlife(Console& anotherC)
 
 void UI::rendermapborder(Console& anotherC)
 {
+	WORD color = 0x8F;
+	if (User.getlife() > 2)
+	{
+		color = 0xAF;
+	}
+	else
+	{
+		color = 0xCF;
+	}
+
 	for (int i = 0; i < 42; i++)
 	{
-		anotherC.writeToBuffer( 43, i, "  ", 0x8F);
-		anotherC.writeToBuffer( 135, i, "  ", 0x8F);
+		anotherC.writeToBuffer( 43, i, "  ", color);
+		anotherC.writeToBuffer( 135, i, "  ", color);
 	}
 }
 
