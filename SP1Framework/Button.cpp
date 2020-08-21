@@ -17,3 +17,4 @@ void Button::renderButton(Console& console)
 {
 	console.writeToBuffer(x, y, name, color);
 }
+

@@ -26,6 +26,7 @@ mainmenu::~mainmenu()
 {
 }
 
+
 void mainmenu::loadmainmenu()
 {
 	std::ifstream f;
@@ -78,6 +79,8 @@ void mainmenu::rendermenu(Console& anotherC)
 		buttons[x]->renderButton(anotherC);
 	}
 }
+
+
 
 	/*COORD c = { 25, 25 };
 	gotoXY(c);

@@ -22,6 +22,7 @@ Player  g_sChar;
 Map map;
 SplashScreen splashscreen;
 mainmenu _mainmenu;
+mainmenu button1;
 UI ui;
 EGAMESTATES g_eGameState = EGAMESTATES::S_SPLASHSCREEN; // initial state
 
@@ -242,7 +243,7 @@ void splashScreenWait()    // waits for time to pass in splash screen
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
 
         //Change this to test whatever u doing
-        g_eGameState = EGAMESTATES::S_GAME; 
+        g_eGameState = EGAMESTATES::S_MAINMENU; 
 }
 
 void updateGame()       // gameplay logic
@@ -385,6 +386,7 @@ void renderCharacter()
     map.DrawPlayer(g_Console, g_sChar, charColor);
 }
 
+
 void renderFramerate()
 {
     COORD c;
@@ -444,17 +446,35 @@ void renderInputEvents()
     ss << "Mouse position (" << g_mouseEvent.mousePosition.X << ", " << g_mouseEvent.mousePosition.Y << ")";
     g_Console.writeToBuffer(g_mouseEvent.mousePosition, ss.str(), 0x5F);
     ss.str("");
+    
     switch (g_mouseEvent.eventFlags)
     {
     case 0:
-        if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED)
-        {
-            ss.str("Left Button Pressed");
-            g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 1, ss.str(), 0x5F);
+        if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 24)
+        {      
+            clearScreen();
+            renderGame(); 
         }
-        else if (g_mouseEvent.buttonState == RIGHTMOST_BUTTON_PRESSED)
+        else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 25)
         {
-            ss.str("Right Button Pressed");
+            ss.str("How to play");
+            COORD c = {70, 25};
+            gotoXY(c);
+            g_Console.writeToBuffer(c, "Survive till the end, Avoid the Disasters using WASD");
+        }
+        else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 26)
+        {
+            ss.str("Options");
+            g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 2, ss.str(), 0x5F);
+        }
+        else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 27)
+        {
+            ss.str("Credits");
+            g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 2, ss.str(), 0x5F);
+        }
+        else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 28)
+        {
+            ss.str("Leave Game");
             g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 2, ss.str(), 0x5F);
         }
         else
@@ -463,7 +483,7 @@ void renderInputEvents()
             g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 3, ss.str(), 0x5F);
         }
         break;
-    case DOUBLE_CLICK:
+   /* case DOUBLE_CLICK:
         ss.str("Double Clicked");
         g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 4, ss.str(), 0x5F);
         break;        
@@ -473,7 +493,7 @@ void renderInputEvents()
         else
             ss.str("Mouse wheeled up");
         g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 5, ss.str(), 0x5F);
-        break;
+        break;*/
     default:        
         break;
     }
