@@ -69,16 +69,16 @@ void Player::setmodel(char direction)
 	std::ostringstream ss;
 	switch (direction)
 	{
-	case 'U':
+	case 'W':
 		ss << char(223) << char(223);
 		break;
-	case 'D':
+	case 'S':
 		ss << char(220) << char(220);
 		break;
-	case 'L':
+	case 'A':
 		ss << char(219) << char(255);
 		break;
-	case 'R':
+	case 'D':
 		ss << char(255) << char(219);
 		break;
 	}
@@ -116,7 +116,6 @@ void Player::moveLEFT()
 	{
 		c.X -= speed;
 	}
-	setmodel('L');
 }
 
 void Player::moveRIGHT()
@@ -129,7 +128,6 @@ void Player::moveRIGHT()
 	{
 		c.X += speed;
 	}
-	setmodel('R');
 }
 
 void Player::moveUP()
@@ -142,7 +140,6 @@ void Player::moveUP()
 	{
 		c.Y -= speed;
 	}
-	setmodel('U');
 }
 
 void Player::moveDOWN()
@@ -155,7 +152,6 @@ void Player::moveDOWN()
 	{
 		c.Y += speed;
 	}
-	setmodel('D');
 }
 
 

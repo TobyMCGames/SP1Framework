@@ -240,7 +240,7 @@ void splashScreenWait()    // waits for time to pass in splash screen
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
 
         //Change this to test whatever u doing
-        g_eGameState = EGAMESTATES::S_GAME; 
+        g_eGameState = EGAMESTATES::S_MAINMENU; 
 }
 
 void updateGame()       // gameplay logic
@@ -256,6 +256,7 @@ void moveCharacter()
     // providing a beep sound whenver we shift the character
     if (g_skKeyEvent[(int)EKEYS::K_W].keyDown)
     {
+        g_sChar.setmodel('W');
         //Beep(1440, 30);
         if (map.collides('W', g_sChar) == false) {
             g_sChar.moveUP();
@@ -263,6 +264,7 @@ void moveCharacter()
     }
     if (g_skKeyEvent[(int)EKEYS::K_A].keyDown)
     {
+        g_sChar.setmodel('A');
         //Beep(1440, 30);
         if (map.collides('A', g_sChar) == false) {
             g_sChar.moveLEFT();
@@ -270,6 +272,7 @@ void moveCharacter()
     }
     if (g_skKeyEvent[(int)EKEYS::K_S].keyDown)
     {
+        g_sChar.setmodel('S');
         //Beep(1440, 30);
         if (map.collides('S', g_sChar) == false) {
             g_sChar.moveDOWN();
@@ -277,6 +280,7 @@ void moveCharacter()
     }
     if (g_skKeyEvent[(int)EKEYS::K_D].keyDown)
     {
+        g_sChar.setmodel('D');
         //Beep(1440, 30);
         if (map.collides('D', g_sChar) == false) {
             g_sChar.moveRIGHT();
