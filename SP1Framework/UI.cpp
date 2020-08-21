@@ -5,9 +5,9 @@ UI::UI() :
 	dgrid{ },
 	dicons{ }
 {
-	for (int row = 0; row < 33; row++)
+	for (int row = 0; row < 29; row++)
 	{
-		for (int col = 0; col < 33; col++)
+		for (int col = 0; col < 36; col++)
 		{
 			state[row][col] = ' ';
 		}
@@ -69,7 +69,7 @@ void UI::loadstate()
 	int col = 0;
 	while (getline(f, data))
 	{
-		for (int datarow = 0; datarow < (33 * 2 - 1); datarow++) {
+		for (int datarow = 0; datarow < (36 * 2 - 1); datarow++) {
 			if (data[datarow] == ',')
 			{
 				continue;
@@ -77,11 +77,12 @@ void UI::loadstate()
 			else
 			{
 				state[row][col] = data[datarow];
-				row++;
+				col++;
 			}
+
 		}
-		row = 0;
-		col++;
+		col = 0;
+		row++;
 	}
 	f.close();
 	
@@ -91,53 +92,53 @@ void UI::loadstate()
 
 void UI::renderstate(Console& anotherC)
 {
-	for (int row = 0; row < 33; row++)
+	for (int row = 0; row < 29; row++)
 	{
-		for (int col = 0; col < 33; col++)
+		for (int col = 0; col < 36; col++)
 		{
 			if (User.getlife() >=4) 
 			{
 				if ((state[row][col] == 'G'))
 				{
-					anotherC.writeToBuffer(141 + row, col, "Û", 0x2A);
+					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x2A);
 				}
 				else if ((state[row][col] == 'I'))
 				{
-					anotherC.writeToBuffer(141 + row, col, "Û", 0x7F);
+					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x7F);
 				}
 				else
 				{
-					anotherC.writeToBuffer(141 + row, col, " ", 0x0A);
+					anotherC.writeToBuffer(140 + col, 10 + row, " ", 0x0A);
 				}
 			}
 			else if (User.getlife() >=2)
 			{
 				if ((state[row][col] == 'G'))
 				{
-					anotherC.writeToBuffer(141 + row, col, "Û", 0x6E);
+					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x6E);
 				}
 				else if ((state[row][col] == 'I'))
 				{
-					anotherC.writeToBuffer(141 + row, col, "Û", 0x7F);
+					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x7F);
 				}
 				else
 				{
-					anotherC.writeToBuffer(141 + row, col, " ", 0x0A);
+					anotherC.writeToBuffer(140 + col, 10 + row, " ", 0x0A);
 				}
 			}
 			else
 			{
 				if ((state[row][col] == 'G'))
 				{
-					anotherC.writeToBuffer(141 + row, col, "Û", 0x4C);
+					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x4C);
 				}
 				else if ((state[row][col] == 'I'))
 				{
-					anotherC.writeToBuffer(141 + row, col, "Û", 0x7F);
+					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x7F);
 				}
 				else
 				{
-					anotherC.writeToBuffer(141 + row, col, " ", 0x0A);
+					anotherC.writeToBuffer(140 + col, 10 + row, " ", 0x0A);
 				}
 			}
 		}

@@ -88,8 +88,6 @@ void shutdown( void )
 //--------------------------------------------------------------
 void getInput( void )
 {
-    // resets all the keyboard events
-    // memset(g_skKeyEvent, 0, K_COUNT * sizeof(*g_skKeyEvent));
     // then call the console to detect input from user
     g_Console.readConsoleInput();    
 }
@@ -214,7 +212,7 @@ void gameplayMouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 //
 //            If your game has multiple states, you should determine the current state, and call the relevant function here.
 //
-// Input    : dt = deltatime
+// Input    : dt = time
 // Output   : void
 //--------------------------------------------------------------
 void update(double dt)
@@ -296,6 +294,7 @@ void moveCharacter()
     // providing a beep sound whenver we shift the character
     if (g_skKeyEvent[(int)EKEYS::K_W].keyDown)
     {
+        g_sChar.setmodel('W');
         //Beep(1440, 30);
         if (map.collides('W', g_sChar) == false) {
             g_sChar.moveUP();
@@ -304,6 +303,7 @@ void moveCharacter()
     }
     if (g_skKeyEvent[(int)EKEYS::K_A].keyDown)
     {
+        g_sChar.setmodel('A');
         //Beep(1440, 30);
         if (map.collides('A', g_sChar) == false) {
             g_sChar.moveLEFT();
@@ -311,6 +311,7 @@ void moveCharacter()
     }
     if (g_skKeyEvent[(int)EKEYS::K_S].keyDown)
     {
+        g_sChar.setmodel('S');
         //Beep(1440, 30);
         if (map.collides('S', g_sChar) == false) {
             g_sChar.moveDOWN();
@@ -319,6 +320,7 @@ void moveCharacter()
     }
     if (g_skKeyEvent[(int)EKEYS::K_D].keyDown)
     {
+        g_sChar.setmodel('D');
         //Beep(1440, 30);
         if (map.collides('D', g_sChar) == false) {
             g_sChar.moveRIGHT();
@@ -408,7 +410,9 @@ void renderMap()
 {
     if (map.getMapChange() == true) {
         map.nextlevel();
-        map.inputMap("map" + map.getlevel() + ".csv", g_sChar);       //Change to TestMap.csv to well... test your items or something
+        //Change to TestMap.csv to well... test your items or something
+        map.loadMap("TestMap.csv", g_sChar);
+        //map.inputMap("map" + map.getlevel() + ".csv", g_sChar);       
     }
     map.DrawMap(g_Console, g_sChar);
     map.changeMap(g_sChar);
@@ -417,12 +421,7 @@ void renderMap()
 void renderCharacter()
 {
     // Draw the location of the character
-    WORD charColor = 0xC0;
-    if (g_sChar.is_Active())
-    {
-        charColor = 0x0A;
-    }
-    map.DrawPlayer(g_Console, g_sChar, charColor);
+    map.DrawPlayer(g_Console, g_sChar, g_sChar.getColor());
 }
 
 

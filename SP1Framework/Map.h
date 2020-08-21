@@ -30,7 +30,7 @@ public:
 	//Input and draw 
 	void changeMap(Player& player);
 	void nextlevel();
-	void inputMap(std::string anothermap, Player& player);
+	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
 	

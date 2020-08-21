@@ -39,22 +39,22 @@ bool Map::collides(char direction, Player& anotherP)
 	switch (direction)
 	{
 	case 'W':
-		if (map[anotherP.getY() - 1][anotherP.getX()] == 'W') {
+		if (map[anotherP.getY() - anotherP.getspeed()][anotherP.getX()] == 'W') {
 			return true;
 		}
 		break;
 	case 'S':
-		if (map[anotherP.getY() + 1][anotherP.getX()] == 'W') {
+		if (map[anotherP.getY() + anotherP.getspeed()][anotherP.getX()] == 'W') {
 			return true;
 		}
 		break;
 	case 'A':
-		if (map[anotherP.getY()][anotherP.getX() - 1] == 'W') {
+		if (map[anotherP.getY()][anotherP.getX() - anotherP.getspeed()] == 'W') {
 			return true;
 		}
 		break;
 	case 'D':
-		if (map[anotherP.getY()][anotherP.getX() + 1] == 'W') {
+		if (map[anotherP.getY()][anotherP.getX() + anotherP.getspeed()] == 'W') {
 			return true;
 		}
 		break;
@@ -78,7 +78,7 @@ void Map::nextlevel()
 	maplevel++;
 }
 
-void Map::inputMap(std::string anothermap, Player& player)
+void Map::loadMap(std::string anothermap, Player& player)
 {
 	string path = "Maps\\" + anothermap;
 	std::ifstream f;
@@ -88,28 +88,30 @@ void Map::inputMap(std::string anothermap, Player& player)
 	int row = 0;
 	while (getline(f, data))
 	{
-		for (int datarow = 0; datarow < (y * 2 - 1); datarow++) {
-			if ((data[datarow] == ','))
+		for (int datarow = 0; datarow < (y * 2 - 1); datarow++) 
+		{
+			if (data[datarow] == ',') //ignore comma in csv
 			{
 				continue;
+			}
+			else if (data[datarow] == player.getIcon()) //Player Icon
+			{
+				player.setX(col);
+				player.setY(row);
+				map[row][col] = ' ';
+				col++;
+			}
+			else if (data[datarow] == '@') //Stairs
+			{
+				stairs[0] = new Objects(col, row, "next", '@');
+				map[row][col] = data[datarow];
+				col++;
 			}
 			else
 			{
 				map[row][col] = data[datarow];
-
-				if (map[row][col] == 'P')
-				{
-					player.setX(col);
-					player.setY(row);
-					map[row][col] = ' ';
-				}
-				if (map[row][col] == '@')
-				{
-					stairs[0] = new Objects(col, row, "next", '@');
-				}
 				col++;
 			}
-
 		}
 		row++;
 		col = 0;
@@ -154,12 +156,6 @@ void Map::DrawMap(Console& anotherC, Player& player)
 		offset.Y = 93;
 	}
 	///////////////////////////////////////////////////////////////////////////////////////
-	std::ostringstream ss1, ss2, ss3;
-	ss1 << "offset.X = " << offset.X << " offset.Y = " << offset.Y;
-	ss3 << "X = " << player.getX()<< " Y = " << player.getY();
-
-	anotherC.writeToBuffer(0, 10, ss1.str());
-	anotherC.writeToBuffer(0, 12, ss3.str());
 
 	for (int i = 0; i < 42; i++) //y
 	{
@@ -177,6 +173,8 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					anotherC.writeToBuffer(45 + j * 2, i, (char)223, 0x8F);
 					anotherC.writeToBuffer(46 + j * 2, i, (char)223, 0x8F);
 					break;
+				case 'E':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x00);
 			}		
 		}
 	}
@@ -184,9 +182,5 @@ void Map::DrawMap(Console& anotherC, Player& player)
 
 void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 {
-	//For future use --> Facing directions user art.str()
-	std::ostringstream art;
-	art << char(220) << char(220);
-
-	anotherC.writeToBuffer(45 + 2 * (anotherP.getX() - offset.X), anotherP.getY() - offset.Y, "  ", charColor);
+	anotherC.writeToBuffer(45 + 2 * (anotherP.getX() - offset.X), anotherP.getY() - offset.Y, anotherP.getmodel() , charColor);
 }
