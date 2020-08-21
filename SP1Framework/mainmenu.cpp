@@ -27,6 +27,17 @@ mainmenu::~mainmenu()
 }
 
 
+void mainmenu::checkButtons(COORD c)
+{
+	for (int i = 0; i < 5; i++)
+	{
+		if ((c.X >= buttons[i]->getX()) && (c.X <= (buttons[i]->getX() + (buttons[i]->getName()).size())) && (c.Y == buttons[i]->getY()))
+		{
+			return ;
+		}
+	}
+}
+
 void mainmenu::loadmainmenu()
 {
 	std::ifstream f;

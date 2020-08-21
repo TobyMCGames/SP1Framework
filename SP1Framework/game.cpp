@@ -452,8 +452,7 @@ void renderInputEvents()
     case 0:
         if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 24)
         {      
-            clearScreen();
-            renderGame(); 
+            g_eGameState = EGAMESTATES::S_GAME;
         }
         else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 25)
         {

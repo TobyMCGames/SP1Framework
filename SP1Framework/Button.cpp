@@ -13,6 +13,21 @@ Button::~Button()
 
 }
 
+string Button::getName()
+{
+	return name;
+}
+
+int Button::getX(void)
+{
+	return x;
+}
+
+int Button::getY(void)
+{
+	return y;
+}
+
 void Button::renderButton(Console& console)
 {
 	console.writeToBuffer(x, y, name, color);

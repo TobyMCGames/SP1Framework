@@ -13,8 +13,9 @@ public:
 	Button(int x, int y, WORD color, string name);
 	~Button();
 
-	
-
+	string getName();
+	int getX(void);
+	int getY(void);
 	void renderButton(Console& console);
 };
 
