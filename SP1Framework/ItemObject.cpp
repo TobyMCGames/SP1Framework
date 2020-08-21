@@ -1,36 +1,44 @@
-#include "Objects.h"
+#include "ItemObject.h"
 
-Objects::Objects(int x, int y, string function, char icon)
+ItemObject::ItemObject()
 {
-	c.X = x;
-	c.Y = y;
-	this->function = function;
-	this->icon = icon;
-}
-
-Objects::~Objects()
-{
+	c.X = 0;
+	c.Y = 0;
 
 }
 
-int Objects::getX()
+ItemObject::~ItemObject()
+{
+
+}
+
+int ItemObject::getX()
 {
 	return c.X;
 }
-
-int Objects::getY()
+int ItemObject::getY()
 {
 	return c.Y;
 }
-
-char Objects::geticon()
+char ItemObject::getIcon()
 {
-	return icon;
+	return Icon;
+}
+string ItemObject::getFunction()
+{
+	return Function;
 }
 
-string Objects::getfunction()
+
+void ItemObject::setXY()
 {
-	return function;
+	
 }
-
-
+void ItemObject::setIcon()
+{
+	
+}
+void ItemObject::setFunction()
+{
+	
+}

@@ -8,7 +8,7 @@ class inventory
 {
 private:
 	string items[6]; // (item1, item2, item3...)
-	//string current_equipped;
+	string current_equipped;
 	int equipped_slot;
 	int no_of_items;
 	bool itemactive;

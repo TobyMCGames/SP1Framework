@@ -4,22 +4,24 @@
 using namespace std;
 
 
-class Objects
+class ItemObject
 {
-private:
-	COORD c;
-	string function;
-	char icon;
-
 public:
-	Objects(int x, int y, string function, char icon);
-	~Objects();
+	ItemObject();
+	~ItemObject();
 
+	virtual void setXY();
+	virtual void setFunction();
+	virtual void setIcon();
 
 	//Get functions
 	int getX();
 	int getY();
-	char geticon();
-	string getfunction();
+	char getIcon();
+	string getFunction();
+protected:
+	COORD c;
+	string Function;
+	char Icon;
 };
 
