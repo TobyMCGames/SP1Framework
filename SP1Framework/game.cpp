@@ -22,7 +22,6 @@ Player  g_sChar;
 Map map;
 SplashScreen splashscreen;
 mainmenu _mainmenu;
-mainmenu button1;
 UI ui;
 EGAMESTATES g_eGameState = EGAMESTATES::S_SPLASHSCREEN; // initial state
 
@@ -445,18 +444,27 @@ void renderInputEvents()
     switch (g_mouseEvent.eventFlags)
     {
     case 0:
-        if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 24)
+        if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED)
         {      
-            clearScreen();
-            renderGame(); 
+            switch (_mainmenu.checkButtons(g_mouseEvent.mousePosition))
+            {
+            case 0:
+                g_eGameState = EGAMESTATES::S_GAME;
+                break;
+
+            case 4:
+                g_bQuitGame = true;
+                break;
+            }
+            
         }
-        else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 25)
-        {
-            ss.str("How to play");
-            COORD c = {70, 25};
-            gotoXY(c);
-            g_Console.writeToBuffer(c, "Survive till the end, Avoid the Disasters using WASD");
-        }
+        //else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 25)
+        //{
+        //   /* ss.str("How to play");
+        //    COORD c = {70, 25};
+        //    gotoXY(c);
+        //    g_Console.writeToBuffer(c, "Survive till the end, Avoid the Disasters using WASD");*/
+        //}
         else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 26)
         {
             ss.str("Options");

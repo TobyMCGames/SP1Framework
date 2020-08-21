@@ -17,6 +17,7 @@ public:
 	mainmenu();
 	~mainmenu();
 
+	int checkButtons(COORD c);
 	void loadmainmenu();
 	void rendermenu(Console& anotherC);
 	
