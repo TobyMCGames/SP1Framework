@@ -89,8 +89,6 @@ void shutdown( void )
 //--------------------------------------------------------------
 void getInput( void )
 {
-    // resets all the keyboard events
-    // memset(g_skKeyEvent, 0, K_COUNT * sizeof(*g_skKeyEvent));
     // then call the console to detect input from user
     g_Console.readConsoleInput();    
 }
@@ -215,7 +213,7 @@ void gameplayMouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 //
 //            If your game has multiple states, you should determine the current state, and call the relevant function here.
 //
-// Input    : dt = deltatime
+// Input    : dt = time
 // Output   : void
 //--------------------------------------------------------------
 void update(double dt)
@@ -230,7 +228,7 @@ void update(double dt)
         splashScreenWait(); // game logic for the splash screen                 #217
         break;
     case EGAMESTATES::S_MAINMENU: 
-        processUserInput();
+        processUserInput(); //to be replaced for menu functions
         break;
     case EGAMESTATES::S_GAME: 
         updateGame(); // gameplay logic when we are in the game                 #223
@@ -243,7 +241,7 @@ void splashScreenWait()    // waits for time to pass in splash screen
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
 
         //Change this to test whatever u doing
-        g_eGameState = EGAMESTATES::S_MAINMENU; 
+        g_eGameState = EGAMESTATES::S_GAME; 
 }
 
 void updateGame()       // gameplay logic
@@ -369,7 +367,9 @@ void renderMap()
 {
     if (map.getMapChange() == true) {
         map.nextlevel();
-        map.inputMap("map" + map.getlevel() + ".csv", g_sChar);       //Change to TestMap.csv to well... test your items or something
+        //Change to TestMap.csv to well... test your items or something
+        map.loadMap("TestMap.csv", g_sChar);
+        //map.inputMap("map" + map.getlevel() + ".csv", g_sChar);       
     }
     map.DrawMap(g_Console, g_sChar);
     map.changeMap(g_sChar);
@@ -378,12 +378,7 @@ void renderMap()
 void renderCharacter()
 {
     // Draw the location of the character
-    WORD charColor = 0xC0;
-    if (g_sChar.is_Active())
-    {
-        charColor = 0x0A;
-    }
-    map.DrawPlayer(g_Console, g_sChar, charColor);
+    map.DrawPlayer(g_Console, g_sChar, g_sChar.getColor());
 }
 
 

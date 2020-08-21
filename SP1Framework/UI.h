@@ -8,7 +8,7 @@
 class UI
 {
 private:
-	char state[33][33];
+	char state[29][36];
 	char dgrid[13][23];
 	char dicons[5][10];
 	Player User;

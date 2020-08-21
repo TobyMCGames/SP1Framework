@@ -1,33 +1,29 @@
- , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , 
- , , , , , , , , , , ,G,G,G,G,G,G,G,G,G,G,G, , , , , , , , , , , 
- , , , , , , , , , , ,G,I,I,I,I,I,I,I,I,I,G, , , , , , , , , , , 
- , , , , , , , , , , ,G,I,I,I,I,I,I,I,I,I,G, , , , , , , , , , , 
- , , , , , , , , , , ,G,I,I,I,I,I,I,I,I,I,G, , , , , , , , , , , 
- , , , , , , , , , , ,G,I,I,I,I,I,I,I,I,I,G, , , , , , , , , , , 
- , , , , , , , , , , ,G,I,I,I,I,I,I,I,I,I,G, , , , , , , , , , , 
-G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G
-G,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,G
-G,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,G
-G,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,G
-G,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,G
-G,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,G
-G,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,G
-G,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,G
-G,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,G
-G,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G,I,I,I,I,I,I,I,I,G
-G,G,G,G,G,G,G,G,G,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G,G,G,G,G,G,G,G,G,G
- , , , , , , , , ,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,I,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,G,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,G,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,G,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,G,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,G,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,G,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,G,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,G,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,I,I,I,I,I,I,G,I,I,I,I,I,I,G, , , , , , , , , 
- , , , , , , , , ,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G, , , , , , , , , 
- , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , 
+ , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , 
+ , , , , , , , , , , ,G,G,G,G,G,G,G,G,G,G,G,G,G,G, , , , , , , , , , , 
+ , , , , , , , , , , ,G,G,I,I,I,I,I,I,I,I,I,I,G,G, , , , , , , , , , , 
+ , , , , , , , , , , ,G,G,I,I,I,I,I,I,I,I,I,I,G,G, , , , , , , , , , , 
+ , , , , , , , , , , ,G,G,I,I,I,I,I,I,I,I,I,I,G,G, , , , , , , , , , , 
+ , , , , , , , , , , ,G,G,I,I,I,I,I,I,I,I,I,I,G,G, , , , , , , , , , , 
+ , , , , , , , , , , ,G,G,I,I,I,I,I,I,I,I,I,I,G,G, , , , , , , , , , , 
+G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G
+G,G,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,G,G
+G,G,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,G,G
+G,G,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,G,G
+G,G,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,G,G
+G,G,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,G,G
+G,G,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,G,G
+G,G,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,I,I,I,I,G,G,I,I,I,I,I,I,I,I,G,G
+G,G,G,G,G,G,G,G,G,G,G,G,I,I,I,I,I,I,I,I,I,I,I,I,G,G,G,G,G,G,G,G,G,G,G,G
+ , , , , , , , , , ,G,G,I,I,I,I,I,I,I,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,I,I,I,I,I,I,I,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,I,I,I,I,I,G,G,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,I,I,I,I,I,G,G,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,I,I,I,I,I,G,G,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,I,I,I,I,I,G,G,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,I,I,I,I,I,G,G,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,I,I,I,I,I,G,G,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,I,I,I,I,I,G,G,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,I,I,I,I,I,G,G,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,I,I,I,I,I,G,G,I,I,I,I,I,G,G, , , , , , , , , , 
+ , , , , , , , , , ,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G, , , , , , , , , , 
