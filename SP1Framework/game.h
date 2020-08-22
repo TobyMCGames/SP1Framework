@@ -70,6 +70,7 @@ void renderMainMenu();      // renders the Main Menu
 void renderGame();          // renders the game stuff
 void renderUI();            // renders UI
 void renderMap();           // renders the map to the buffer first
+void renderItem();
 void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game

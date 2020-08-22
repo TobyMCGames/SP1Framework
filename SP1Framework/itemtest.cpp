@@ -1,30 +1,59 @@
 #include "itemtest.h"
 
-itemtest::itemtest()
-{
-	item_exist = false;
-	player_near = false;
-}
 
+itemtest::itemtest() :
+	itemColor(0x6E),
+	model("  "),
+	icon('I'),
+	function("test"),
+	item_exist(false),
+	player_near(false)
+{
+	item_test[0] = nullptr;
+}
 itemtest::~itemtest()
 {
 
 }
 
 
-//set functions
-void itemtest::setXY(int x, int y)
+//get and set functions
+WORD itemtest::getColor()
 {
-	c.X = 100;
-	c.Y = 25;
+	return itemColor;
 }
-void itemtest::setFunction(string function)
+std::string itemtest::getModel()
 {
-	Function = function;
+	return model;
 }
-void itemtest::setIcon(char icon)
+void itemtest::setModel()
 {
-	Icon = icon;
+	ostringstream ss;
+	ss << char(223) << char(223);
+	model = ss.str();
+}
+
+
+//set variables for object
+int itemtest::getX()
+{
+	return 10;
+}
+int itemtest::getY()
+{
+	return 15;
+}
+char itemtest::getIcon()
+{
+	return icon;
+}
+string itemtest::getFunction()
+{
+	return function;
+}
+void itemtest::setObject()
+{
+	item_test[0] = new Objects(getX(), getY(), getFunction(), getIcon());
 }
 
 

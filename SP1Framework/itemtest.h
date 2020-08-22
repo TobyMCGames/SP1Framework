@@ -1,19 +1,35 @@
 #pragma once
-#include "ItemObject.h"
+#include <string>
+#include <sstream>
+#include "Objects.h"
 
-class itemtest : public ItemObject
+
+class itemtest
 {
 private:
+	Objects* item_test[1];
+	WORD itemColor;
+	string model;
+	char icon;
+	string function;
 	bool item_exist;
 	bool player_near;
+
 public:
 	itemtest();
 	~itemtest();
 
-	//set funtions
-	void setXY(int x, int y);
-	void setFunction(string function);
-	void setIcon(char icon);
+	//get and set functions
+	WORD getColor();
+	string getModel();
+	void setModel();
+
+	//object stuffs
+	int getX();
+	int getY();
+	char getIcon();
+	string getFunction();
+	void setObject();
 
 	//state change
 	bool is_item_exist();
@@ -21,4 +37,3 @@ public:
 	bool is_player_near();
 	void change_near();
 };
-

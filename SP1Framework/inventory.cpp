@@ -12,6 +12,13 @@ inventory::inventory()
 	equipped_slot = 0;
 	no_of_items = 1;
 	itemactive = false;
+
+	buttons[0] = new Button(10, 12, 0x0F, "   " + items[0] + "   " + "\n    Swap    ");
+	buttons[1] = new Button(20, 12, 0x0F, "   " + items[1] + "   " + "\n    Swap    ");
+	buttons[2] = new Button(10, 16, 0x0F, "   " + items[2] + "   " + "\n    Swap    ");
+	buttons[3] = new Button(20, 16, 0x0F, "   " + items[3] + "   " + "\n    Swap    ");
+	buttons[4] = new Button(10, 20, 0x0F, "   " + items[4] + "   " + "\n    Swap    ");
+	buttons[5] = new Button(20, 20, 0x0F, "   " + items[5] + "   " + "\n    Swap    ");
 }
 
 inventory::~inventory()
@@ -74,5 +81,13 @@ void inventory::list_rearrange()
 				items[i] = items[i + 1];
 			}
 		}
+	}
+}
+
+void inventory::which_button_pressed(Console& anotherC)
+{
+	for (int x = 0; x < 6; x++) {
+		bool onbutton = false;
+		buttons[x]->renderButton(anotherC, onbutton);
 	}
 }

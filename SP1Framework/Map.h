@@ -6,6 +6,7 @@
 #include "Framework\console.h"
 #include "Player.h"
 #include "Objects.h"
+#include "itemtest.h"
 
 #include <sstream>
 class Map
@@ -33,6 +34,7 @@ public:
 	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
+	void DrawItem(Console& anotherC, itemtest& anotherI, WORD itemColor);
 	
 };
 

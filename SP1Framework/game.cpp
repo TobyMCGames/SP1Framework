@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "SplashScreen.h"
 #include "mainmenu.h"
+#include "inventory.h"
 #include "UI.h"
 #include <iostream>
 #include <iomanip>
@@ -19,9 +20,11 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 Player  g_sChar;
+itemtest g_sItem;
 Map map;
 SplashScreen splashscreen;
 mainmenu _mainmenu;
+inventory _inventory;
 UI ui;
 EGAMESTATES g_eGameState = EGAMESTATES::S_SPLASHSCREEN; // initial state
 
@@ -421,6 +424,11 @@ void renderCharacter()
 {
     // Draw the location of the character
     map.DrawPlayer(g_Console, g_sChar, g_sChar.getColor());
+}
+
+void renderItem()
+{
+    map.DrawItem(g_Console, g_sItem, g_sItem.getColor());
 }
 
 

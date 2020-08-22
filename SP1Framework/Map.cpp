@@ -184,3 +184,8 @@ void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 {
 	anotherC.writeToBuffer(45 + 2 * (anotherP.getX() - offset.X), anotherP.getY() - offset.Y, anotherP.getmodel() , charColor);
 }
+
+void Map::DrawItem(Console& anotherC, itemtest& anotherI, WORD itemColor)
+{
+	anotherC.writeToBuffer(45 + 2 * (anotherI.getX() - offset.X), anotherI.getY() - offset.Y, anotherI.getModel(), itemColor);
+}
