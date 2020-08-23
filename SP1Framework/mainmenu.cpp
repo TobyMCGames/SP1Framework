@@ -15,7 +15,7 @@ mainmenu::mainmenu() :
 			logo[row][col] = ' ';
 		}
 	}
-	buttons[0] = new Button(25, 24, 0x0F, "    Start \n Game    ");
+	buttons[0] = new Button(25, 24, 0x0F, "    Start  Game    ");
 	buttons[1] = new Button(25, 26, 0x0F, "   How  to  play   ");
 	buttons[2] = new Button(25, 28, 0x0F, "      Options      ");
 	buttons[3] = new Button(25, 30, 0x0F, "      Credits      ");
