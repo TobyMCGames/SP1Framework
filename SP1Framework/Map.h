@@ -16,7 +16,6 @@ private:
 	char map[135][135];
 	int maplevel;
 	bool mapchange;
-	Objects* stairs[1];
 
 public:
 	Map();
@@ -29,7 +28,6 @@ public:
 
 
 	//Input and draw 
-	void changeMap(Player& player);
 	void nextlevel();
 	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);

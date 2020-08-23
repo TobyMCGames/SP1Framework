@@ -413,11 +413,10 @@ void renderMap()
     if (map.getMapChange() == true) {
         map.nextlevel();
         //Change to TestMap.csv to well... test your items or something
-        map.loadMap("TestMap.csv", g_sChar);
-        //map.inputMap("map" + map.getlevel() + ".csv", g_sChar);       
+        //map.loadMap("TestMap.csv", g_sChar);
+        map.loadMap("map" + map.getlevel() + ".csv", g_sChar);       
     }
     map.DrawMap(g_Console, g_sChar);
-    map.changeMap(g_sChar);
 }
 
 void renderCharacter()

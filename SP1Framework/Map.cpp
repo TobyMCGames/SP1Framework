@@ -15,7 +15,6 @@ Map::Map() :
 	}
 	maplevel = 0;
 	mapchange = true;
-	stairs[0] = nullptr;
 }
 
 Map::~Map()
@@ -39,39 +38,51 @@ bool Map::collides(char direction, Player& anotherP)
 	switch (direction)
 	{
 	case 'W':
-		if (map[anotherP.getY() - anotherP.getspeed()][anotherP.getX()] == 'W') {
+		switch (map[anotherP.getY() - anotherP.getspeed()][anotherP.getX()]) {
+		case 'W':
 			return true;
+		case '@':
+			mapchange = true;
 		}
 		break;
 	case 'S':
-		if (map[anotherP.getY() + anotherP.getspeed()][anotherP.getX()] == 'W') {
+		switch (map[anotherP.getY() + anotherP.getspeed()][anotherP.getX()]) {
+		case 'W':
 			return true;
+		case '@':
+			mapchange = true;
 		}
 		break;
 	case 'A':
-		if (map[anotherP.getY()][anotherP.getX() - anotherP.getspeed()] == 'W') {
+		switch (map[anotherP.getY()][anotherP.getX() - anotherP.getspeed()]) {
+		case 'W':
 			return true;
+		case '@':
+			mapchange = true;
 		}
 		break;
 	case 'D':
-		if (map[anotherP.getY()][anotherP.getX() + anotherP.getspeed()] == 'W') {
+		switch (map[anotherP.getY()][anotherP.getX() + anotherP.getspeed()]) {
+		case 'W':
 			return true;
+		case '@':
+			mapchange = true;
 		}
 		break;
 	}
 	return false;
 }
 
-void Map::changeMap(Player& player)
-{
-	if ((player.getX() >= stairs[0]->getX()) &&
-		(player.getX() <= stairs[0]->getX() + 3) &&
-		(player.getY() >= stairs[0]->getY()) &&
-		(player.getY() <= stairs[0]->getY() + 3))
-	{
-		mapchange = true;
-	}
-}
+//void Map::changeMap(Player& player)
+//{
+//	if ((player.getX() >= stairs->getX()) &&
+//		(player.getX() <= stairs->getX() + 3) &&
+//		(player.getY() >= stairs->getY()) &&
+//		(player.getY() <= stairs->getY() + 3))
+//	{
+//		mapchange = true;
+//	}
+//}
 
 void Map::nextlevel()
 {
@@ -101,12 +112,6 @@ void Map::loadMap(std::string anothermap, Player& player)
 				map[row][col] = ' ';
 				col++;
 			}
-			else if (data[datarow] == '@') //Stairs
-			{
-				stairs[0] = new Objects(col, row, "next", '@');
-				map[row][col] = data[datarow];
-				col++;
-			}
 			else
 			{
 				map[row][col] = data[datarow];
@@ -115,11 +120,6 @@ void Map::loadMap(std::string anothermap, Player& player)
 		}
 		row++;
 		col = 0;
-	}
-	for (int i = 0;i < 4;i++) {
-		for (int j = 0;j < 4;j++) {
-			map[stairs[0]->getY() + i][stairs[0]->getX() + j] = '@';
-		}
 	}
 	f.close();
 	mapchange = false;
