@@ -30,6 +30,7 @@ enum class EKEYS
     K_S,
     K_A,
     K_D,
+    K_TAB,
     K_ESCAPE,
     K_SPACE,
     K_RETURN,
@@ -64,6 +65,7 @@ void updateMenu();          // displays what user selects on mainmenu
 void updateGameOver();      // update gameover when player dies
 void updateGame();          // gameplay logic
 void moveCharacter();       // moves the character, collision detection, physics, etc
+void inventoryManagement(); // checks when the player does something that would affect the inventory and items
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
 void clearScreen();         // clears the current screen and draw from scratch 
 void loadMainMenu();
@@ -74,7 +76,6 @@ void renderGameOver();
 void renderGame();          // renders the game stuff
 void renderUI();            // renders UI
 void renderMap();           // renders the map to the buffer first
-void renderItem();
 void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game

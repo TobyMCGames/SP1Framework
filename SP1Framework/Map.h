@@ -25,14 +25,15 @@ public:
 	bool getMapChange();
 	string getlevel();
 	bool collides(char direction, Player& anotherP);
+	bool item_pickup(char facing, Player& anotherP, item_general& anotherI);
 
 
 	//Input and draw 
 	void nextlevel();
-	void loadMap(std::string anothermap, Player& player);
+	void item_remove(item_general& item);
+	void loadMap(std::string anothermap, Player& player, item_general& item);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
-	void DrawItem(Console& anotherC, itemtest& anotherI, WORD itemColor);
 	
 };
 

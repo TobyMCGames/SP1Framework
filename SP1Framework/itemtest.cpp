@@ -1,76 +1,105 @@
 #include "itemtest.h"
 
+Items rock;
 
-itemtest::itemtest() :
-	itemColor(0x6E),
-	model("  "),
-	icon('I'),
-	function("test"),
-	item_exist(false),
-	player_near(false)
+item_general::item_general()
 {
-	item_test[0] = nullptr;
+	current_item = "rock";
+	Icon = 'I';
+	rock.icon = Icon;
+
+	rock.c.X = 2;
+	rock.c.Y = 2;
+	rock.function = "rock";
+	rock.item_exist = true;
 }
-itemtest::~itemtest()
+item_general::~item_general()
 {
 
-}
-
-
-//get and set functions
-WORD itemtest::getColor()
-{
-	return itemColor;
-}
-std::string itemtest::getModel()
-{
-	return model;
-}
-void itemtest::setModel()
-{
-	ostringstream ss;
-	ss << char(223) << char(223);
-	model = ss.str();
 }
 
+//set functions
+void item_general::setX(int x)
+{
+	if (current_item == "rock") {
+		rock.c.X = x;
+	}
+}
+void item_general::setY(int y)
+{
+	if (current_item == "rock") {
+		rock.c.Y = y;
+	}
+}
+/*
+void item_general::setIcon()
+{
+	if (current_item == "rock") {
+		rock.icon = Icon;
+	}
+}
+*/
 
-//set variables for object
-int itemtest::getX()
+
+//get functions
+int item_general::getX()
 {
-	return 10;
+	if (current_item == "rock") {
+		return rock.c.X;
+	}
 }
-int itemtest::getY()
+int item_general::getY()
 {
-	return 15;
+	if (current_item == "rock") {
+		return rock.c.Y;
+	}
 }
-char itemtest::getIcon()
+char item_general::getIcon()
 {
-	return icon;
+	if (current_item == "rock") {
+		return rock.icon;
+	}
 }
-string itemtest::getFunction()
+string item_general::getFunction()
 {
-	return function;
+	if (current_item == "rock") {
+		return rock.function;
+	}
 }
-void itemtest::setObject()
+bool item_general::is_item_exist()
 {
-	item_test[0] = new Objects(getX(), getY(), getFunction(), getIcon());
+	if (current_item == "rock") {
+		return rock.item_exist;
+	}
+}
+/*
+bool item_general::is_player_near()
+{
+	if (current_item == "rock") {
+		return rock.player_near;
+	}
+}
+*/
+
+
+//change state
+void item_general::change_exist()
+{
+	if (current_item == "rock") {
+		rock.item_exist = !rock.item_exist;
+	}
+}
+/*
+void item_general::change_near()
+{
+	if (current_item == "rock") {
+		rock.player_near = !rock.player_near;
+	}
+}
+*/
+void item_general::change_current_item()
+{
+
 }
 
 
-//item exist state change
-bool itemtest::is_item_exist()
-{
-	return item_exist;
-}
-void itemtest::change_exist()
-{
-	item_exist = !item_exist;
-}
-bool itemtest::is_player_near()
-{
-	return player_near;
-}
-void itemtest::change_near()
-{
-	player_near = !player_near;
-}

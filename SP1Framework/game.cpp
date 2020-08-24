@@ -21,7 +21,7 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 Player  g_sChar;
-itemtest g_sItem;
+item_general g_sItem;
 Map map;
 SplashScreen splashscreen;
 mainmenu _mainmenu;
@@ -179,6 +179,7 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case 0x53: key = EKEYS::K_S; break;
     case 0x41: key = EKEYS::K_A; break;
     case 0x44: key = EKEYS::K_D; break;
+    case VK_TAB: key = EKEYS::K_TAB; break;
     case VK_SPACE: key = EKEYS::K_SPACE; break;
     case VK_RETURN: key = EKEYS::K_RETURN; break;
     }
@@ -304,6 +305,7 @@ void updateGame()       // gameplay logic
     processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit   #261
     moveCharacter();    // moves the character, collision detection, physics, etc                                    #230
                         // sound can be played here too.
+    inventoryManagement();
 }
 
 void moveCharacter()
@@ -344,10 +346,22 @@ void moveCharacter()
             g_sChar.moveRIGHT();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased)
+    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown)
     {
-        g_sChar.changeActive();        
+        g_sChar.changeActive();
+        if (map.item_pickup(g_sChar.getFacing(), g_sChar, g_sItem) == true) {
+            map.item_remove(g_sItem);
+        }
     }
+}
+
+void inventoryManagement()
+{
+    if (g_skKeyEvent[(int)EKEYS::K_TAB].keyReleased)
+    {
+        _inventory.change_equipped_slot();
+    }
+    _inventory.renderEquipChange(g_Console);
 }
 
 void processUserInput()
@@ -432,7 +446,7 @@ void renderUI()
 {
     ui.renderlife(g_Console);
     ui.rendermapborder(g_Console);
-
+    _inventory.renderInventory(g_Console);
     ui.renderstate(g_Console);
 }
 
@@ -441,8 +455,8 @@ void renderMap()
     if (map.getMapChange() == true) {
         map.nextlevel();
         //Change to TestMap.csv to well... test your items or something
-        //map.loadMap("TestMap.csv", g_sChar);
-        map.loadMap("map" + map.getlevel() + ".csv", g_sChar);       
+        map.loadMap("TestMap.csv", g_sChar, g_sItem);
+        //map.loadMap("map" + map.getlevel() + ".csv", g_sChar);       
     }
     map.DrawMap(g_Console, g_sChar);
 }
@@ -452,12 +466,6 @@ void renderCharacter()
     // Draw the location of the character
     map.DrawPlayer(g_Console, g_sChar, g_sChar.getColor());
 }
-
-void renderItem()
-{
-    map.DrawItem(g_Console, g_sItem, g_sItem.getColor());
-}
-
 
 void renderFramerate()
 {
@@ -497,6 +505,8 @@ void renderInputEvents()
         case(int)EKEYS::K_A: key = "LEFT";
             break;
         case (int)EKEYS::K_D: key = "RIGHT";
+            break;
+        case (int)EKEYS::K_TAB: key = "TAB";
             break;
         case (int)EKEYS::K_SPACE: key = "SPACE";
             break;
