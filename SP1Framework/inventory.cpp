@@ -12,12 +12,12 @@ inventory::inventory()
 	current_equipped = "none";
 
 	//buttons
-	buttons[0] = new Button(10, 12, 0x0F, "   Swap   ");
-	buttons[1] = new Button(20, 12, 0x0F, "   Swap   ");
-	buttons[2] = new Button(10, 16, 0x0F, "   Swap   ");
-	buttons[3] = new Button(20, 16, 0x0F, "   Swap   ");
-	buttons[4] = new Button(10, 20, 0x0F, "   Swap   ");
-	buttons[5] = new Button(20, 20, 0x0F, "   Swap   ");
+	buttons[0] = new Button(13, 12, 0x0F, "   Swap   ");
+	buttons[1] = new Button(23, 12, 0x0F, "   Swap   ");
+	buttons[2] = new Button(13, 16, 0x0F, "   Swap   ");
+	buttons[3] = new Button(23, 16, 0x0F, "   Swap   ");
+	buttons[4] = new Button(13, 20, 0x0F, "   Swap   ");
+	buttons[5] = new Button(23, 20, 0x0F, "   Swap   ");
 	equipped_slot = 0;
 }
 inventory::~inventory()
@@ -63,14 +63,14 @@ void inventory::change_current_equipped()
 }
 void inventory::renderInventory(Console& anotherC)
 {
-	anotherC.writeToBuffer(10, 11, items[0], 0x0F);
-	anotherC.writeToBuffer(20, 11, items[1], 0x0F);
-	anotherC.writeToBuffer(10, 15, items[2], 0x0F);
-	anotherC.writeToBuffer(20, 15, items[3], 0x0F);
-	anotherC.writeToBuffer(10, 19, items[4], 0x0F);
-	anotherC.writeToBuffer(20, 19, items[5], 0x0F);
+	anotherC.writeToBuffer(13, 11, items[0], 0x0F);
+	anotherC.writeToBuffer(23, 11, items[1], 0x0F);
+	anotherC.writeToBuffer(13, 15, items[2], 0x0F);
+	anotherC.writeToBuffer(23, 15, items[3], 0x0F);
+	anotherC.writeToBuffer(13, 19, items[4], 0x0F);
+	anotherC.writeToBuffer(23, 19, items[5], 0x0F);
 
-	anotherC.writeToBuffer(15, 25, current_equipped, 0x0F);
+	anotherC.writeToBuffer(18, 25, current_equipped, 0x0F);
 }
 void inventory::renderEquipChange(Console& anotherC)
 {
