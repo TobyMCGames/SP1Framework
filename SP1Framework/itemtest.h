@@ -3,6 +3,7 @@
 #include <sstream>
 #include "Objects.h"
 #include "player.h"
+#include "inventory.h"
 
 
 class item_general
