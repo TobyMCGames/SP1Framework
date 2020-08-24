@@ -89,7 +89,7 @@ void Map::nextlevel()
 	maplevel++;
 }
 
-void Map::loadMap(std::string anothermap, Player& player)
+void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 {
 	string path = "Maps\\" + anothermap;
 	std::ifstream f;
@@ -111,6 +111,20 @@ void Map::loadMap(std::string anothermap, Player& player)
 				player.setY(row);
 				map[row][col] = ' ';
 				col++;
+			}
+			else if (data[datarow] == item.getIcon()) //Item Icon
+			{
+				if (item.is_item_exist() == true) {
+					item.setX(col);
+					item.setY(row);
+					map[row][col] = 'I';
+					col++;
+				}
+				else
+				{
+					map[row][col] = ' ';
+					col++;
+				}
 			}
 			else
 			{
@@ -169,6 +183,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case ' ':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x9F);
 					break;
+				case 'I':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
+					break;
 				case '@':
 					anotherC.writeToBuffer(45 + j * 2, i, (char)223, 0x8F);
 					anotherC.writeToBuffer(46 + j * 2, i, (char)223, 0x8F);
@@ -185,7 +202,39 @@ void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 	anotherC.writeToBuffer(45 + 2 * (anotherP.getX() - offset.X), anotherP.getY() - offset.Y, anotherP.getmodel() , charColor);
 }
 
-void Map::DrawItem(Console& anotherC, itemtest& anotherI, WORD itemColor)
+bool Map::item_pickup(char facing, Player& player, item_general& item)
 {
-	anotherC.writeToBuffer(45 + 2 * (anotherI.getX() - offset.X), anotherI.getY() - offset.Y, anotherI.getModel(), itemColor);
+	if (player.is_Active() == true) {
+		switch (facing)
+		{
+		case 'W':
+			if ((player.getX() == item.getX()) && (player.getY() == (item.getY() - 1))) {
+				item.change_exist();
+				return item.is_item_exist();
+				break;
+			}
+		case 'A':
+			if ((player.getX() == (item.getX() - 1)) && (player.getY() == item.getY())) {
+				item.change_exist();
+				return item.is_item_exist();
+				break;
+			}
+		case 'S':
+			if ((player.getX() == item.getX()) && (player.getY() == (item.getY() + 1))) {
+				item.change_exist();
+				return item.is_item_exist();
+				break;
+			}
+		case 'D':
+			if ((player.getX() == (item.getX() + 1)) && (player.getY() == item.getY())) {
+				item.change_exist();
+				return item.is_item_exist();
+			}
+		}
+	}
+}
+
+void Map::item_remove(item_general& item)
+{
+	map[item.getX()][item.getY()] = ' ';
 }

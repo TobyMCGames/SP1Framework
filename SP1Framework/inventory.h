@@ -7,43 +7,35 @@
 #include <iomanip>
 #include <sstream>
 #include <fstream>
-
-
 using namespace std;
+
 
 class inventory
 {
 private:
 	//inventory
-	string items[6]; // (item1, item2, item3...)
+	string items[6];
 	string current_equipped;
-	int equipped_slot;
-	int no_of_items;
-	bool itemactive;
 
 	//buttons
 	Button* buttons[6] = { nullptr, nullptr, nullptr, nullptr,  nullptr, nullptr };
-	int button_pressed;
+	int equipped_slot;
 
 public:
 	inventory();
 	~inventory();
 
 	//get functions
+	string get_current_equipped();
 	int get_equipped_slot();
-	int get_no_of_items();
+	int checkButtons(COORD c);
 
-	//item usage
-	void item_active_change();
-	bool item_active();
-
-	//inventory change
-	void equipchange();
-	void item_pickup();
-	void item_drop();
-	void list_rearrange();
-
-	//buttons
-	void which_button_pressed(Console& anotherC);
+	//set functions
+	void change_equipped_slot();
+	void change_current_equipped();
+	void renderInventory(Console& anotherC);
+	void renderEquipChange(Console& anotherC);
 };
+
+
 
