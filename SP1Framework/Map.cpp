@@ -13,7 +13,7 @@ Map::Map() :
 			map[row][col] = ' ';
 		}
 	}
-	maplevel = 0;
+	maplevel = 3;
 	mapchange = true;
 }
 

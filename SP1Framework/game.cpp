@@ -8,6 +8,7 @@
 #include "mainmenu.h"
 #include "inventory.h"
 #include "UI.h"
+#include "gameover.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -25,6 +26,7 @@ Map map;
 SplashScreen splashscreen;
 mainmenu _mainmenu;
 inventory _inventory;
+gameover _gameover;
 UI ui;
 EGAMESTATES g_eGameState = EGAMESTATES::S_SPLASHSCREEN; // initial state
 
@@ -50,6 +52,7 @@ void init( void )
     //Temporary Load
 
     loadMainMenu();
+    loadGameOver();
     splashscreen.loadSplashScreen();
     ui.loadstate();
 
@@ -117,6 +120,9 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case EGAMESTATES::S_MAINMENU: 
         gameplayKBHandler(keyboardEvent);
         break;
+    case EGAMESTATES::S_GAMEOVER:
+        gameplayKBHandler(keyboardEvent);
+        break;
     case EGAMESTATES::S_GAME: 
         gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
@@ -146,6 +152,8 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
     case EGAMESTATES::S_SPLASHSCREEN:  // don't handle anything for the splash screen
         break;
     case EGAMESTATES::S_MAINMENU: gameplayMouseHandler(mouseEvent); 
+        break;
+    case EGAMESTATES::S_GAMEOVER: gameplayMouseHandler(mouseEvent);
         break;
     case EGAMESTATES::S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
@@ -234,6 +242,9 @@ void update(double dt)
         updateMenu();
         processUserInput();
         break;
+    case EGAMESTATES::S_GAMEOVER:
+        updateGameOver();
+        break;
     case EGAMESTATES::S_GAME: 
         updateGame(); // gameplay logic when we are in the game                 #223
         break;
@@ -245,7 +256,7 @@ void splashScreenWait()    // waits for time to pass in splash screen
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
 
         //Change this to test whatever u doing
-        g_eGameState = EGAMESTATES::S_MAINMENU; 
+        g_eGameState = EGAMESTATES::S_GAMEOVER; 
 }
 
 bool pressW = false, pressS = false;
@@ -282,6 +293,11 @@ void updateMenu()
         case 4: g_bQuitGame = true; break;
         }
     }
+}
+
+void updateGameOver()
+{
+
 }
 
 void updateGame()       // gameplay logic
@@ -372,6 +388,8 @@ void render()
         break;
     case EGAMESTATES::S_MAINMENU: renderMainMenu();
         break;
+    case EGAMESTATES::S_GAMEOVER: renderGameOver();
+        break;
     case EGAMESTATES::S_GAME: renderGame();
         break;
     }
@@ -391,6 +409,11 @@ void loadMainMenu()
     _mainmenu.loadmainmenu();
 }
 
+void loadGameOver()
+{
+    _gameover.loadgameover();
+}
+
 void renderToScreen()
 {
     // Writes the buffer to the console, hence you will see what you have written
@@ -405,6 +428,11 @@ void renderSplashScreen()  // renders the splash screen    #Loading screen
 void renderMainMenu()
 {
     _mainmenu.rendermenu(g_Console);
+}
+
+void renderGameOver()
+{
+    _gameover.renderGO(g_Console);
 }
 
 void renderGame()
