@@ -8,23 +8,25 @@
 #include "mainmenu.h"
 #include "inventory.h"
 #include "UI.h"
+#include "gameover.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
 #include <fstream>
 
-double  g_dElapsedTime;
-double  g_dDeltaTime;
+double  g_dElapsedTime; //time since start of program
+double  g_dDeltaTime; //val of update(dt)
 SKeyEvent g_skKeyEvent[(int)EKEYS::K_COUNT];
 SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 Player  g_sChar;
-itemtest g_sItem;
+item_general g_sItem;
 Map map;
 SplashScreen splashscreen;
 mainmenu _mainmenu;
 inventory _inventory;
+gameover _gameover;
 UI ui;
 EGAMESTATES g_eGameState = EGAMESTATES::S_SPLASHSCREEN; // initial state
 
@@ -48,8 +50,8 @@ void init( void )
     g_eGameState = EGAMESTATES::S_SPLASHSCREEN;
     
     //Temporary Load
-
     loadMainMenu();
+    loadGameOver();
     splashscreen.loadSplashScreen();
     ui.loadstate();
 
@@ -117,6 +119,9 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case EGAMESTATES::S_MAINMENU: 
         gameplayKBHandler(keyboardEvent);
         break;
+    case EGAMESTATES::S_GAMEOVER:
+        gameplayKBHandler(keyboardEvent);
+        break;
     case EGAMESTATES::S_GAME: 
         gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
@@ -147,6 +152,8 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
         break;
     case EGAMESTATES::S_MAINMENU: gameplayMouseHandler(mouseEvent); 
         break;
+    case EGAMESTATES::S_GAMEOVER: gameplayMouseHandler(mouseEvent);
+        break;
     case EGAMESTATES::S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     }
@@ -171,6 +178,7 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case 0x53: key = EKEYS::K_S; break;
     case 0x41: key = EKEYS::K_A; break;
     case 0x44: key = EKEYS::K_D; break;
+    case VK_TAB: key = EKEYS::K_TAB; break;
     case VK_SPACE: key = EKEYS::K_SPACE; break;
     case VK_RETURN: key = EKEYS::K_RETURN; break;
     }
@@ -223,7 +231,6 @@ void update(double dt)
     // get the delta time
     g_dElapsedTime += dt;
     g_dDeltaTime = dt;
-
     switch (g_eGameState)
     {
     case EGAMESTATES::S_SPLASHSCREEN: 
@@ -231,7 +238,9 @@ void update(double dt)
         break;
     case EGAMESTATES::S_MAINMENU: 
         updateMenu();
-        processUserInput();
+        break;
+    case EGAMESTATES::S_GAMEOVER:
+        updateGameOver();
         break;
     case EGAMESTATES::S_GAME: 
         updateGame(); // gameplay logic when we are in the game                 #223
@@ -242,14 +251,14 @@ void update(double dt)
 void splashScreenWait()    // waits for time to pass in splash screen
 {
     if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
-
         //Change this to test whatever u doing
         g_eGameState = EGAMESTATES::S_MAINMENU; 
 }
 
-bool pressW = false, pressS = false;
+bool pressW = false, pressS = false; //probably can do something about this 
 void updateMenu()
 {
+    processUserInput();
     switch (pressW)
     {
     case false:
@@ -283,11 +292,18 @@ void updateMenu()
     }
 }
 
+void updateGameOver()
+{
+
+}
+
 void updateGame()       // gameplay logic
 {
     processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit   #261
+    map.updateMap(g_dDeltaTime);
     moveCharacter();    // moves the character, collision detection, physics, etc                                    #230
                         // sound can be played here too.
+    inventoryManagement();
 }
 
 void moveCharacter()
@@ -328,10 +344,22 @@ void moveCharacter()
             g_sChar.moveRIGHT();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased)
+    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown)
     {
-        g_sChar.changeActive();        
+        g_sChar.changeActive();
+        if (map.item_pickup(g_sChar.getFacing(), g_sChar, g_sItem) == true) {
+            map.item_remove(g_sItem);
+        }
     }
+}
+
+void inventoryManagement()
+{
+    if (g_skKeyEvent[(int)EKEYS::K_TAB].keyReleased)
+    {
+        _inventory.change_equipped_slot();
+    }
+    _inventory.renderEquipChange(g_Console);
 }
 
 void processUserInput()
@@ -358,6 +386,8 @@ void render()
         break;
     case EGAMESTATES::S_MAINMENU: renderMainMenu();
         break;
+    case EGAMESTATES::S_GAMEOVER: renderGameOver();
+        break;
     case EGAMESTATES::S_GAME: renderGame();
         break;
     }
@@ -377,6 +407,11 @@ void loadMainMenu()
     _mainmenu.loadmainmenu();
 }
 
+void loadGameOver()
+{
+    _gameover.loadgameover();
+}
+
 void renderToScreen()
 {
     // Writes the buffer to the console, hence you will see what you have written
@@ -393,6 +428,11 @@ void renderMainMenu()
     _mainmenu.rendermenu(g_Console);
 }
 
+void renderGameOver()
+{
+    _gameover.renderGO(g_Console);
+}
+
 void renderGame()
 {
     renderUI();
@@ -404,20 +444,20 @@ void renderUI()
 {
     ui.renderlife(g_Console);
     ui.rendermapborder(g_Console);
-
+    _inventory.renderInventory(g_Console);
     ui.renderstate(g_Console);
 }
 
 void renderMap()
 {
-    if (map.getMapChange() == true) {
+    if (map.getMapChange() == true) 
+    {
         map.nextlevel();
         //Change to TestMap.csv to well... test your items or something
-        map.loadMap("TestMap.csv", g_sChar);
-        //map.inputMap("map" + map.getlevel() + ".csv", g_sChar);       
+        //map.loadMap("TestMap.csv", g_sChar, g_sItem);
+        map.loadMap("map" + map.getlevel() + ".csv", g_sChar, g_sItem);
     }
     map.DrawMap(g_Console, g_sChar);
-    map.changeMap(g_sChar);
 }
 
 void renderCharacter()
@@ -425,12 +465,6 @@ void renderCharacter()
     // Draw the location of the character
     map.DrawPlayer(g_Console, g_sChar, g_sChar.getColor());
 }
-
-void renderItem()
-{
-    map.DrawItem(g_Console, g_sItem, g_sItem.getColor());
-}
-
 
 void renderFramerate()
 {
@@ -470,6 +504,8 @@ void renderInputEvents()
         case(int)EKEYS::K_A: key = "LEFT";
             break;
         case (int)EKEYS::K_D: key = "RIGHT";
+            break;
+        case (int)EKEYS::K_TAB: key = "TAB";
             break;
         case (int)EKEYS::K_SPACE: key = "SPACE";
             break;

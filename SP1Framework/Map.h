@@ -3,20 +3,21 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <random>
 #include "Framework\console.h"
 #include "Player.h"
 #include "Objects.h"
-#include "itemtest.h"
-
+#include "Earthquake.h"
+#include "item_general.h"
 #include <sstream>
 class Map
 {
 private:
-	int x, y;
+	int x, y, maplevel;
+	double framebuffer;
 	char map[135][135];
-	int maplevel;
 	bool mapchange;
-	Objects* stairs[1];
+	Earthquake* EQArray[50];
 
 public:
 	Map();
@@ -26,15 +27,16 @@ public:
 	bool getMapChange();
 	string getlevel();
 	bool collides(char direction, Player& anotherP);
+	bool item_pickup(char facing, Player& anotherP, item_general& anotherI);
 
 
 	//Input and draw 
-	void changeMap(Player& player);
 	void nextlevel();
-	void loadMap(std::string anothermap, Player& player);
+	void updateMap(double dt);
+	void item_remove(item_general& item);
+	void loadMap(std::string anothermap, Player& player, item_general& item);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
-	void DrawItem(Console& anotherC, itemtest& anotherI, WORD itemColor);
 	
 };
 

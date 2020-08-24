@@ -59,6 +59,11 @@ int Player::getlife()
 	return life;
 }
 
+char Player::getFacing()
+{
+	return facing;
+}
+
 bool Player::is_Active()
 {
 	return Active;
@@ -71,15 +76,19 @@ void Player::setmodel(char direction)
 	{
 	case 'W':
 		ss << char(223) << char(223);
+		facing = 'W';
 		break;
 	case 'S':
 		ss << char(220) << char(220);
+		facing = 'S';
 		break;
 	case 'A':
 		ss << char(219) << char(255);
+		facing = 'A';
 		break;
 	case 'D':
 		ss << char(255) << char(219);
+		facing = 'D';
 		break;
 	}
 

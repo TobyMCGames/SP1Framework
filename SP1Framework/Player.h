@@ -26,6 +26,7 @@ public:
 	std::string getmodel();
 	int getX();
 	int getY();
+	char getFacing();
 
 	int getspeed();
 	int getlife();

@@ -6,7 +6,9 @@ COORD offset;
 Map::Map() :
 	x(135),
 	y(135),
-	map{ }
+	framebuffer(0),
+	map{ },
+	EQArray{ }
 {
 	for (int row = 0; row < x; row++) {
 		for (int col = 0; col < y; col++) {
@@ -15,7 +17,11 @@ Map::Map() :
 	}
 	maplevel = 0;
 	mapchange = true;
-	stairs[0] = nullptr;
+
+	for (int i = 0; i < 50; i++)
+	{
+		EQArray[i] = nullptr;
+	}
 }
 
 Map::~Map()
@@ -39,51 +45,96 @@ bool Map::collides(char direction, Player& anotherP)
 	switch (direction)
 	{
 	case 'W':
-		if (map[anotherP.getY() - anotherP.getspeed()][anotherP.getX()] == 'W') {
+		switch (map[anotherP.getY() - anotherP.getspeed()][anotherP.getX()]) {
+		case 'W':
 			return true;
+		case '@':
+			mapchange = true;
+		case 'E':
+			for (int i = 0; i < 50; i++)
+			{
+				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() && EQArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && EQArray[i]->getState() == true)
+				{
+					return true;
+				}
+			}
 		}
 		break;
 	case 'S':
-		if (map[anotherP.getY() + anotherP.getspeed()][anotherP.getX()] == 'W') {
+		switch (map[anotherP.getY() + anotherP.getspeed()][anotherP.getX()]) {
+		case 'W':
 			return true;
+		case '@':
+			mapchange = true;
+		case 'E':
+			for (int i = 0; i < 50; i++)
+			{
+				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() && EQArray[i]->getY() == anotherP.getY() + anotherP.getspeed() && EQArray[i]->getState() == true)
+				{
+					return true;
+				}
+			}
 		}
 		break;
 	case 'A':
-		if (map[anotherP.getY()][anotherP.getX() - anotherP.getspeed()] == 'W') {
+		switch (map[anotherP.getY()][anotherP.getX() - anotherP.getspeed()]) {
+		case 'W':
 			return true;
+		case '@':
+			mapchange = true;
+		case 'E':
+			for (int i = 0; i < 50; i++)
+			{
+				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() - anotherP.getspeed() && EQArray[i]->getY() == anotherP.getY() && EQArray[i]->getState() == true)
+				{
+					return true;
+				}
+			}
 		}
 		break;
 	case 'D':
-		if (map[anotherP.getY()][anotherP.getX() + anotherP.getspeed()] == 'W') {
+		switch (map[anotherP.getY()][anotherP.getX() + anotherP.getspeed()]) {
+		case 'W':
 			return true;
+		case '@':
+			mapchange = true;
+		case 'E':
+			for (int i = 0; i < 50; i++)
+			{
+				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() + anotherP.getspeed() && EQArray[i]->getY() == anotherP.getY() && EQArray[i]->getState() == true)
+				{
+					return true;
+				}
+			}
 		}
 		break;
 	}
 	return false;
 }
 
-void Map::changeMap(Player& player)
-{
-	if ((player.getX() >= stairs[0]->getX()) &&
-		(player.getX() <= stairs[0]->getX() + 3) &&
-		(player.getY() >= stairs[0]->getY()) &&
-		(player.getY() <= stairs[0]->getY() + 3))
-	{
-		mapchange = true;
-	}
-}
+//void Map::changeMap(Player& player)
+//{
+//	if ((player.getX() >= stairs->getX()) &&
+//		(player.getX() <= stairs->getX() + 3) &&
+//		(player.getY() >= stairs->getY()) &&
+//		(player.getY() <= stairs->getY() + 3))
+//	{
+//		mapchange = true;
+//	}
+//}
 
 void Map::nextlevel()
 {
 	maplevel++;
 }
 
-void Map::loadMap(std::string anothermap, Player& player)
+void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 {
 	string path = "Maps\\" + anothermap;
 	std::ifstream f;
 	f.open(path);
 	std::string data;
+	int idx = 0;
 	int col = 0;
 	int row = 0;
 	while (getline(f, data))
@@ -101,11 +152,27 @@ void Map::loadMap(std::string anothermap, Player& player)
 				map[row][col] = ' ';
 				col++;
 			}
-			else if (data[datarow] == '@') //Stairs
+			else if (data[datarow] == 'E' && EQArray[idx] == nullptr)
 			{
-				stairs[0] = new Objects(col, row, "next", '@');
 				map[row][col] = data[datarow];
+				EQArray[idx] = new Earthquake;
+				EQArray[idx]->setCOORD(col, row);
+				idx++;
 				col++;
+			}
+			else if (data[datarow] == item.getIcon()) //Item Icon
+			{
+				if (item.is_item_exist() == true) {
+					item.setX(col);
+					item.setY(row);
+					map[row][col] = 'I';
+					col++;
+				}
+				else
+				{
+					map[row][col] = ' ';
+					col++;
+				}
 			}
 			else
 			{
@@ -116,18 +183,26 @@ void Map::loadMap(std::string anothermap, Player& player)
 		row++;
 		col = 0;
 	}
-	for (int i = 0;i < 4;i++) {
-		for (int j = 0;j < 4;j++) {
-			map[stairs[0]->getY() + i][stairs[0]->getX() + j] = '@';
-		}
-	}
 	f.close();
 	mapchange = false;
 }
 
+void Map::updateMap(double dt)
+{
+	framebuffer += dt;
+	if (framebuffer > .2)
+	{
+		framebuffer = 0;
+		int idx = rand() % 50;
+		if (EQArray[idx] != nullptr && EQArray[idx]->getState() != true)
+		{
+			EQArray[idx]->toggle();
+		}
+	}
+}
+
 void Map::DrawMap(Console& anotherC, Player& player)
 {
-	//45,42
 	if (player.getX() >= 23 && player.getX() <= 113)
 	{
 		offset.X = player.getX() - 23 ;
@@ -169,12 +244,24 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case ' ':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x9F);
 					break;
+				case 'I':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
+					break;
 				case '@':
 					anotherC.writeToBuffer(45 + j * 2, i, (char)223, 0x8F);
 					anotherC.writeToBuffer(46 + j * 2, i, (char)223, 0x8F);
 					break;
 				case 'E':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x00);
+					for (int k = 0; k < 50; k++)
+					{
+						if (EQArray[k] != nullptr && EQArray[k]->getX() == j + offset.X && EQArray[k]->getY() == i + offset.Y)
+						{
+							anotherC.writeToBuffer(45 + j * 2, i, "  ", EQArray[k]->getColor());
+						}
+					}
+					break;
+				case 'S':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
 			}		
 		}
 	}
@@ -185,7 +272,39 @@ void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 	anotherC.writeToBuffer(45 + 2 * (anotherP.getX() - offset.X), anotherP.getY() - offset.Y, anotherP.getmodel() , charColor);
 }
 
-void Map::DrawItem(Console& anotherC, itemtest& anotherI, WORD itemColor)
+bool Map::item_pickup(char facing, Player& player, item_general& item)
 {
-	anotherC.writeToBuffer(45 + 2 * (anotherI.getX() - offset.X), anotherI.getY() - offset.Y, anotherI.getModel(), itemColor);
+	if (player.is_Active() == true) {
+		switch (facing)
+		{
+		case 'W':
+			if ((player.getX() == item.getX()) && (player.getY() == (item.getY() - 1))) {
+				item.change_exist();
+				return item.is_item_exist();
+				break;
+			}
+		case 'A':
+			if ((player.getX() == (item.getX() - 1)) && (player.getY() == item.getY())) {
+				item.change_exist();
+				return item.is_item_exist();
+				break;
+			}
+		case 'S':
+			if ((player.getX() == item.getX()) && (player.getY() == (item.getY() + 1))) {
+				item.change_exist();
+				return item.is_item_exist();
+				break;
+			}
+		case 'D':
+			if ((player.getX() == (item.getX() + 1)) && (player.getY() == item.getY())) {
+				item.change_exist();
+				return item.is_item_exist();
+			}
+		}
+	}
+}
+
+void Map::item_remove(item_general& item)
+{
+	map[item.getX()][item.getY()] = ' ';
 }

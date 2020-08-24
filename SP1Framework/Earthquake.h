@@ -1,12 +1,14 @@
 #pragma once
-#include "Events.h"
-class Earthquake : public Events
+#include "trapfloor.h"
+
+class Earthquake : public trapfloor
 {
 private:
-	char symbol = 'E';
+
 public:
 	Earthquake();
 	~Earthquake();
 
+	void toggle();
 };
 
