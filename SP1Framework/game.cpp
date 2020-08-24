@@ -353,6 +353,7 @@ void moveCharacter()
     }
 }
 
+
 void inventoryManagement()
 {
     if (g_skKeyEvent[(int)EKEYS::K_TAB].keyReleased)

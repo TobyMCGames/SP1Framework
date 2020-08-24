@@ -67,9 +67,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="trapfloor.cpp">
-      <Filter>Source Files</Filter>
+	<Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+      
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
       <Filter>Header Files\Framework</Filter>
