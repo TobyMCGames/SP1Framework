@@ -13,7 +13,7 @@ Map::Map() :
 			map[row][col] = ' ';
 		}
 	}
-	maplevel = 3;
+	maplevel = 4;
 	mapchange = true;
 }
 
@@ -175,6 +175,8 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					break;
 				case 'E':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x00);
+				case 'S':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
 			}		
 		}
 	}
