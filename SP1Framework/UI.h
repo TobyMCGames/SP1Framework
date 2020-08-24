@@ -9,8 +9,7 @@ class UI
 {
 private:
 	char state[29][36];
-	char dgrid[13][23];
-	char dicons[5][10];
+	char disasterindicator[44][12];
 	Player User;
 public:
 	UI();
@@ -21,7 +20,7 @@ public:
 	void rendermapborder(Console& anotherC);
 	void loadstate();
 	void renderstate(Console& anotherC);
-	void loadgrid();
-	void rendergrid(Console& anotherC);
+	void loaddisasterindicator();
+	void renderdisasterindicator(Console& anotherC);
 };
 

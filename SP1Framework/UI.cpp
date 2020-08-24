@@ -2,14 +2,20 @@
 
 UI::UI() :
 	state{ },
-	dgrid{ },
-	dicons{ }
+	disasterindicator{ }
 {
 	for (int row = 0; row < 29; row++)
 	{
 		for (int col = 0; col < 36; col++)
 		{
 			state[row][col] = ' ';
+		}
+	}
+	for (int row2 = 0; row2 < 44; row2++)
+	{
+		for (int col2 = 0; col2 < 12; col2++)
+		{
+			disasterindicator[row2][col2] = ' ';
 		}
 	}
 }
@@ -110,56 +116,118 @@ void UI::renderstate(Console& anotherC)
 			{
 				if ((state[row][col] == 'G'))
 				{
-					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x2A);
+					anotherC.writeToBuffer(140 + col, 12 + row, "Û", 0x2A);
 				}
 				else if ((state[row][col] == 'I'))
 				{
-					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x7F);
+					anotherC.writeToBuffer(140 + col, 12 + row, "Û", 0x7F);
 				}
 				else
 				{
-					anotherC.writeToBuffer(140 + col, 10 + row, " ", 0x0A);
+					anotherC.writeToBuffer(140 + col, 12 + row, " ", 0x0A);
 				}
 			}
 			else if (User.getlife() >=2)
 			{
 				if ((state[row][col] == 'G'))
 				{
-					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x6E);
+					anotherC.writeToBuffer(140 + col, 12 + row, "Û", 0x6E);
 				}
 				else if ((state[row][col] == 'I'))
 				{
-					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x7F);
+					anotherC.writeToBuffer(140 + col, 12 + row, "Û", 0x7F);
 				}
 				else
 				{
-					anotherC.writeToBuffer(140 + col, 10 + row, " ", 0x0A);
+					anotherC.writeToBuffer(140 + col, 12 + row, " ", 0x0A);
 				}
 			}
 			else
 			{
 				if ((state[row][col] == 'G'))
 				{
-					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x4C);
+					anotherC.writeToBuffer(140 + col, 12 + row, "Û", 0x4C);
 				}
 				else if ((state[row][col] == 'I'))
 				{
-					anotherC.writeToBuffer(140 + col, 10 + row, "Û", 0x7F);
+					anotherC.writeToBuffer(140 + col, 12 + row, "Û", 0x7F);
 				}
 				else
 				{
-					anotherC.writeToBuffer(140 + col, 10 + row, " ", 0x0A);
+					anotherC.writeToBuffer(140 + col, 12 + row, " ", 0x0A);
 				}
 			}
 		}
 	}
 }
 
-void UI::loadgrid()
+void UI::loaddisasterindicator()
 {
+
+	std::ifstream f;
+	f.open("UI/disasterindicator.csv");
+	std::string data;
+	int row = 0;
+	int col = 0;
+	while (getline(f, data))
+	{
+		for (int datarow = 0; datarow < (44 * 2 - 1); datarow++) {
+			if (data[datarow] == ',')
+			{
+				continue;
+			}
+			else
+			{
+				disasterindicator[row][col] = data[datarow];
+				col++;
+			}
+
+		}
+		col = 0;
+		row++;
+	}
+	f.close();
+
 }
 
-void UI::rendergrid(Console& anotherC)
+void UI::renderdisasterindicator(Console& anotherC)
 {
+	for (int row = 0; row < 44; row++)
+	{
+		for (int col = 0; col < 12; col++)
+		{
+			if (disasterindicator[row][col] == 'B')
+			{
+				anotherC.writeToBuffer(137+col, row + 2, "Û", 0x1B);
+			}
+			else if ((disasterindicator[row][col] == 'Y'))
+			{
+				anotherC.writeToBuffer(137+col, row + 2, "Û", 0x6E);
+			}
+			else if ((disasterindicator[row][col] == 'R'))
+			{
+				anotherC.writeToBuffer(137+col, row + 2, "Û", 0x4E);
+			}
+			else if ((disasterindicator[row][col] == 'A'))
+			{
+				anotherC.writeToBuffer(137+col, row + 2, "Û", 0x3E);
+			}
+			else if ((disasterindicator[row][col] == 'LB'))
+			{
+				anotherC.writeToBuffer(137+col, row + 2, "Û", 0x9E);
+			}
+			else if ((disasterindicator[row][col] == 'G'))
+			{
+				anotherC.writeToBuffer(137+col, row + 2, "Û", 0x8E);
+			}
+			else if ((disasterindicator[row][col] == 'W'))
+			{
+				anotherC.writeToBuffer(137+col, row + 2, "Û", 0x7E);
+			}
+			else
+			{
+				anotherC.writeToBuffer(137+col, row + 2, " ", 0x7F);
+			}
+		}
+	}
 }
-
