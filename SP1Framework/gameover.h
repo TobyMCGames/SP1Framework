@@ -12,11 +12,15 @@ private:
 	int y;
 	char GOlogo[17][180];
 	int option;
+	Button* buttons[1] = { nullptr };
+	int selector;
 
 public:
 	gameover();
 	~gameover();
 
+	int getSelector();
+	void WSmenu(int updown);
 	void loadgameover();
 	void renderGO(Console& anotherC);
 };

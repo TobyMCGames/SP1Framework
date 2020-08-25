@@ -13,10 +13,27 @@ gameover::gameover() :
 			GOlogo[row][col] = ' ';
 		}
 	}
+
+	buttons[0] = new Button(88, 30, 0x0F, "    Retry    ");
+
+	selector = 0;
 }
 
 gameover::~gameover()
 {
+}
+
+int gameover::getSelector()
+{
+	return selector;
+}
+
+void gameover::WSmenu(int updown)
+{
+	int buffer = selector + (updown);
+	if (buffer >= 0 && buffer <= 1) {
+		selector = buffer;
+	}
 }
 
 void gameover::loadgameover()
@@ -65,5 +82,13 @@ void gameover::renderGO(Console& anotherC)
 				anotherC.writeToBuffer(col, row + 2, " ", 0x7F);
 			}
 		}
+	}
+	for (int x = 0; x < 1; x++) {
+		bool onbutton = false;
+		if (x == selector)
+		{
+			onbutton = true;
+		}
+		buttons[x]->renderButton(anotherC, onbutton);
 	}
 }
