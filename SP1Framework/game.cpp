@@ -54,6 +54,7 @@ void init( void )
     loadGameOver();
     splashscreen.loadSplashScreen();
     ui.loadstate();
+    ui.loaddisasterindicator();
 
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(0, 16, L"Consolas");
@@ -255,7 +256,7 @@ void splashScreenWait()    // waits for time to pass in splash screen
         g_eGameState = EGAMESTATES::S_MAINMENU; 
 }
 
-bool pressW = false, pressS = false; //probably can do something about this 
+bool pressW = false, pressS = false , pressP = false; //probably can do something about this 
 void updateMenu()
 {
     processUserInput();
@@ -283,18 +284,67 @@ void updateMenu()
             pressS = false;
         }
     }
-    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) || (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown))
+    if (pressP == false)
     {
-        switch (_mainmenu.getselector()) {
-        case 0: g_eGameState = EGAMESTATES::S_GAME; break;
-        case 4: g_bQuitGame = true; break;
+        if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) || (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown))
+        {
+            switch (_mainmenu.getselector())
+            {
+                pressP = true;
+            case 0: g_eGameState = EGAMESTATES::S_GAME; break;
+            case 4: g_bQuitGame = true; break;
+            }
         }
+    }
+    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown != true) && (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown != true))
+    {
+        pressP = false;
     }
 }
 
 void updateGameOver()
 {
-
+    processUserInput();
+    switch (pressW)
+    {
+    case false:
+        if (g_skKeyEvent[(int)EKEYS::K_W].keyDown) {
+            _gameover.WSmenu(-1);
+            pressW = true;
+        }
+    case true:
+        if (g_skKeyEvent[(int)EKEYS::K_W].keyDown == false) {
+            pressW = false;
+        }
+    }
+    switch (pressS)
+    {
+    case false:
+        if (g_skKeyEvent[(int)EKEYS::K_S].keyDown) {
+            _gameover.WSmenu(1);
+            pressS = true;
+        }
+    case true:
+        if (g_skKeyEvent[(int)EKEYS::K_S].keyDown == false) {
+            pressS = false;
+        }
+    }
+    if (pressP == false)
+    {
+        if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) || (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown))
+        {
+            pressP = true;
+            switch (_gameover.getSelector())
+            {
+            case 0: g_eGameState = EGAMESTATES::S_MAINMENU; break;
+            case 1: g_bQuitGame = true; break;
+            }
+        }
+    }
+    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown != true) && (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown != true))
+    {
+        pressP = false;
+    }
 }
 
 void updateGame()       // gameplay logic
@@ -447,6 +497,7 @@ void renderUI()
     ui.rendermapborder(g_Console);
     _inventory.renderInventory(g_Console);
     ui.renderstate(g_Console);
+    ui.renderdisasterindicator(g_Console);
 }
 
 void renderMap()
