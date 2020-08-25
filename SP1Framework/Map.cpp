@@ -18,10 +18,6 @@ Map::Map() :
 	maplevel = 0;
 	mapchange = true;
 
-	for (int i = 0; i < 500; i++) 
-	{
-		EQArray[i] = nullptr;
-	}
 }
 
 Map::~Map()
@@ -189,21 +185,26 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 
 void Map::updateMap(double dt)
 {
+	int idx;
 	fixed_update += dt;
-	if (fixed_update >= 0.16 * 2) 
+	if (fixed_update >= 0.16 * 1) 
 	{
-		int idx = rand() % 500;
-
-		while (EQArray[idx] == nullptr)
+		for (int i = 0; i < 5; i++) //EarthQuake Tiles
 		{
 			idx = rand() % 500;
+			while (EQArray[idx] == nullptr)
+			{
+				idx = rand() % 500;
+			}
+
+			if (EQArray[idx]->getState() != true)
+			{
+				EQArray[idx]->toggle();
+				fixed_update = 0;
+			}
 		}
 
-		if (EQArray[idx]->getState() != true)
-		{
-			EQArray[idx]->toggle();
-			fixed_update = 0;
-		}
+		//The rest of the disasters
 	}
 }
 
