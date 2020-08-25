@@ -284,25 +284,25 @@ bool Map::item_pickup(char facing, Player& player, item_general& item)
 		switch (facing)
 		{
 		case 'W':
-			if ((player.getX() == item.getX()) && (player.getY() == (item.getY() - 1))) {
+			if ((player.getX() == item.getX()) && ((player.getY() - 1) == item.getY() - 1)) {
 				item.change_exist();
 				return item.is_item_exist();
 				break;
 			}
 		case 'A':
-			if ((player.getX() == (item.getX() - 1)) && (player.getY() == item.getY())) {
+			if (((player.getX() - 1) == item.getX()) && (player.getY() == item.getY())) {
 				item.change_exist();
 				return item.is_item_exist();
 				break;
 			}
 		case 'S':
-			if ((player.getX() == item.getX()) && (player.getY() == (item.getY() + 1))) {
+			if ((player.getX() == item.getX()) && ((player.getY() - 1) == item.getY() + 1)) {
 				item.change_exist();
 				return item.is_item_exist();
 				break;
 			}
 		case 'D':
-			if ((player.getX() == (item.getX() + 1)) && (player.getY() == item.getY())) {
+			if (((player.getX() + 1) == item.getX()) && (player.getY() == item.getY())) {
 				item.change_exist();
 				return item.is_item_exist();
 			}
