@@ -148,7 +148,6 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				map[row][col] = data[datarow];
 				EQArray[idx] = new Earthquake;
 				EQArray[idx]->setCOORD(col, row);
-				idx++;
 				col++;
 			}
 			else if (data[datarow] == item.getIcon()) //Item Icon
@@ -167,7 +166,7 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			}
 			else if (data[datarow] == 'B')
 			{
-
+				disasters[idx] = new Boulder(col, row);
 			}
 			else
 			{
@@ -175,6 +174,7 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				col++;
 			}
 		}
+		idx++;
 		row++;
 		col = 0;
 	}
