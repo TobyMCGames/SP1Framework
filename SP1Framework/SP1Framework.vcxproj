@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Earthquake.cpp" />
+    <ClCompile Include="MovingD.cpp" />
     <ClCompile Include="trapfloor.cpp" />
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
@@ -98,6 +99,7 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="Earthquake.h" />
+    <ClInclude Include="MovingD.h" />
     <ClInclude Include="trapfloor.h" />
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
