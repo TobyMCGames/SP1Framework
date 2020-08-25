@@ -54,6 +54,7 @@ void init( void )
     loadGameOver();
     splashscreen.loadSplashScreen();
     ui.loadstate();
+    ui.loaddisasterindicator();
 
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(0, 16, L"Consolas");
@@ -447,6 +448,7 @@ void renderUI()
     ui.rendermapborder(g_Console);
     _inventory.renderInventory(g_Console);
     ui.renderstate(g_Console);
+    ui.renderdisasterindicator(g_Console);
 }
 
 void renderMap()
