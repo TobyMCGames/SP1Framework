@@ -78,10 +78,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boulder.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Earthquake.cpp" />
     <ClCompile Include="MovingD.cpp" />
     <ClCompile Include="Pausemenu.cpp" />
+    <ClCompile Include="Tornado.cpp" />
     <ClCompile Include="trapfloor.cpp" />
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
@@ -98,10 +100,12 @@
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boulder.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Earthquake.h" />
     <ClInclude Include="MovingD.h" />
     <ClInclude Include="Pausemenu.h" />
+    <ClInclude Include="Tornado.h" />
     <ClInclude Include="trapfloor.h" />
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />

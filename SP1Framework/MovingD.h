@@ -4,9 +4,11 @@
 
 class MovingD
 {
-private:
+protected:
+	COORD Spawner;
 	COORD c;
 	char direction;
+
 
 public:
 	MovingD();
@@ -15,9 +17,8 @@ public:
 
 	COORD getcord();
 
-
 	void changeDirection(char d);
 	void move();
-	virtual void reaction() = 0;
+	virtual void reaction(Player& player) = 0;
 };
 
