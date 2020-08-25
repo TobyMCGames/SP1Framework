@@ -7,15 +7,7 @@ MovingD::MovingD()
 	c.X = 0;
 	c.Y = 0;
 	direction = 'W';
-}
-
-MovingD::MovingD(int x,  int y) //Starting position
-{
-	c.X = x;
-	c.Y = y;
-	Spawner.X = x;
-	Spawner.Y = y;
-	direction = 'W';
+	icon = 'E';
 }
 
 MovingD::~MovingD()
@@ -26,6 +18,21 @@ MovingD::~MovingD()
 COORD MovingD::getcord()
 {
 	return c;
+}
+
+COORD MovingD::getSpawnCord()
+{
+	return Spawner;
+}
+
+char MovingD::getdirection()
+{
+	return direction;
+}
+
+char MovingD::geticon()
+{
+	return icon;
 }
 
 void MovingD::changeDirection(char d)

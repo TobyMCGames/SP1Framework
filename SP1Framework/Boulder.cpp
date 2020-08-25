@@ -1,11 +1,12 @@
 #include "Boulder.h"
 
-Boulder::Boulder(int x, int y)
+Boulder::Boulder(int x, int y, char icon)
 {
 	c.X = x;
 	c.Y = y;
 	Spawner.X = x;
 	Spawner.Y = y;
+	this->icon = icon;
 }
 
 Boulder::~Boulder()
@@ -13,9 +14,16 @@ Boulder::~Boulder()
 
 }
 
-void Boulder::reaction(Player& player)
+void Boulder::reaction(Player& player, char tile)
 {
-	player.decreaselife();
-	c.X = Spawner.X;
-	c.Y = Spawner.Y;
+	switch (tile)
+	{
+	case 'P':
+		player.decreaselife();
+		c.X = Spawner.X;
+		c.Y = Spawner.Y;
+	case 'W':
+		c.X = Spawner.X;
+		c.Y = Spawner.Y;
+	}
 }

@@ -518,7 +518,9 @@ void renderMap()
        //Change to TestMap.csv to well... test your items or something
        //map.loadMap("TestMap.csv", g_sChar, g_sItem);
        map.loadMap("map" + map.getlevel() + ".csv", g_sChar, g_sItem);
+       map.Disasterfacing();
     }
+    map.Dmoves(g_sChar);
     map.DrawMap(g_Console, g_sChar);
 }
 

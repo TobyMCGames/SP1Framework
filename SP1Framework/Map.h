@@ -31,6 +31,9 @@ public:
 	bool collides(char direction, Player& anotherP);
 	bool item_pickup(char facing, Player& anotherP, item_general& anotherI);
 
+	//Disaster movements
+	void Disasterfacing();
+	void Dmoves(Player& player);
 
 	//Input and draw 
 	void nextlevel();
