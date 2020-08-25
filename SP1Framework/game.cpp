@@ -366,10 +366,6 @@ void updateGame()       // gameplay logic
     inventoryManagement();
 }
 
-void updateDisasterIndicator()
-{
-}
-
 void moveCharacter()
 {    
     // Updating the location of the character based on the key release

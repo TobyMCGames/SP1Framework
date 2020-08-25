@@ -64,7 +64,6 @@ void splashScreenWait();    // waits for time to pass in splash screen
 void updateMenu();          // displays what user selects on mainmenu
 void updateGameOver();      // update gameover when player dies
 void updateGame();          // gameplay logic
-void updateDisasterIndicator(); //update disaster indicator when disaster is on the level
 void moveCharacter();       // moves the character, collision detection, physics, etc
 void inventoryManagement(); // checks when the player does something that would affect the inventory and items
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit

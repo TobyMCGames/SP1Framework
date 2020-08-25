@@ -154,6 +154,7 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			}
 			else if (data[datarow] == 'E' && EQArray[idx] == nullptr)
 			{
+				earthquakeI = true;
 				map[row][col] = data[datarow];
 				EQArray[idx] = new Earthquake;
 				EQArray[idx]->setCOORD(col, row);
@@ -205,6 +206,7 @@ void Map::updateMap(double dt)
 			fixed_update = 0;
 		}
 	}
+
 }
 
 void Map::DrawMap(Console& anotherC, Player& player)

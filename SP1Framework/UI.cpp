@@ -1,5 +1,6 @@
 #include "UI.h"
 
+
 UI::UI() :
 	state{ },
 	disasterindicator{ }
@@ -224,7 +225,7 @@ void UI::renderdisasterindicator(Console& anotherC)
 	{
 		for (int col = 0; col < 11; col++)
 		{
-			if (volcanoI == true)
+			if (map.volcanoI == true)
 			{
 				if ((disasterindicator[row][col] == 'Y'))
 				{
@@ -260,7 +261,7 @@ void UI::renderdisasterindicator(Console& anotherC)
 	{
 		for (int col = 11; col < 22; col++)
 		{
-			if (tornadoI == true)
+			if (map.tornadoI == true)
 			{
 				if ((disasterindicator[row][col] == 'G'))
 				{
@@ -296,7 +297,7 @@ void UI::renderdisasterindicator(Console& anotherC)
 	{
 		for (int col = 22; col < 33; col++)
 		{
-			if (earthquakeI == true)
+			if (map.earthquakeI == true)
 			{
 				if ((disasterindicator[row][col] == 'T'))
 				{
@@ -323,7 +324,7 @@ void UI::renderdisasterindicator(Console& anotherC)
 		{
 			for (int col = 33; col < 43; col++)
 			{
-				if (tsunamiI == true)
+				if (map.tsunamiI == true)
 				{
 					if ((disasterindicator[row][col] == 'A'))
 					{
