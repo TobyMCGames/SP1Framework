@@ -306,7 +306,7 @@ void updateMenu()
         _mainmenu.increaseselector();
     }
 
-    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) && returnDown == false)
+    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) && !returnDown)
     {    
         returnDown = true;
         switch (_mainmenu.getselector())
@@ -319,7 +319,7 @@ void updateMenu()
             break;
         }
     }
-    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && spaceDown == false)
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && !spaceDown)
     { 
         spaceDown = true;
         switch (_mainmenu.getselector())
@@ -332,11 +332,11 @@ void updateMenu()
             break;
         }
     }
-    else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown == true)
+    else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown)
     {
         returnDown = false;
     }
-    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown == true)
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown)
     {
         spaceDown = false;
     }
@@ -353,7 +353,7 @@ void updatePauseMenu()
         _pausemenu.in_selector();
     }
     
-    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) && returnDown == false)
+    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) && !returnDown)
     {
         returnDown = true;
         switch (_pausemenu.getselector())
@@ -366,7 +366,7 @@ void updatePauseMenu()
             break;
         }
     }
-    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && spaceDown == false)
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && !spaceDown)
     {
         spaceDown = true;
         switch (_pausemenu.getselector())
@@ -379,11 +379,11 @@ void updatePauseMenu()
             break;
         }
     }
-    else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown == true)
+    else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown)
     {
         returnDown = false;
     }
-    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown == true)
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown)
     {
         spaceDown = false;
     }
@@ -400,7 +400,7 @@ void updateGameOver()
         _gameover.increaseselector();
     }
 
-    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) && returnDown == false)
+    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) && !returnDown)
     {
         returnDown = true;
         switch (_gameover.getSelector())
@@ -409,7 +409,7 @@ void updateGameOver()
         case 1: g_bQuitGame = true; break;
         }
     }
-    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && spaceDown == false)
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && !spaceDown)
     {
         spaceDown = true;
         switch (_gameover.getSelector())
@@ -418,11 +418,11 @@ void updateGameOver()
         case 1: g_bQuitGame = true; break;
         }
     }
-    else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown == true)
+    else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown)
     {
         returnDown = false;
     }
-    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown == true)
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown)
     {
         spaceDown = false;
     }
