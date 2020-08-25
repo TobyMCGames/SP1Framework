@@ -6,7 +6,7 @@ COORD offset;
 Map::Map() :
 	x(135),
 	y(135),
-	framebuffer(0),
+	fixed_update(0),
 	map{ },
 	disasters { },
 	EQArray{ }
@@ -19,7 +19,7 @@ Map::Map() :
 	maplevel = 0;
 	mapchange = true;
 
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 500; i++) 
 	{
 		EQArray[i] = nullptr;
 	}
@@ -52,7 +52,7 @@ bool Map::collides(char direction, Player& anotherP)
 		case '@':
 			mapchange = true;
 		case 'E':
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < 500; i++)
 			{
 				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() && EQArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && EQArray[i]->getState() == true)
 				{
@@ -68,7 +68,7 @@ bool Map::collides(char direction, Player& anotherP)
 		case '@':
 			mapchange = true;
 		case 'E':
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < 500; i++)
 			{
 				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() && EQArray[i]->getY() == anotherP.getY() + anotherP.getspeed() && EQArray[i]->getState() == true)
 				{
@@ -84,7 +84,7 @@ bool Map::collides(char direction, Player& anotherP)
 		case '@':
 			mapchange = true;
 		case 'E':
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < 500; i++)
 			{
 				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() - anotherP.getspeed() && EQArray[i]->getY() == anotherP.getY() && EQArray[i]->getState() == true)
 				{
@@ -100,7 +100,7 @@ bool Map::collides(char direction, Player& anotherP)
 		case '@':
 			mapchange = true;
 		case 'E':
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < 500; i++)
 			{
 				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() + anotherP.getspeed() && EQArray[i]->getY() == anotherP.getY() && EQArray[i]->getState() == true)
 				{
@@ -183,14 +183,20 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 
 void Map::updateMap(double dt)
 {
-	framebuffer += dt;
-	if (framebuffer > .2)
+	fixed_update += dt;
+	if (fixed_update >= 0.16 * 2) 
 	{
-		framebuffer = 0;
-		int idx = rand() % 50;
-		if (EQArray[idx] != nullptr && EQArray[idx]->getState() != true)
+		int idx = rand() % 500;
+
+		while (EQArray[idx] == nullptr)
+		{
+			idx = rand() % 500;
+		}
+
+		if (EQArray[idx]->getState() != true)
 		{
 			EQArray[idx]->toggle();
+			fixed_update = 0;
 		}
 	}
 }
@@ -233,10 +239,10 @@ void Map::DrawMap(Console& anotherC, Player& player)
 			switch (map[i + offset.Y][j + offset.X])
 			{
 				case 'W':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xFF);
+					anotherC.writeToBuffer(45 + j * 2, i, "±±", 0x08);
 					break;
 				case ' ':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x9F);
+					anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x8F);
 					break;
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
@@ -246,11 +252,11 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					anotherC.writeToBuffer(46 + j * 2, i, (char)223, 0x8F);
 					break;
 				case 'E':
-					for (int k = 0; k < 50; k++)
+					for (int k = 0; k < 500; k++)
 					{
 						if (EQArray[k] != nullptr && EQArray[k]->getX() == j + offset.X && EQArray[k]->getY() == i + offset.Y)
 						{
-							anotherC.writeToBuffer(45 + j * 2, i, "  ", EQArray[k]->getColor());
+							anotherC.writeToBuffer(45 + j * 2, i, "²²", EQArray[k]->getColor());
 						}
 					}
 					break;

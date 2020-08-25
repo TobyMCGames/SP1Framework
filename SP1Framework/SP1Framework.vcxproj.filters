@@ -72,6 +72,9 @@
     <ClCompile Include="MovingD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tornado.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Boulder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,6 +126,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MovingD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tornado.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Boulder.h">

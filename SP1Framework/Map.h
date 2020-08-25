@@ -15,11 +15,11 @@ class Map
 {
 private:
 	int x, y, maplevel;
-	double framebuffer;
+	double fixed_update;
 	char map[135][135];
 	bool mapchange;
 	MovingD* disasters[50];
-	Earthquake* EQArray[50];
+	Earthquake* EQArray[500];
 
 public:
 	Map();
