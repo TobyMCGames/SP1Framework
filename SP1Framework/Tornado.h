@@ -1,12 +1,13 @@
 #pragma once
 #include "MovingD.h"
+#include "Player.h"
 
 class Tornado : public MovingD
 {
 public:
-	Tornado();
+	Tornado(int x, int y);
 	~Tornado();
 
-	void reaction();
+	void reaction(Player &player);
 };
 
