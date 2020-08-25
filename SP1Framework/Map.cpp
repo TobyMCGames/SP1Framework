@@ -245,10 +245,10 @@ void Map::DrawMap(Console& anotherC, Player& player)
 			switch (map[i + offset.Y][j + offset.X])
 			{
 				case 'W':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xFF);
+					anotherC.writeToBuffer(45 + j * 2, i, "±±", 0x08);
 					break;
 				case ' ':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x9F);
+					anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x8F);
 					break;
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
@@ -258,11 +258,11 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					anotherC.writeToBuffer(46 + j * 2, i, (char)223, 0x8F);
 					break;
 				case 'E':
-					for (int k = 0; k < 50; k++)
+					for (int k = 0; k < 500; k++)
 					{
 						if (EQArray[k] != nullptr && EQArray[k]->getX() == j + offset.X && EQArray[k]->getY() == i + offset.Y)
 						{
-							anotherC.writeToBuffer(45 + j * 2, i, "  ", EQArray[k]->getColor());
+							anotherC.writeToBuffer(45 + j * 2, i, "²²", EQArray[k]->getColor());
 						}
 					}
 					break;

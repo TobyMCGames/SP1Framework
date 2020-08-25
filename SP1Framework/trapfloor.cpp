@@ -2,7 +2,7 @@
 
 trapfloor::trapfloor():
 	icon(' '),
-	color(0x9F),
+	color(0x8F),
 	Active(false)
 {
 	c.X = 2;
