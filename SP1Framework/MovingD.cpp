@@ -13,6 +13,8 @@ MovingD::MovingD(int x,  int y) //Starting position
 {
 	c.X = x;
 	c.Y = y;
+	Spawner.X = x;
+	Spawner.Y = y;
 	direction = 'W';
 }
 

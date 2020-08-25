@@ -19,6 +19,6 @@ public:
 
 	void changeDirection(char d);
 	void move();
-	virtual void reaction() = 0;
+	virtual void reaction(Player& player) = 0;
 };
 

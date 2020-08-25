@@ -9,7 +9,7 @@
 #include "Objects.h"
 #include "Earthquake.h"
 #include "item_general.h"
-#include "MovingD.h"
+#include "Boulder.h"
 #include <sstream>
 class Map
 {
