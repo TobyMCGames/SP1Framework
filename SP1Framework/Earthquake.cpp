@@ -3,7 +3,7 @@
 Earthquake::Earthquake()
 {
 	setIcon('E');
-	setColor(0x9F);
+	setColor(0x8F);
 }
 
 Earthquake::~Earthquake()
@@ -15,7 +15,7 @@ void Earthquake::toggle()
 	if (getState() == true)
 	{
 		setActive(false);
-		setColor(0x9F);
+		setColor(0x8F);
 	}
 	else
 	{

@@ -13,9 +13,11 @@
 #include <iomanip>
 #include <sstream>
 #include <fstream>
+#include <random>
 
 double  g_dElapsedTime; //time since start of program
 double  g_dDeltaTime; //val of update(dt)
+double  fixed_update;
 SKeyEvent g_skKeyEvent[(int)EKEYS::K_COUNT];
 SMouseEvent g_mouseEvent;
 
@@ -49,6 +51,8 @@ void init( void )
     // sets the initial state for the game
     g_eGameState = EGAMESTATES::S_SPLASHSCREEN;
     
+    //Seed for RNG
+    srand((unsigned int)time(NULL));
     //Temporary Load
     loadMainMenu();
     loadGameOver();
@@ -232,6 +236,8 @@ void update(double dt)
     // get the delta time
     g_dElapsedTime += dt;
     g_dDeltaTime = dt;
+    fixed_update += dt;
+
     switch (g_eGameState)
     {
     case EGAMESTATES::S_SPLASHSCREEN: 
@@ -243,8 +249,12 @@ void update(double dt)
     case EGAMESTATES::S_GAMEOVER:
         updateGameOver();
         break;
-    case EGAMESTATES::S_GAME: 
-        updateGame(); // gameplay logic when we are in the game                 #223
+    case EGAMESTATES::S_GAME:
+        if (fixed_update > g_dDeltaTime * 2)
+        {
+            updateGame(); // gameplay logic when we are in the game                 #223
+            fixed_update = 0;
+        }
         break;
     }
 }
@@ -505,9 +515,9 @@ void renderMap()
     if (map.getMapChange() == true) 
     {
         map.nextlevel();
-        //Change to TestMap.csv to well... test your items or something
-        //map.loadMap("TestMap.csv", g_sChar, g_sItem);
-        map.loadMap("map" + map.getlevel() + ".csv", g_sChar, g_sItem);
+       //Change to TestMap.csv to well... test your items or something
+       //map.loadMap("TestMap.csv", g_sChar, g_sItem);
+       map.loadMap("map" + map.getlevel() + ".csv", g_sChar, g_sItem);
     }
     map.DrawMap(g_Console, g_sChar);
 }
