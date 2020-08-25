@@ -1,5 +1,12 @@
 #include "MovingD.h"
 
+MovingD::MovingD()
+{
+	c.X = 0;
+	c.Y = 0;
+	direction = 'W';
+}
+
 MovingD::MovingD(int x,  int y) //Starting position
 {
 	c.X = x;

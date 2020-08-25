@@ -9,6 +9,7 @@ private:
 	char direction;
 
 public:
+	MovingD();
 	MovingD(int x, int y);
 	~MovingD();
 
