@@ -9,6 +9,7 @@
 #include "Objects.h"
 #include "Earthquake.h"
 #include "item_general.h"
+#include "MovingD.h"
 #include <sstream>
 class Map
 {
@@ -17,6 +18,7 @@ private:
 	double fixed_update;
 	char map[135][135];
 	bool mapchange;
+	MovingD* disasters[50];
 	Earthquake* EQArray[500];
 
 public:
