@@ -8,6 +8,7 @@ Map::Map() :
 	y(135),
 	framebuffer(0),
 	map{ },
+	disasters { },
 	EQArray{ }
 {
 	for (int row = 0; row < x; row++) {
@@ -112,17 +113,6 @@ bool Map::collides(char direction, Player& anotherP)
 	return false;
 }
 
-//void Map::changeMap(Player& player)
-//{
-//	if ((player.getX() >= stairs->getX()) &&
-//		(player.getX() <= stairs->getX() + 3) &&
-//		(player.getY() >= stairs->getY()) &&
-//		(player.getY() <= stairs->getY() + 3))
-//	{
-//		mapchange = true;
-//	}
-//}
-
 void Map::nextlevel()
 {
 	maplevel++;
@@ -173,6 +163,10 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 					map[row][col] = ' ';
 					col++;
 				}
+			}
+			else if (data[datarow] == 'B')
+			{
+
 			}
 			else
 			{

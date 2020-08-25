@@ -4,7 +4,8 @@
 
 class MovingD
 {
-private:
+protected:
+	COORD Spawner;
 	COORD c;
 	char direction;
 
