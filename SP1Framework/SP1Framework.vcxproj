@@ -97,6 +97,7 @@
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Volcano.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boulder.h" />
@@ -117,6 +118,7 @@
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Volcano.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
