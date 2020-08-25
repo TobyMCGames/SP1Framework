@@ -2,6 +2,8 @@
 
 MovingD::MovingD()
 {
+	Spawner.X = 0;
+	Spawner.Y = 0;
 	c.X = 0;
 	c.Y = 0;
 	direction = 'W';
