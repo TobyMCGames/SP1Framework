@@ -67,10 +67,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="trapfloor.cpp">
-	<Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingD.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-      
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
       <Filter>Header Files\Framework</Filter>
@@ -115,6 +117,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="trapfloor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
