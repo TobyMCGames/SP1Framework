@@ -15,6 +15,7 @@ gameover::gameover() :
 	}
 
 	buttons[0] = new Button(88, 30, 0x0F, "    Retry    ");
+	buttons[1] = new Button(88, 31, 0x0F, "    Exit    ");
 
 	selector = 0;
 }
@@ -31,9 +32,21 @@ int gameover::getSelector()
 void gameover::WSmenu(int updown)
 {
 	int buffer = selector + (updown);
-	if (buffer >= 0 && buffer <= 1) {
+	if (buffer >= 0 && buffer <= 2) {
 		selector = buffer;
 	}
+}
+
+int gameover::GOCheckbuttons(COORD c)
+{
+	for (int i = 0; i < 2; i++)
+	{
+		if ((c.X >= buttons[i]->getX()) && (c.X <= buttons[i]->getX() + (buttons[i]->getName()).size()) && (c.Y == buttons[i]->getY()))
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
 void gameover::loadgameover()
@@ -83,7 +96,7 @@ void gameover::renderGO(Console& anotherC)
 			}
 		}
 	}
-	for (int x = 0; x < 1; x++) {
+	for (int x = 0; x < 2; x++) {
 		bool onbutton = false;
 		if (x == selector)
 		{

@@ -12,7 +12,7 @@ private:
 	int y;
 	char GOlogo[17][180];
 	int option;
-	Button* buttons[1] = { nullptr };
+	Button* buttons[2] = { nullptr , nullptr};
 	int selector;
 
 public:
@@ -21,6 +21,7 @@ public:
 
 	int getSelector();
 	void WSmenu(int updown);
+	int GOCheckbuttons(COORD c);
 	void loadgameover();
 	void renderGO(Console& anotherC);
 };
