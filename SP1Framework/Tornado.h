@@ -1,14 +1,13 @@
 #pragma once
-#include "trapfloor.h"
-#include <time.h>
+#include "MovingD.h"
+#include "Player.h"
 
-class Tornado : public trapfloor
+class Tornado : public MovingD
 {
 public:
-	Tornado();
+	Tornado(int x, int y);
 	~Tornado();
 
-	void reaction();
-	void spawnT();
+	void reaction(Player &player);
 };
 

@@ -1,6 +1,6 @@
 #include "Tornado.h"
 
-Tornado::Tornado()
+Tornado::Tornado(int x, int y)
 {
 	
 }
@@ -10,12 +10,7 @@ Tornado::~Tornado()
 
 }
 
-void Tornado::reaction()
+void Tornado::reaction(Player& player)
 {
-
 }
 
-void Tornado::spawnT()
-{
-	
-}
