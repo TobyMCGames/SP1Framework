@@ -5,6 +5,7 @@
 #include <fstream>
 #include "Framework\console.h"
 #include "Player.h"
+
 class UI
 {
 private:
@@ -15,7 +16,10 @@ public:
 	UI();
 	~UI();
 
-
+	bool earthquakeI;
+	bool tornadoI;
+	bool tsunamiI;
+	bool volcanoI;
 	void renderlife(Console& anotherC);
 	void rendermapborder(Console& anotherC);
 	void loadstate();

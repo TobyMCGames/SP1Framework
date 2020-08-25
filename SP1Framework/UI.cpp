@@ -192,7 +192,7 @@ void UI::loaddisasterindicator()
 
 void UI::renderdisasterindicator(Console& anotherC)
 {
-	for (int row = 0; row < 12; row++)
+	for (int row = 0; row < 2; row++)
 	{
 		for (int col = 0; col < 43; col++)
 		{
@@ -200,33 +200,159 @@ void UI::renderdisasterindicator(Console& anotherC)
 			{
 				anotherC.writeToBuffer(137+col, 2+row, " ", 0x1F);
 			}
-			else if ((disasterindicator[row][col] == 'Y'))
-			{
-				anotherC.writeToBuffer(137+col, 2+row , "Û", 0x6E);
-			}
-			else if ((disasterindicator[row][col] == 'R'))
-			{
-				anotherC.writeToBuffer(137+col, 2+row , "Û", 0x4C);
-			}
-			else if ((disasterindicator[row][col] == 'A'))
-			{
-				anotherC.writeToBuffer(137+col, 2+row , "Û", 0x3B);
-			}
-			else if ((disasterindicator[row][col] == 'LB'))
-			{
-				anotherC.writeToBuffer(137+col, 2+row , "Û", 0x9B);
-			}
-			else if ((disasterindicator[row][col] == 'G'))
-			{
-				anotherC.writeToBuffer(137+col, 2+row , " ", 0x8F);
-			}
-			else if ((disasterindicator[row][col] == 'W'))
-			{
-				anotherC.writeToBuffer(137+col, 2+row , "Û", 0x7F);
-			}
 			else
 			{
 				anotherC.writeToBuffer(137+col, 2+row , " ", 0x7F);
+			}
+		}
+	}
+	for (int row = 10; row < 12; row++)
+	{
+		for (int col = 0; col < 43; col++)
+		{
+			if (disasterindicator[row][col] == 'B')
+			{
+				anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x1F);
+			}
+			else
+			{
+				anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+			}
+		}
+	}
+	for (int row = 2; row < 10; row++)
+	{
+		for (int col = 0; col < 11; col++)
+		{
+			if (volcanoI == true)
+			{
+				if ((disasterindicator[row][col] == 'Y'))
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, "Û", 0x6E);
+				}
+				else if ((disasterindicator[row][col] == 'R'))
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, "Û", 0x4C);
+				}
+				else
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+				}
+			}
+			else
+			{
+				if ((disasterindicator[row][col] == 'Y'))
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8E);
+				}
+				else if ((disasterindicator[row][col] == 'R'))
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8C);
+				}
+				else
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+				}
+			}
+		}
+	}
+	for (int row = 2; row < 10; row++)
+	{
+		for (int col = 11; col < 22; col++)
+		{
+			if (tornadoI == true)
+			{
+				if ((disasterindicator[row][col] == 'G'))
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x0F);
+				}
+				else if ((disasterindicator[row][col] == 'W'))
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, "Û", 0x7F);
+				}
+				else
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+				}
+			}
+			else
+			{
+				if ((disasterindicator[row][col] == 'G'))
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8F);
+				}
+				else if ((disasterindicator[row][col] == 'W'))
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8F);
+				}
+				else
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+				}
+			}
+		}
+	}
+	for (int row = 2; row < 10; row++)
+	{
+		for (int col = 22; col < 33; col++)
+		{
+			if (earthquakeI == true)
+			{
+				if ((disasterindicator[row][col] == 'T'))
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x6E);
+				}
+				else
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+				}
+			}
+			else
+			{
+				if ((disasterindicator[row][col] == 'T'))
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8F);
+				}
+				else
+				{
+					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+				}
+			}
+		}
+		for (int row = 2; row < 10; row++)
+		{
+			for (int col = 33; col < 43; col++)
+			{
+				if (tsunamiI == true)
+				{
+					if ((disasterindicator[row][col] == 'A'))
+					{
+						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x3B);
+					}
+					else if ((disasterindicator[row][col] == 'O'))
+					{
+						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x1E);
+					}
+					else
+					{
+						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+					}
+				}
+				else
+				{
+					if ((disasterindicator[row][col] == 'A'))
+					{
+						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8B);
+					}
+					else if ((disasterindicator[row][col] == 'O'))
+					{
+						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8E);
+					}
+					else
+					{
+						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+					}
+				}
 			}
 		}
 	}
