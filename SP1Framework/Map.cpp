@@ -172,7 +172,7 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			}
 			else if (data[datarow] == 'B')
 			{
-				disasters[Didx] = new Boulder(col, row);
+				disasters[Didx] = new Boulder(col, row, 'B');
 				Didx++;
 			}
 			else
