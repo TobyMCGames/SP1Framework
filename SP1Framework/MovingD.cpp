@@ -46,11 +46,15 @@ void MovingD::move()
 	{
 	case 'W':
 		c.Y -= 1;
+		break;
 	case 'A':
 		c.X -= 1;
+		break;
 	case 'S':
 		c.Y += 1;
+		break;
 	case 'D':
 		c.X += 1;
+		break;
 	}
 }

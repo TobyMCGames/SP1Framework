@@ -14,9 +14,8 @@ gameover::gameover() :
 		}
 	}
 
-	buttons[0] = new Button(88, 30, 0x0F, "    Retry    ");
-	buttons[1] = new Button(88, 31, 0x0F, "    Exit    ");
-
+	buttons[0] = new Button(88, 30, 0x0F, "     Retry    ");
+	buttons[1] = new Button(88, 31, 0x0F, "     Exit    ");
 	selector = 0;
 }
 
@@ -29,13 +28,6 @@ int gameover::getSelector()
 	return selector;
 }
 
-void gameover::WSmenu(int updown)
-{
-	int buffer = selector + (updown);
-	if (buffer >= 0 && buffer <= 2) {
-		selector = buffer;
-	}
-}
 
 int gameover::GOCheckbuttons(COORD c)
 {
@@ -47,6 +39,35 @@ int gameover::GOCheckbuttons(COORD c)
 		}
 	}
 	return -1;
+}
+
+void gameover::setselector(int select)
+{
+	selector = select;
+}
+
+void gameover::increaseselector()
+{
+	if (selector < 1)
+	{
+		selector++;
+	}
+	else
+	{
+		selector = 0;
+	}
+}
+
+void gameover::decreaseselector()
+{
+	if (selector > 0)
+	{
+		selector--;
+	}
+	else
+	{
+		selector = 1;
+	}
 }
 
 void gameover::loadgameover()

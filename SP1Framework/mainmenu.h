@@ -20,7 +20,10 @@ public:
 
 	int getselector();
 	int checkButtons(COORD c);
-	void WSmenu(int updown);
+
+	void setselector(int select);
+	void increaseselector();
+	void decreaseselector();
 	void loadmainmenu();
 	void rendermenu(Console& anotherC);
 	

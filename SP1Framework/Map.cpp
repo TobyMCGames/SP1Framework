@@ -129,7 +129,8 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 	std::ifstream f;
 	f.open(path);
 	std::string data;
-	int idx = 0;
+	int EQidx = 0;
+	int Didx = 0;
 	int col = 0;
 	int row = 0;
 	while (getline(f, data))
@@ -147,11 +148,12 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				map[row][col] = ' ';
 				col++;
 			}
-			else if (data[datarow] == 'E' && EQArray[idx] == nullptr)
+			else if (data[datarow] == 'E' && EQArray[EQidx] == nullptr)
 			{
 				map[row][col] = data[datarow];
-				EQArray[idx] = new Earthquake;
-				EQArray[idx]->setCOORD(col, row);
+				EQArray[EQidx] = new Earthquake;
+				EQArray[EQidx]->setCOORD(col, row);
+				EQidx++;
 				col++;
 			}
 			else if (data[datarow] == item.getIcon()) //Item Icon
@@ -170,7 +172,8 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			}
 			else if (data[datarow] == 'B')
 			{
-				disasters[idx] = new Boulder(col, row, 'B');
+				disasters[Didx] = new Boulder(col, row);
+				Didx++;
 			}
 			else
 			{
@@ -178,7 +181,6 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				col++;
 			}
 		}
-		idx++;
 		row++;
 		col = 0;
 	}
@@ -188,21 +190,26 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 
 void Map::updateMap(double dt)
 {
+	int idx;
 	fixed_update += dt;
-	if (fixed_update >= 0.16 * 2) 
+	if (fixed_update >= 0.16 * 1) 
 	{
-		int idx = rand() % 500;
-
-		while (EQArray[idx] == nullptr)
+		for (int i = 0; i < 5; i++) //EarthQuake Tiles
 		{
 			idx = rand() % 500;
+			while (EQArray[idx] == nullptr)
+			{
+				idx = rand() % 500;
+			}
+
+			if (EQArray[idx]->getState() != true)
+			{
+				EQArray[idx]->toggle();
+				fixed_update = 0;
+			}
 		}
 
-		if (EQArray[idx]->getState() != true)
-		{
-			EQArray[idx]->toggle();
-			fixed_update = 0;
-		}
+		//The rest of the disasters
 	}
 }
 

@@ -45,12 +45,34 @@ int mainmenu::checkButtons(COORD c)
 	return -1;
 }
 
-void mainmenu::WSmenu(int updown)
+void mainmenu::setselector(int select)
 {
-	int buffer = selector + (updown);
-	if (buffer >= 0 && buffer <= 4) {
-		selector = buffer;
+	selector = select;
+}
+
+void mainmenu::increaseselector()
+{
+	if (selector < 4)
+	{
+		selector++;
 	}
+	else
+	{
+		selector = 0;
+	}
+}
+
+void mainmenu::decreaseselector()
+{
+	if (selector > 0)
+	{
+		selector--;
+	}
+	else
+	{
+		selector = 4;
+	}
+	
 }
 
 void mainmenu::loadmainmenu()
