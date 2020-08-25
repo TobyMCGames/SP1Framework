@@ -64,6 +64,7 @@ void splashScreenWait();    // waits for time to pass in splash screen
 void updateMenu();          // displays what user selects on mainmenu
 void updateGameOver();      // update gameover when player dies
 void updateGame();          // gameplay logic
+void updateDisasterIndicator(); //update disaster indicator when disaster is on the level
 void moveCharacter();       // moves the character, collision detection, physics, etc
 void inventoryManagement(); // checks when the player does something that would affect the inventory and items
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
@@ -80,6 +81,7 @@ void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
 void renderInputEvents();   // renders the status of input events
+
 
 // keyboard and mouse input event managers
 void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent);  // define this function for the console to call when there are keyboard events
