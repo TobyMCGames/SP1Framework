@@ -1,5 +1,7 @@
 #include "item_general.h"
 
+
+
 Items rock;
 
 item_general::item_general()
@@ -39,7 +41,6 @@ void item_general::setIcon()
 	}
 }
 */
-
 
 //get functions
 int item_general::getX()
@@ -97,9 +98,24 @@ void item_general::change_near()
 	}
 }
 */
+
 void item_general::change_current_item()
 {
 
 }
 
 
+
+
+
+/*
+item::item()
+{
+	object[0] = new Objects(2, 2, "rock", '1');
+	object[1] = new Objects(2, 2, "axe", '2');
+}
+item::~item()
+{
+
+}
+*/

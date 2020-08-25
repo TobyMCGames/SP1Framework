@@ -6,6 +6,7 @@
 #include "inventory.h"
 
 
+
 class item_general
 {
 private:
@@ -41,3 +42,18 @@ struct Items
 	bool item_exist;
 	//bool player_near;
 };
+
+
+
+/*
+class item
+{
+private:
+	Objects* object[2] = { nullptr, nullptr };
+	enum itemID {};
+public:
+	item();
+	~item();
+};
+*/
+
