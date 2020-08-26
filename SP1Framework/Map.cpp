@@ -476,10 +476,6 @@ void Map::Dmoves(Player& player)
 			DisasterPlane[cord.Y][cord.X] = 'p';
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
-			if ((player.getX() == cord.X) && (player.getY() == cord.Y))
-			{
-				DisasterPlane[cord.Y][cord.X] = 'p';
-			}
 			disasters[i]->reaction(player, map[cord.Y][cord.X]);
 			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
 		}
