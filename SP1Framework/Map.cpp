@@ -202,7 +202,8 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			{
 				disasters[Didx] = new Tornado(col, row, 'T');
 				Didx++;
-				map[row][col] = 'T';
+				DisasterPlane[row][col] = 'T';
+				map[row][col] = ' ';
 				col++;
 			}
 			else
@@ -311,12 +312,10 @@ void Map::DrawMap(Console& anotherC, Player& player)
 			switch (DisasterPlane[i + offset.Y][j + offset.X])
 			{
 			case 'B':
-				anotherC.writeToBuffer(45 + j * 2, i, " ", 0x1F);
-				anotherC.writeToBuffer(46 + j * 2, i, " ", 0x1F);
+				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x1F);
 				break;
 			case 'T':
-				anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x2A);
-				anotherC.writeToBuffer(46 + j * 2, i, "²²", 0x2A);
+				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x2A);
 			}
 		}
 	}
@@ -372,19 +371,19 @@ void Map::Disasterfacing()
 		if (disasters[i] != nullptr)
 		{
 			COORD cord= disasters[i]->getcord();
-			if (map[cord.Y - 1][cord.X] == 'h')
+			if (DisasterPlane[cord.Y - 1][cord.X] == 'h')
 			{
 				disasters[i]->changeDirection('W');
 			}
-			if (map[cord.Y][cord.X - 1] == 'h')
+			if (DisasterPlane[cord.Y][cord.X - 1] == 'h')
 			{
 				disasters[i]->changeDirection('A');
 			}
-			if (map[cord.Y + 1][cord.X] == 'h')
+			if (DisasterPlane[cord.Y + 1][cord.X] == 'h')
 			{
 				disasters[i]->changeDirection('S');
 			}
-			if (map[cord.Y][cord.X + 1] == 'h')
+			if (DisasterPlane[cord.Y][cord.X + 1] == 'h')
 			{
 				disasters[i]->changeDirection('D');
 			}
@@ -468,6 +467,10 @@ void Map::Dmoves(Player& player)
 			DisasterPlane[cord.Y][cord.X] = 'p';
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
+			if ((player.getX() == cord.X) && (player.getY() == cord.Y))
+			{
+				DisasterPlane[cord.Y][cord.X] = 'p';
+			}
 			disasters[i]->reaction(player, map[cord.Y][cord.X]);
 			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
 		}
