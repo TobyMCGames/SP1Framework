@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <sstream>
-#include "Player.h"
 
+class Player;
 
 class Item
 {

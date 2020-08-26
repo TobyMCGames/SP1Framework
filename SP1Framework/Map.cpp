@@ -371,10 +371,6 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
 					break;
-				case '@':
-					anotherC.writeToBuffer(45 + j * 2, i, (char)223, 0x8F);
-					anotherC.writeToBuffer(46 + j * 2, i, (char)223, 0x8F);
-					break;
 				case '1':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
 					break;
