@@ -63,6 +63,7 @@ bool Map::collides(char direction, Player& anotherP)
 	{
 	case 'W':
 		switch (map[anotherP.getY() - anotherP.getspeed()][anotherP.getX()]) {
+		case 'S':
 		case 'W':
 			return true;
 		case '@':
@@ -95,6 +96,7 @@ bool Map::collides(char direction, Player& anotherP)
 		break;
 	case 'S':
 		switch (map[anotherP.getY() + anotherP.getspeed()][anotherP.getX()]) {
+		case 'S':
 		case 'W':
 			return true;
 		case '@':
@@ -122,6 +124,7 @@ bool Map::collides(char direction, Player& anotherP)
 		break;
 	case 'A':
 		switch (map[anotherP.getY()][anotherP.getX() - anotherP.getspeed()]) {
+		case 'S':
 		case 'W':
 			return true;
 		case '@':
@@ -149,6 +152,7 @@ bool Map::collides(char direction, Player& anotherP)
 		break;
 	case 'D':
 		switch (map[anotherP.getY()][anotherP.getX() + anotherP.getspeed()]) {
+		case 'S':
 		case 'W':
 			return true;
 		case '@':
@@ -367,6 +371,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case '@':
 					anotherC.writeToBuffer(45 + j * 2, i, (char)220, 0xF8);
 					anotherC.writeToBuffer(46 + j * 2, i, (char)220, 0xF8);
+					break;
+				case 'G':
+					anotherC.writeToBuffer(45 + j * 2, i, "°°", 0x84);
 					break;
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
