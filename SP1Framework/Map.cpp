@@ -28,6 +28,7 @@ Map::Map() :
 	{
 		disasters[i] = nullptr;
 	}
+
 }
 
 Map::~Map()
@@ -175,6 +176,11 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				disasters[Didx] = new Boulder(col, row, 'B');
 				Didx++;
 			}
+			else if (data[datarow] == 'T')
+			{
+				disasters[Didx] = new Tornado(col, row, 'T');
+				Didx++;
+			}
 			else
 			{
 				map[row][col] = data[datarow];
@@ -278,6 +284,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'B':
 					anotherC.writeToBuffer(45 + j * 2, i, " ", 0x1F);
 					anotherC.writeToBuffer(46 + j * 2, i, " ", 0x1F);
+				case 'T':
+					anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x2A);
+					anotherC.writeToBuffer(46 + j * 2, i, "²²", 0x2A);
 			}		
 		}
 	}

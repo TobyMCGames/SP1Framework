@@ -10,6 +10,7 @@
 #include "Earthquake.h"
 #include "item_general.h"
 #include "Boulder.h"
+#include "Tornado.h"
 #include <sstream>
 class Map
 {
