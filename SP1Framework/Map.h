@@ -31,6 +31,10 @@ public:
 	string getlevel();
 	bool collides(char direction, Player& anotherP);
 	bool item_pickup(char facing, Player& anotherP, item_general& anotherI);
+	bool earthquakeI;
+	bool tornadoI;
+	bool tsunamiI;
+	bool volcanoI;
 
 	//Disaster movements
 	void Disasterfacing();

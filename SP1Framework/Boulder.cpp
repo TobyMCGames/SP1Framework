@@ -18,11 +18,13 @@ void Boulder::reaction(Player& player, char tile)
 {
 	switch (tile)
 	{
-	case 'P':
-		player.decreaselife();
+	case 'W':
 		c.X = Spawner.X;
 		c.Y = Spawner.Y;
-	case 'W':
+	}
+	if ((c.X == player.getX()) && (c.Y == player.getY()))
+	{
+		player.decreaselife();
 		c.X = Spawner.X;
 		c.Y = Spawner.Y;
 	}
