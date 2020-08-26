@@ -30,6 +30,7 @@ Map::Map() :
 	{
 		disasters[i] = nullptr;
 	}
+
 }
 
 Map::~Map()
@@ -153,6 +154,7 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			}
 			else if (data[datarow] == 'E' && EQArray[EQidx] == nullptr)
 			{
+				earthquakeI = true;
 				map[row][col] = data[datarow];
 				DisasterPlane[row][col] = ' ';
 				EQArray[EQidx] = new Earthquake;
@@ -196,6 +198,11 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				DisasterPlane[row][col] = 'h';
 				col++;
 			}
+			else if (data[datarow] == 'T')
+			{
+				disasters[Didx] = new Tornado(col, row, 'T');
+				Didx++;
+			}
 			else
 			{
 				map[row][col] = data[datarow];
@@ -233,6 +240,7 @@ void Map::updateMap(double dt)
 
 		//The rest of the disasters
 	}
+
 }
 
 void Map::DrawMap(Console& anotherC, Player& player)
@@ -304,6 +312,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				anotherC.writeToBuffer(45 + j * 2, i, " ", 0x1F);
 				anotherC.writeToBuffer(46 + j * 2, i, " ", 0x1F);
 				break;
+			case 'T':
+				anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x2A);
+				anotherC.writeToBuffer(46 + j * 2, i, "²²", 0x2A);
 			}
 		}
 	}

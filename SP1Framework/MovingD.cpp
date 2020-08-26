@@ -35,6 +35,7 @@ char MovingD::geticon()
 	return icon;
 }
 
+
 void MovingD::changeDirection(char d)
 {
 	direction = d;
