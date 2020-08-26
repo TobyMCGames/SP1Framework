@@ -7,53 +7,22 @@
 
 
 
-class item_general
-{
-private:
-	string current_item;
-	char Icon;
-public:
-	item_general();
-	~item_general();
-
-	//set functions
-	void setX(int x);
-	void setY(int y);
-	//void setIcon();
-
-	//get functions
-	int getX();
-	int getY();
-	string getFunction();
-	bool is_item_exist();
-	//bool is_player_near();
-	char getIcon();
-
-	void change_exist();
-	//void change_near();
-	void change_current_item();
-};
-
-struct Items
-{
-	COORD c;
-	char icon;
-	string function;
-	bool item_exist;
-	//bool player_near;
-};
-
-
-
-/*
 class item
 {
 private:
 	Objects* object[2] = { nullptr, nullptr };
-	enum itemID {};
+	char itemIcons[2] = { '1', '2' };
+	int no_of_items;
 public:
 	item();
 	~item();
+
+	//get functions
+	char itemSetXY(char icon, int x, int y);
+	bool is_itemIcon(char icon);
+	char what_itemIcon(char icon);
+	int getX(char icon);
+	int getY(char icon);
+	string getFunction(char icon);
 };
-*/
 

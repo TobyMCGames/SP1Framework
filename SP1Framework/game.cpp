@@ -28,7 +28,7 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 Player  g_sChar;
-item_general g_sItem;
+item g_sItem;
 Map map;
 SplashScreen splashscreen;
 mainmenu _mainmenu;
@@ -478,9 +478,7 @@ void moveCharacter()
     if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown)
     {
         g_sChar.changeActive();
-        if (map.item_pickup(g_sChar.getFacing(), g_sChar, g_sItem) == true) {
-            map.item_remove(g_sItem);
-        }
+        map.item_remove(g_sChar.getFacing(), g_sChar, g_sItem, _inventory);
     }
 }
 

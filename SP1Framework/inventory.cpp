@@ -3,12 +3,10 @@
 inventory::inventory()
 {
 	//inventory
-	items[0] = "rock"; // 'none' or 'empty' will be used to denote an unused slot
+	items[0] = "none"; // 'none' or 'empty' will be used to denote an unused slot
 	items[1] = "none";
 	items[2] = "none";
 	items[3] = "none";
-	items[4] = "none";
-	items[5] = "none";
 	current_equipped = "none";
 
 	//buttons
@@ -16,8 +14,6 @@ inventory::inventory()
 	buttons[1] = new Button(23, 12, 0x0F, "   Swap   ");
 	buttons[2] = new Button(13, 16, 0x0F, "   Swap   ");
 	buttons[3] = new Button(23, 16, 0x0F, "   Swap   ");
-	buttons[4] = new Button(13, 20, 0x0F, "   Swap   ");
-	buttons[5] = new Button(23, 20, 0x0F, "   Swap   ");
 	equipped_slot = 0;
 }
 inventory::~inventory()
@@ -46,9 +42,17 @@ int inventory::checkButtons(COORD c)
 	}
 	return -1;
 }
+int inventory::pick_empty_slot()
+{
+	return distance(items, find(items, items + 6, "none"));
+}
 
 
 //set functions Û
+void inventory::item_add(string Item)
+{
+	items[pick_empty_slot()] = Item;
+}
 void inventory::change_equipped_slot()
 {
 	equipped_slot++;
@@ -67,8 +71,6 @@ void inventory::renderInventory(Console& anotherC)
 	anotherC.writeToBuffer(23, 11, items[1], 0x0F);
 	anotherC.writeToBuffer(13, 15, items[2], 0x0F);
 	anotherC.writeToBuffer(23, 15, items[3], 0x0F);
-	anotherC.writeToBuffer(13, 19, items[4], 0x0F);
-	anotherC.writeToBuffer(23, 19, items[5], 0x0F);
 
 	anotherC.writeToBuffer(18, 25, current_equipped, 0x0F);
 }
@@ -83,8 +85,3 @@ void inventory::renderEquipChange(Console& anotherC)
 		buttons[x]->renderButton(anotherC, onbutton);
 	}
 }
-
-
-
-
-

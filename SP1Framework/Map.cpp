@@ -9,6 +9,10 @@ Map::Map() :
 	fixed_update(0),
 	map{ },
 	DisasterPlane{ },
+	earthquakeI(false),
+	tornadoI(false),
+	tsunamiI(false),
+	volcanoI(false),
 	disasters { },
 	EQArray{ },
 	VArray{ }
@@ -63,7 +67,12 @@ bool Map::collides(char direction, Player& anotherP)
 		case 'W':
 			return true;
 		case '@':
+			//insert reset stuff here
 			mapchange = true;
+			earthquakeI = false;
+			volcanoI = false;
+			tornadoI = false;
+			tsunamiI = false;
 		case 'E':
 			for (int i = 0; i < 500; i++)
 			{
@@ -163,7 +172,7 @@ void Map::nextlevel()
 	maplevel++;
 }
 
-void Map::loadMap(std::string anothermap, Player& player, item_general& item)
+void Map::loadMap(std::string anothermap, Player& player, Item& item)
 {
 	for (int i = 0; i < 50; i++)
 	{
@@ -188,7 +197,7 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 		std::stringstream ss(line);
 		while (getline(ss, cell, ',')) //gets cell
 		{
-			for (int i = 0; i < cell.length(); i++)
+			for (unsigned int i = 0; i < cell.length(); i++)
 			{
 				if (i == 0)									//FIRST CHAR REPRESENTS THE OBJECT
 				{
@@ -199,12 +208,14 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 						EQArray[EQidx] = new Earthquake;
 						EQArray[EQidx]->setCOORD(col, row);
 						EQidx++;
+						earthquakeI = true;
 						break;
 					case'F':
 						map[row][col] = cell[i];
 						VArray[Vidx] = new Volcano;
 						VArray[Vidx]->setCOORD(col, row);
 						Vidx++;
+						volcanoI = false;
 						break;
 					case 'B':
 						map[row][col] = ' ';
@@ -223,7 +234,9 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 						map[row][col] = ' ';
 						disasters[Didx] = new Tornado(col, row, 'T');
 						Didx++;
+						tornadoI = true;
 						DisasterPlane[row][col] = 'T';
+
 						break;
 					default:
 						if (cell[i] == player.getIcon())
@@ -232,18 +245,18 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 							player.setX(col);
 							player.setY(row);
 						}
-						else if (cell[i] == item.getIcon()) //Item Icon
-						{
-							if (item.is_item_exist() == true) {
-								map[row][col] = 'I';
-								item.setX(col);
-								item.setY(row);
-							}
-							else
-							{
-								map[row][col] = ' ';
-							}
-						}
+						//else if (cell[i] == item.getIcon()) //Item Icon
+						//{
+						//	if (item.is_item_exist() == true) {
+						//		map[row][col] = 'I';
+						//		item.setX(col);
+						//		item.setY(row);
+						//	}
+						//	else
+						//	{
+						//		map[row][col] = ' ';
+						//	}
+						//}
 						else
 						{
 							map[row][col] = cell[i];
@@ -255,7 +268,6 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				{
 					//if (cell[i] == d) blahblahblah
 				}
-
 			}
 			col++;
 			
@@ -269,40 +281,40 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 
 void Map::updateMap(double dt)
 {
-	int idx;
-	int idx2;
+	int EQidx;
+	int Vidx;
 	fixed_update += dt;
 	if (fixed_update >= 0.16 * 1) 
 	{
 		for (int i = 0; i < 5; i++) //EarthQuake Tiles
 		{
-			idx = rand() % 500;
-			while (EQArray[idx] == nullptr)
+			EQidx = rand() % 500;
+			while (EQArray[EQidx] == nullptr)
 			{
-				idx = rand() % 500;
+				EQidx = rand() % 500;
 			}
 
-			if (EQArray[idx]->getState() != true)
+			if (EQArray[EQidx]->getState() != true)
 			{
-				EQArray[idx]->toggle();
+				EQArray[EQidx]->toggle();
 				fixed_update = 0;
 			}
 		}
 
-		/*for (int j = 0; j < 5; j++) //Volcano Tiles
-		{
-			idx2 = rand() % 500;
-			while (VArray[idx2] == nullptr)
-			{
-				idx2 = rand() % 500;
-			}
+		//for (int j = 0; j < 5; j++) //Volcano Tiles
+		//{
+		//	Vidx = rand() % 500;
+		//	while (VArray[Vidx] == nullptr)
+		//	{
+		//		Vidx = rand() % 500;
+		//	}
 
-			if (VArray[idx2]->getState() != true)
-			{
-				VArray[idx2]->toggle();
-				fixed_update = 0;
-			}
-		}*/
+		//	if (VArray[Vidx]->getState() != true)
+		//	{
+		//		VArray[Vidx]->toggle();
+		//		fixed_update = 0;
+		//	}
+		//}
 		//The rest of the disasters
 	}
 
@@ -354,9 +366,11 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
 					break;
-				case '@':
-					anotherC.writeToBuffer(45 + j * 2, i, (char)223, 0x8F);
-					anotherC.writeToBuffer(46 + j * 2, i, (char)223, 0x8F);
+				case '1':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
+					break;
+				case '2':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
 					break;
 				case 'E':
 					for (int k = 0; k < 500; k++)
@@ -397,7 +411,8 @@ void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 	anotherC.writeToBuffer(45 + 2 * (anotherP.getX() - offset.X), anotherP.getY() - offset.Y, anotherP.getmodel() , charColor);
 }
 
-bool Map::item_pickup(char facing, Player& player, item_general& item)
+/*
+char Map::facing_icon(char facing, Player& player, Item& item)
 {
 	if (player.is_Active() == true) {
 		switch (facing)
@@ -428,37 +443,28 @@ bool Map::item_pickup(char facing, Player& player, item_general& item)
 		}
 	}
 }
+*/
 
 bool Map::getearthquakeI()
 {
-	for (int x = 0; x < 135; x++)
-	{
-		for (int y = 0; y < 135; y++)
-		{
-			if (map[x][y] == 'E')
-			{
-				return true;
-			}
-		}
-	}
-}
-bool Map::gettornadoI()
-{
-	return true;
-}
-bool Map::gettsunamiI()
-{
-	return true;
-}
-bool Map::getvolcanoI()
-{
-	return true;
+	return earthquakeI;
 }
 
-void Map::item_remove(item_general& item)
+bool Map::gettornadoI()
 {
-	map[item.getX()][item.getY()] = ' ';
+	return tornadoI;
 }
+
+bool Map::gettsunamiI()
+{
+	return tsunamiI;
+}
+
+bool Map::getvolcanoI()
+{
+	return volcanoI;
+}
+
 
 // Disaster functions
 void Map::Disasterfacing()
@@ -564,10 +570,6 @@ void Map::Dmoves(Player& player)
 			DisasterPlane[cord.Y][cord.X] = 'p';
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
-			if ((player.getX() == cord.X) && (player.getY() == cord.Y))
-			{
-				DisasterPlane[cord.Y][cord.X] = 'p';
-			}
 			disasters[i]->reaction(player, map[cord.Y][cord.X]);
 			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
 		}

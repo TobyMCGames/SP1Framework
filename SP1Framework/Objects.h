@@ -9,9 +9,9 @@ private:
 	COORD c;
 	string function;
 	char icon;
-	
+
 public:
-	Objects(int x,int y, string function, char icon);
+	Objects(int x, int y, string function, char icon);
 	~Objects();
 
 
@@ -20,5 +20,8 @@ public:
 	int getY();
 	char geticon();
 	string getfunction();
-};
 
+	//Set functions
+	void setX(int x);
+	void setY(int y);
+};
