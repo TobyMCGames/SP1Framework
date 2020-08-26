@@ -10,7 +10,8 @@ Map::Map() :
 	map{ },
 	DisasterPlane{ },
 	disasters { },
-	EQArray{ }
+	EQArray{ },
+	VArray{ }
 {
 	for (int row = 0; row < x; row++) {
 		for (int col = 0; col < y; col++) {
@@ -29,6 +30,11 @@ Map::Map() :
 	for (int i = 0; i < 50; i++)
 	{
 		disasters[i] = nullptr;
+	}
+
+	for (int i = 0; i < 500; i++)
+	{
+		VArray[i] = nullptr;
 	}
 }
 
@@ -66,6 +72,14 @@ bool Map::collides(char direction, Player& anotherP)
 					return true;
 				}
 			}
+		case 'F':
+			for (int i = 0; i < 500; i++)
+			{
+				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
+				{
+					return true;
+				}
+			}
 		}
 		break;
 	case 'S':
@@ -78,6 +92,14 @@ bool Map::collides(char direction, Player& anotherP)
 			for (int i = 0; i < 500; i++)
 			{
 				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() && EQArray[i]->getY() == anotherP.getY() + anotherP.getspeed() && EQArray[i]->getState() == true)
+				{
+					return true;
+				}
+			}
+		case 'F':
+			for (int i = 0; i < 500; i++)
+			{
+				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
 				{
 					return true;
 				}
@@ -98,6 +120,14 @@ bool Map::collides(char direction, Player& anotherP)
 					return true;
 				}
 			}
+		case 'F':
+			for (int i = 0; i < 500; i++)
+			{
+				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
+				{
+					return true;
+				}
+			}
 		}
 		break;
 	case 'D':
@@ -110,6 +140,14 @@ bool Map::collides(char direction, Player& anotherP)
 			for (int i = 0; i < 500; i++)
 			{
 				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() + anotherP.getspeed() && EQArray[i]->getY() == anotherP.getY() && EQArray[i]->getState() == true)
+				{
+					return true;
+				}
+			}
+		case 'F':
+			for (int i = 0; i < 500; i++)
+			{
+				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
 				{
 					return true;
 				}
@@ -132,6 +170,7 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 	f.open(path);
 	std::string data;
 	int EQidx = 0;
+	int Vidx = 0;
 	int Didx = 0;
 	int col = 0;
 	int row = 0;
@@ -153,12 +192,20 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			}
 			else if (data[datarow] == 'E' && EQArray[EQidx] == nullptr)
 			{
-				earthquakeI = true;
 				map[row][col] = data[datarow];
 				DisasterPlane[row][col] = ' ';
 				EQArray[EQidx] = new Earthquake;
 				EQArray[EQidx]->setCOORD(col, row);
 				EQidx++;
+				col++;
+			}
+			else if (data[datarow] == 'F' && VArray[Vidx] == nullptr)
+			{
+				map[row][col] = data[datarow];
+				DisasterPlane[row][col] = ' ';
+				VArray[Vidx] = new Volcano;
+				VArray[Vidx]->setCOORD(col, row);
+				Vidx++;
 				col++;
 			}
 			else if (data[datarow] == item.getIcon()) //Item Icon
@@ -223,6 +270,7 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 void Map::updateMap(double dt)
 {
 	int idx;
+	int idx2;
 	fixed_update += dt;
 	if (fixed_update >= 0.16 * 1) 
 	{
@@ -241,6 +289,20 @@ void Map::updateMap(double dt)
 			}
 		}
 
+		/*for (int j = 0; j < 5; j++) //Volcano Tiles
+		{
+			idx2 = rand() % 500;
+			while (VArray[idx2] == nullptr)
+			{
+				idx2 = rand() % 500;
+			}
+
+			if (VArray[idx2]->getState() != true)
+			{
+				VArray[idx2]->toggle();
+				fixed_update = 0;
+			}
+		}*/
 		//The rest of the disasters
 	}
 
@@ -304,6 +366,14 @@ void Map::DrawMap(Console& anotherC, Player& player)
 							anotherC.writeToBuffer(45 + j * 2, i, "²²", EQArray[k]->getColor());
 						}
 					}
+				case 'F':
+					for (int k = 0; k < 500; k++)
+					{
+						if (VArray[k] != nullptr && VArray[k]->getX() == j + offset.X && VArray[k]->getY() == i + offset.Y)
+						{
+							anotherC.writeToBuffer(45 + j * 2, i, "²²", VArray[k]->getColor());
+						}
+					}
 					break;
 				case 'S':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
@@ -357,6 +427,32 @@ bool Map::item_pickup(char facing, Player& player, item_general& item)
 			}
 		}
 	}
+}
+
+bool Map::getearthquakeI()
+{
+	for (int x = 0; x < 135; x++)
+	{
+		for (int y = 0; y < 135; y++)
+		{
+			if (map[x][y] == 'E')
+			{
+				return true;
+			}
+		}
+	}
+}
+bool Map::gettornadoI()
+{
+	return true;
+}
+bool Map::gettsunamiI()
+{
+	return true;
+}
+bool Map::getvolcanoI()
+{
+	return true;
 }
 
 void Map::item_remove(item_general& item)
