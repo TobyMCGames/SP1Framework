@@ -11,6 +11,7 @@
 #include "item_general.h"
 #include "Boulder.h"
 #include "Tornado.h"
+#include "Volcano.h"
 #include <sstream>
 class Map
 {
@@ -22,6 +23,7 @@ private:
 	bool mapchange;
 	MovingD* disasters[50];
 	Earthquake* EQArray[500];
+	Volcano* VArray[500];
 
 public:
 	Map();
