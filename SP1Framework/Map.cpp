@@ -174,6 +174,8 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			{
 				disasters[Didx] = new Boulder(col, row, 'B');
 				Didx++;
+				map[row][col] = 'B';
+				col++;
 			}
 			else
 			{
@@ -429,8 +431,8 @@ void Map::Dmoves(Player& player)
 			map[cord.Y][cord.X] = 'p';
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
-			map[cord.Y][cord.X] = disasters[i]->geticon();
 			disasters[i]->reaction(player, map[cord.Y][cord.X]);
+			map[cord.Y][cord.X] = disasters[i]->geticon();
 		}
 	}
 }
