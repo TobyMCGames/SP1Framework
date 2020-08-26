@@ -30,7 +30,6 @@ Map::Map() :
 	{
 		disasters[i] = nullptr;
 	}
-
 }
 
 Map::~Map()
@@ -202,9 +201,10 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			{
 				disasters[Didx] = new Tornado(col, row, 'T');
 				Didx++;
-				DisasterPlane[row][col] = 'T';
 				map[row][col] = ' ';
+				DisasterPlane[row][col] = 'T';
 				col++;
+
 			}
 			else
 			{
@@ -316,6 +316,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				break;
 			case 'T':
 				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x2A);
+				break;
 			}
 		}
 	}
