@@ -10,7 +10,8 @@ Map::Map() :
 	map{ },
 	DisasterPlane{ },
 	disasters { },
-	EQArray{ }
+	EQArray{ },
+	TArray{ }
 {
 	for (int row = 0; row < x; row++) {
 		for (int col = 0; col < y; col++) {
@@ -31,6 +32,10 @@ Map::Map() :
 		disasters[i] = nullptr;
 	}
 
+	for (int i = 0; i < 50; i++)
+	{
+		TArray[i] = nullptr;
+	}
 }
 
 Map::~Map()
@@ -202,8 +207,10 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			{
 				disasters[Didx] = new Tornado(col, row, 'T');
 				Didx++;
-				map[row][col] = 'T';
+				map[row][col] = ' ';
+				DisasterPlane[row][col] = 'T';
 				col++;
+
 			}
 			else
 			{
@@ -317,6 +324,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 			case 'T':
 				anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x2A);
 				anotherC.writeToBuffer(46 + j * 2, i, "²²", 0x2A);
+				break;
 			}
 		}
 	}
