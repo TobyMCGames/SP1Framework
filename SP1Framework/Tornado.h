@@ -1,6 +1,7 @@
 #pragma once
 #include "MovingD.h"
 #include "Player.h"
+#include <random>
 
 class Tornado : public MovingD
 {
