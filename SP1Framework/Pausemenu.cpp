@@ -5,7 +5,7 @@ Pausemenu::Pausemenu():
 	selector(0),
 	buttons{ }
 {
-	buttons[0] = new Button(180/2 - 16, 19, 0x0F, "       Resume      ");
+	buttons[0] = new Button(180/2 - 16, 19, 0x0F, "      Resume       ");
 	buttons[1] = new Button(180/2 - 16, 21, 0x0F, "    How To Play    ");
 	buttons[2] = new Button(180/2 - 16, 23, 0x0F, " Exit to Main Menu ");
 
