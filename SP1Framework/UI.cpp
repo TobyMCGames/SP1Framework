@@ -225,7 +225,7 @@ void UI::renderdisasterindicator(Console& anotherC)
 	{
 		for (int col = 0; col < 11; col++)
 		{
-			if (map.volcanoI == true)
+			if (map.getvolcanoI() == true)
 			{
 				if ((disasterindicator[row][col] == 'Y'))
 				{
@@ -261,7 +261,7 @@ void UI::renderdisasterindicator(Console& anotherC)
 	{
 		for (int col = 11; col < 22; col++)
 		{
-			if (map.tornadoI == true)
+			if (map.gettornadoI() == true)
 			{
 				if ((disasterindicator[row][col] == 'G'))
 				{
@@ -297,7 +297,7 @@ void UI::renderdisasterindicator(Console& anotherC)
 	{
 		for (int col = 22; col < 33; col++)
 		{
-			if (map.earthquakeI == true)
+			if (map.getearthquakeI() == true)
 			{
 				if ((disasterindicator[row][col] == 'T'))
 				{
@@ -324,7 +324,7 @@ void UI::renderdisasterindicator(Console& anotherC)
 		{
 			for (int col = 33; col < 43; col++)
 			{
-				if (map.tsunamiI == true)
+				if (map.gettsunamiI() == true)
 				{
 					if ((disasterindicator[row][col] == 'A'))
 					{
