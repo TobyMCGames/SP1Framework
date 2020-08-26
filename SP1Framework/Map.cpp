@@ -125,16 +125,8 @@ void Map::nextlevel()
 	maplevel++;
 }
 
-void Map::loadMap(std::string anothermap, Player& player, item_general& item)
+void Map::loadMap(std::string anothermap, Player& player, item& Item)
 {
-	for (int i = 0; i < 50; i++)
-	{
-		if (disasters[i] != nullptr)
-		{
-			delete disasters[i];
-			disasters[i] = nullptr;
-		}
-	}
 	string path = "Maps\\" + anothermap;
 	std::ifstream f;
 	f.open(path);
@@ -169,21 +161,11 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				EQidx++;
 				col++;
 			}
-			else if (data[datarow] == item.getIcon()) //Item Icon
+			else if (Item.is_itemIcon(data[datarow]) == true) //Item Icon
 			{
-				if (item.is_item_exist() == true) {
-					item.setX(col);
-					item.setY(row);
-					map[row][col] = 'I';
-					DisasterPlane[row][col] = ' ';
-					col++;
-				}
-				else
-				{
-					map[row][col] = ' ';
-					DisasterPlane[row][col] = ' ';
-					col++;
-				}
+				Item.itemSetXY(data[datarow], row, col);
+				map[row][col] = data[datarow];
+				col++;
 			}
 			else if (data[datarow] == 'B')
 			{
@@ -300,9 +282,11 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
 					break;
-				case '@':
-					anotherC.writeToBuffer(45 + j * 2, i, (char)223, 0x8F);
-					anotherC.writeToBuffer(46 + j * 2, i, (char)223, 0x8F);
+				case '1':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
+					break;
+				case '2':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
 					break;
 				case 'E':
 					for (int k = 0; k < 500; k++)
@@ -335,42 +319,37 @@ void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 	anotherC.writeToBuffer(45 + 2 * (anotherP.getX() - offset.X), anotherP.getY() - offset.Y, anotherP.getmodel() , charColor);
 }
 
-bool Map::item_pickup(char facing, Player& player, item_general& item)
+char Map::facing_icon(char facing, Player& player, item& Item)
 {
-	if (player.is_Active() == true) {
-		switch (facing)
+	switch (facing)
+	{
+	case 'W':
+		return Item.what_itemIcon(map[player.getX()][player.getY() - 1]);
+		break;
+	case 'A':
+		return Item.what_itemIcon(map[player.getX() - 1][player.getY()]);
+		break;
+	case 'S':
+		return Item.what_itemIcon(map[player.getX()][player.getY() + 1]);
+		break;
+	case 'D':
+		return Item.what_itemIcon(map[player.getX() + 1][player.getY()]);
+	}
+}
+
+void Map::item_remove(char facing, Player& player, item& Item, inventory& Inventory)
+{
+	if ((facing_icon(facing, player, Item) != 'X') && player.is_Active()) {
+		for (int i = 0; i < 2; i++)
 		{
-		case 'W':
-			if ((player.getX() == item.getX()) && ((player.getY() - 1) == item.getY() - 1)) {
-				item.change_exist();
-				return item.is_item_exist();
-				break;
-			}
-		case 'A':
-			if (((player.getX() - 1) == item.getX()) && (player.getY() == item.getY())) {
-				item.change_exist();
-				return item.is_item_exist();
-				break;
-			}
-		case 'S':
-			if ((player.getX() == item.getX()) && ((player.getY() - 1) == item.getY() + 1)) {
-				item.change_exist();
-				return item.is_item_exist();
-				break;
-			}
-		case 'D':
-			if (((player.getX() + 1) == item.getX()) && (player.getY() == item.getY())) {
-				item.change_exist();
-				return item.is_item_exist();
-			}
+			map[Item.getX(facing_icon(facing, player, Item))][Item.getY(facing_icon(facing, player, Item))] = ' ';
+			Inventory.item_add(Item.getFunction(facing_icon(facing, player, Item)));
 		}
 	}
 }
 
-void Map::item_remove(item_general& item)
-{
-	map[item.getX()][item.getY()] = ' ';
-}
+
+
 
 // Disaster functions
 void Map::Disasterfacing()

@@ -32,3 +32,13 @@ string Objects::getfunction()
 {
 	return function;
 }
+
+void Objects::setX(int x)
+{
+	c.X = x;
+}
+
+void Objects::setY(int y)
+{
+	c.Y = y;
+}

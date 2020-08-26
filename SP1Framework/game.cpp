@@ -28,7 +28,7 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 Player  g_sChar;
-item_general g_sItem;
+item g_sItem;
 Map map;
 SplashScreen splashscreen;
 mainmenu _mainmenu;
@@ -433,7 +433,7 @@ void updateGame()       // gameplay logic
     map.updateMap(g_dDeltaTime);
     moveCharacter();    // moves the character, collision detection, physics, etc                                    #230
                         // sound can be played here too.
-    inventoryManagement();
+    //inventoryManagement();
 }
 
 void moveCharacter()
@@ -477,9 +477,7 @@ void moveCharacter()
     if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown)
     {
         g_sChar.changeActive();
-        if (map.item_pickup(g_sChar.getFacing(), g_sChar, g_sItem) == true) {
-            map.item_remove(g_sItem);
-        }
+        map.item_remove(g_sChar.getFacing(), g_sChar, g_sItem, _inventory);
     }
 }
 
@@ -608,8 +606,8 @@ void renderMap()
     {
         map.nextlevel();
        //Change to TestMap.csv to well... test your items or something
-       //map.loadMap("TestMap.csv", g_sChar, g_sItem);
-       map.loadMap("map" + map.getlevel() + ".csv", g_sChar, g_sItem);
+       map.loadMap("TestMap.csv", g_sChar, g_sItem);
+       //map.loadMap("map" + map.getlevel() + ".csv", g_sChar, g_sItem);
        map.Disasterfacing();
     }
     //if (g_dDeltaTime % 2 == 0) {
