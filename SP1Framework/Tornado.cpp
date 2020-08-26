@@ -6,7 +6,7 @@ Tornado::Tornado(int x, int y,char icon)
 	c.Y = y;
 	Spawner.X = x;
 	Spawner.Y = y;
-	this->icon;
+	this->icon = icon;
 }
 
 Tornado::~Tornado()
