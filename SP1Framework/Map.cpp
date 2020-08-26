@@ -176,97 +176,89 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 	string path = "Maps\\" + anothermap;
 	std::ifstream f;
 	f.open(path);
-	std::string data;
+	std::string line;
+	std::string cell;
 	int EQidx = 0;
 	int Vidx = 0;
 	int Didx = 0;
 	int col = 0;
 	int row = 0;
-	while (getline(f, data))
+	while (getline(f, line))  //gets the line
 	{
-		for (int datarow = 0; datarow < (y * 2 - 1); datarow++) 
+		std::stringstream ss(line);
+		while (getline(ss, cell, ',')) //gets cell
 		{
-			if (data[datarow] == ',') //ignore comma in csv
+			for (int i = 0; i < cell.length(); i++)
 			{
-				continue;
-			}
-			else if (data[datarow] == player.getIcon()) //Player Icon
-			{
-				player.setX(col);
-				player.setY(row);
-				map[row][col] = ' ';
-				DisasterPlane[row][col] = ' ';
-				col++;
-			}
-			else if (data[datarow] == 'E' && EQArray[EQidx] == nullptr)
-			{
-				map[row][col] = data[datarow];
-				DisasterPlane[row][col] = ' ';
-				EQArray[EQidx] = new Earthquake;
-				EQArray[EQidx]->setCOORD(col, row);
-				EQidx++;
-				col++;
-			}
-			else if (data[datarow] == 'F' && VArray[Vidx] == nullptr)
-			{
-				map[row][col] = data[datarow];
-				DisasterPlane[row][col] = ' ';
-				VArray[Vidx] = new Volcano;
-				VArray[Vidx]->setCOORD(col, row);
-				Vidx++;
-				col++;
-			}
-			else if (data[datarow] == item.getIcon()) //Item Icon
-			{
-				if (item.is_item_exist() == true) {
-					item.setX(col);
-					item.setY(row);
-					map[row][col] = 'I';
-					DisasterPlane[row][col] = ' ';
-					col++;
-				}
-				else
+				if (i == 0)									//FIRST CHAR REPRESENTS THE OBJECT
 				{
-					map[row][col] = ' ';
-					DisasterPlane[row][col] = ' ';
-					col++;
+					switch (cell[i])
+					{
+					case'E':
+						map[row][col] = cell[i];
+						EQArray[EQidx] = new Earthquake;
+						EQArray[EQidx]->setCOORD(col, row);
+						EQidx++;
+						break;
+					case'F':
+						map[row][col] = cell[i];
+						VArray[Vidx] = new Volcano;
+						VArray[Vidx]->setCOORD(col, row);
+						Vidx++;
+						break;
+					case 'B':
+						map[row][col] = ' ';
+						disasters[Didx] = new Boulder(col, row, 'B');
+						Didx++;
+						DisasterPlane[row][col] = 'B';
+					case 'p':
+						map[row][col] = ' ';
+						DisasterPlane[row][col] = 'p';
+						break;
+					case 'h':
+						map[row][col] = ' ';
+						DisasterPlane[row][col] = 'h';
+						break;
+					case 'T':
+						map[row][col] = ' ';
+						disasters[Didx] = new Tornado(col, row, 'T');
+						Didx++;
+						DisasterPlane[row][col] = 'T';
+						break;
+					default:
+						if (cell[i] == player.getIcon())
+						{
+							map[row][col] = ' ';
+							player.setX(col);
+							player.setY(row);
+						}
+						else if (cell[i] == item.getIcon()) //Item Icon
+						{
+							if (item.is_item_exist() == true) {
+								map[row][col] = 'I';
+								item.setX(col);
+								item.setY(row);
+							}
+							else
+							{
+								map[row][col] = ' ';
+							}
+						}
+						else
+						{
+							map[row][col] = cell[i];
+						}
+					}
+					
 				}
-			}
-			else if (data[datarow] == 'B')
-			{
-				disasters[Didx] = new Boulder(col, row, 'B');
-				Didx++;
-				map[row][col] = ' ';
-				DisasterPlane[row][col] = 'B';
-				col++;
-			}
-			else if (data[datarow] == 'p')
-			{
-				map[row][col] = ' ';
-				DisasterPlane[row][col] = 'p';
-				col++;
-			}
-			else if (data[datarow] == 'h')
-			{
-				map[row][col] = ' ';
-				DisasterPlane[row][col] = 'h';
-				col++;
-			}
-			else if (data[datarow] == 'T')
-			{
-				disasters[Didx] = new Tornado(col, row, 'T');
-				Didx++;
-				map[row][col] = ' ';
-				DisasterPlane[row][col] = 'T';
-				col++;
+				else										//SECOND CHAR REPRESENTS DIRECTION OR WHATEVER U WANT IT TO BE
+				{
+					//if (cell[i] == d) blahblahblah
+				}
 
 			}
-			else
-			{
-				map[row][col] = data[datarow];
-				DisasterPlane[row][col] = ' ';
-				col++;
-			}
+			col++;
+			
 		}
 		row++;
 		col = 0;
