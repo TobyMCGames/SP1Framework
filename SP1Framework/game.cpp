@@ -28,7 +28,7 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 Player  g_sChar;
-item g_sItem;
+Item g_sItem;
 Map map;
 SplashScreen splashscreen;
 mainmenu _mainmenu;
@@ -478,7 +478,7 @@ void moveCharacter()
     if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown)
     {
         g_sChar.changeActive();
-        map.item_remove(g_sChar.getFacing(), g_sChar, g_sItem, _inventory);
+        //map.item_remove(g_sChar.getFacing(), g_sChar, g_sItem, _inventory);
     }
 }
 
@@ -598,7 +598,7 @@ void renderUI()
     ui.rendermapborder(g_Console);
     _inventory.renderInventory(g_Console);
     ui.renderstate(g_Console);
-    ui.renderdisasterindicator(g_Console);
+    ui.renderdisasterindicator(g_Console, map);
 }
 
 void renderMap()

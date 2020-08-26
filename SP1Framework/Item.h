@@ -7,15 +7,15 @@
 
 
 
-class item
+class Item
 {
 private:
 	Objects* object[2] = { nullptr, nullptr };
 	char itemIcons[2] = { '1', '2' };
 	int no_of_items;
 public:
-	item();
-	~item();
+	Item();
+	~Item();
 
 	//get functions
 	char itemSetXY(char icon, int x, int y);

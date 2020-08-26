@@ -191,7 +191,7 @@ void UI::loaddisasterindicator()
 
 }
 
-void UI::renderdisasterindicator(Console& anotherC)
+void UI::renderdisasterindicator(Console& anotherC, Map& map)
 {
 	for (int row = 0; row < 2; row++)
 	{

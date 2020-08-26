@@ -13,7 +13,6 @@ private:
 	char state[29][36];
 	char disasterindicator[12][43];
 	Player User;
-	Map map;
 public:
 	UI();
 	~UI();
@@ -23,6 +22,6 @@ public:
 	void loadstate();
 	void renderstate(Console& anotherC);
 	void loaddisasterindicator();
-	void renderdisasterindicator(Console& anotherC);
+	void renderdisasterindicator(Console& anotherC, Map& map);
 };
 

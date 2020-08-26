@@ -1,6 +1,5 @@
 #pragma once
 #include "Framework/console.h"
-#include "Button.h"
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -15,9 +14,6 @@ private:
 	//inventory
 	string items[4];
 	string current_equipped;
-
-	//buttons
-	Button* buttons[4] = { nullptr, nullptr, nullptr, nullptr};
 	int equipped_slot;
 
 public:

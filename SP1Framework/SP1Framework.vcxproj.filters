@@ -60,9 +60,6 @@
     <ClCompile Include="gameover.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="item_general.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Earthquake.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -82,6 +79,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Volcano.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,9 +122,6 @@
     <ClInclude Include="gameover.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="item_general.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Earthquake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -144,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Volcano.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

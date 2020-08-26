@@ -8,13 +8,6 @@ inventory::inventory()
 	items[2] = "none";
 	items[3] = "none";
 	current_equipped = "none";
-
-	//buttons
-	buttons[0] = new Button(13, 12, 0x0F, "   Swap   ");
-	buttons[1] = new Button(23, 12, 0x0F, "   Swap   ");
-	buttons[2] = new Button(13, 16, 0x0F, "   Swap   ");
-	buttons[3] = new Button(23, 16, 0x0F, "   Swap   ");
-	equipped_slot = 0;
 }
 inventory::~inventory()
 {
@@ -31,17 +24,7 @@ int inventory::get_equipped_slot()
 {
 	return equipped_slot;
 }
-int inventory::checkButtons(COORD c)
-{
-	for (int i = 0; i < 6; i++)
-	{
-		if ((c.X >= buttons[i]->getX()) && (c.X <= buttons[i]->getX() + (buttons[i]->getName()).size()) && (c.Y == buttons[i]->getY()))
-		{
-			return i;
-		}
-	}
-	return -1;
-}
+
 int inventory::pick_empty_slot()
 {
 	return distance(items, find(items, items + 6, "none"));
@@ -76,12 +59,5 @@ void inventory::renderInventory(Console& anotherC)
 }
 void inventory::renderEquipChange(Console& anotherC)
 {
-	for (int x = 0; x < 5; x++) {
-		bool onbutton = false;
-		if (x == equipped_slot)
-		{
-			onbutton = true;
-		}
-		buttons[x]->renderButton(anotherC, onbutton);
-	}
+
 }

@@ -1,18 +1,18 @@
-#include "item_general.h"
+#include "Item.h"
 
 
-item::item()
+Item::Item()
 {
 	no_of_items = sizeof(itemIcons);
 	object[0] = new Objects(2, 2, "rock", '1');
 	object[1] = new Objects(2, 2, "axe", '2');
 }
-item::~item()
+Item::~Item()
 {
 
 }
 
-char item::itemSetXY(char icon, int x, int y)
+char Item::itemSetXY(char icon, int x, int y)
 {
 	for (int i = 0; i < no_of_items; i++) {
 		if (icon == itemIcons[i]) {
@@ -24,7 +24,7 @@ char item::itemSetXY(char icon, int x, int y)
 	}
 }
 
-int item::getX(char icon)
+int Item::getX(char icon)
 {
 	for (int i = 0; i < no_of_items; i++) {
 		if (icon == itemIcons[i]) {
@@ -34,7 +34,7 @@ int item::getX(char icon)
 	}
 }
 
-int item::getY(char icon)
+int Item::getY(char icon)
 {
 	for (int i = 0; i < no_of_items; i++) {
 		if (icon == itemIcons[i]) {
@@ -44,7 +44,7 @@ int item::getY(char icon)
 	}
 }
 
-string item::getFunction(char icon)
+string Item::getFunction(char icon)
 {
 	for (int i = 0; i < no_of_items; i++) {
 		if (icon == itemIcons[i]) {
@@ -54,7 +54,7 @@ string item::getFunction(char icon)
 	}
 }
 
-bool item::is_itemIcon(char icon)
+bool Item::is_itemIcon(char icon)
 {
 	char* Icon;
 	Icon = std::find(itemIcons, itemIcons + no_of_items, icon);
@@ -66,7 +66,7 @@ bool item::is_itemIcon(char icon)
 	}
 }
 
-char item::what_itemIcon(char icon)
+char Item::what_itemIcon(char icon)
 {
 	char* Icon;
 	Icon = std::find(itemIcons, itemIcons + no_of_items, icon);
