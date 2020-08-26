@@ -183,6 +183,8 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			{
 				disasters[Didx] = new Tornado(col, row, 'T');
 				Didx++;
+				map[row][col] = 'T';
+				col++;
 			}
 			else
 			{
