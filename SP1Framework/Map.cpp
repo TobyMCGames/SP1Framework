@@ -127,6 +127,14 @@ void Map::nextlevel()
 
 void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 {
+	for (int i = 0; i < 50; i++)
+	{
+		if (disasters[i] != nullptr)
+		{
+			delete disasters[i];
+			disasters[i] = nullptr;
+		}
+	}
 	string path = "Maps\\" + anothermap;
 	std::ifstream f;
 	f.open(path);
