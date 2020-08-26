@@ -35,6 +35,10 @@ public:
 	bool tsunamiI;
 	bool volcanoI;
 
+	//Disaster movements
+	void Disasterfacing();
+	void Dmoves(Player& player);
+
 	//Input and draw 
 	void nextlevel();
 	void updateMap(double dt);

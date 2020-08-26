@@ -3,9 +3,9 @@
 class Boulder : public MovingD
 {
 public:
-	Boulder(int x, int y);
+	Boulder(int x, int y, char icon);
 	~Boulder();
 
-	void reaction(Player& player);
+	void reaction(Player& player, char tile);
 };
 

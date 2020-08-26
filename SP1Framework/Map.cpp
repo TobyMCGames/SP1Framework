@@ -23,6 +23,11 @@ Map::Map() :
 	{
 		EQArray[i] = nullptr;
 	}
+
+	for (int i = 0; i < 50; i++)
+	{
+		disasters[i] = nullptr;
+	}
 }
 
 Map::~Map()
@@ -124,7 +129,8 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 	std::ifstream f;
 	f.open(path);
 	std::string data;
-	int idx = 0;
+	int EQidx = 0;
+	int Didx = 0;
 	int col = 0;
 	int row = 0;
 	while (getline(f, data))
@@ -142,12 +148,13 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				map[row][col] = ' ';
 				col++;
 			}
-			else if (data[datarow] == 'E' && EQArray[idx] == nullptr)
+			else if (data[datarow] == 'E' && EQArray[EQidx] == nullptr)
 			{
 				earthquakeI = true;
 				map[row][col] = data[datarow];
-				EQArray[idx] = new Earthquake;
-				EQArray[idx]->setCOORD(col, row);
+				EQArray[EQidx] = new Earthquake;
+				EQArray[EQidx]->setCOORD(col, row);
+				EQidx++;
 				col++;
 			}
 			else if (data[datarow] == item.getIcon()) //Item Icon
@@ -166,7 +173,10 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			}
 			else if (data[datarow] == 'B')
 			{
-				disasters[idx] = new Boulder(col, row);
+				disasters[Didx] = new Boulder(col, row, 'B');
+				Didx++;
+				map[row][col] = 'B';
+				col++;
 			}
 			else
 			{
@@ -174,7 +184,6 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				col++;
 			}
 		}
-		idx++;
 		row++;
 		col = 0;
 	}
@@ -184,21 +193,26 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 
 void Map::updateMap(double dt)
 {
+	int idx;
 	fixed_update += dt;
-	if (fixed_update >= 0.16 * 2) 
+	if (fixed_update >= 0.16 * 1) 
 	{
-		int idx = rand() % 500;
-
-		while (EQArray[idx] == nullptr)
+		for (int i = 0; i < 5; i++) //EarthQuake Tiles
 		{
 			idx = rand() % 500;
+			while (EQArray[idx] == nullptr)
+			{
+				idx = rand() % 500;
+			}
+
+			if (EQArray[idx]->getState() != true)
+			{
+				EQArray[idx]->toggle();
+				fixed_update = 0;
+			}
 		}
 
-		if (EQArray[idx]->getState() != true)
-		{
-			EQArray[idx]->toggle();
-			fixed_update = 0;
-		}
+		//The rest of the disasters
 	}
 
 }
@@ -264,6 +278,10 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					break;
 				case 'S':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
+					break;
+				case 'B':
+					anotherC.writeToBuffer(45 + j * 2, i, " ", 0x1F);
+					anotherC.writeToBuffer(46 + j * 2, i, " ", 0x1F);
 			}		
 		}
 	}
@@ -309,4 +327,114 @@ bool Map::item_pickup(char facing, Player& player, item_general& item)
 void Map::item_remove(item_general& item)
 {
 	map[item.getX()][item.getY()] = ' ';
+}
+
+// Disaster functions
+void Map::Disasterfacing()
+{
+	for (int i = 0; i < 50; i++)
+	{
+		if (disasters[i] != nullptr)
+		{
+			COORD cord= disasters[i]->getcord();
+			if (map[cord.Y - 1][cord.X] == 'h')
+			{
+				disasters[i]->changeDirection('W');
+			}
+			if (map[cord.Y][cord.X - 1] == 'h')
+			{
+				disasters[i]->changeDirection('A');
+			}
+			if (map[cord.Y + 1][cord.X] == 'h')
+			{
+				disasters[i]->changeDirection('S');
+			}
+			if (map[cord.Y][cord.X + 1] == 'h')
+			{
+				disasters[i]->changeDirection('D');
+			}
+		}
+	}
+}
+
+void Map::Dmoves(Player& player)
+{
+	for (int i = 0; i < 50; i++)
+	{
+		if (disasters[i] != nullptr)
+		{
+			COORD cord = disasters[i]->getcord();
+			int x = 0, y = 0;
+			switch (disasters[i]->getdirection())
+			{
+			case 'W':
+				y = -1;
+				break;
+			case 'A':
+				x = -1;
+				break;
+			case 'S':
+				y = 1;
+				break;
+			case 'D':
+				x = 1;
+				break;
+			}
+			if ((map[cord.Y + y][cord.X + x] != 'p') && (map[cord.Y + y][cord.X + x] != 'h'))
+			{
+				switch (disasters[i]->getdirection())
+				{
+				case 'W':
+				case 'S':
+					if ((map[cord.Y][cord.X + 1] == 'p') || (map[cord.Y][cord.X + 1] == 'h'))
+					{
+						disasters[i]->changeDirection('D');
+						break;
+					}
+					else if ((map[cord.Y][cord.X - 1] == 'p') || (map[cord.Y][cord.X - 1] == 'h'))
+					{
+						disasters[i]->changeDirection('A');
+						break;
+					}
+					else if (disasters[i]->getdirection() == 'W')
+					{
+						disasters[i]->changeDirection('S');
+						break;
+					}
+					else
+					{
+						disasters[i]->changeDirection('W');
+						break;
+					}
+				case 'A':
+				case 'D':
+					if ((map[cord.Y + 1][cord.X] == 'p') || (map[cord.Y + 1][cord.X] == 'h'))
+					{
+						disasters[i]->changeDirection('S');
+						break;
+					}
+					else if ((map[cord.Y - 1][cord.X] == 'p') || (map[cord.Y - 1][cord.X] == 'h'))
+					{
+						disasters[i]->changeDirection('W');
+						break;
+					}
+					else if (disasters[i]->getdirection() == 'A')
+					{
+						disasters[i]->changeDirection('D');
+						break;
+					}
+					else
+					{
+						disasters[i]->changeDirection('A');
+						break;
+					}
+				}
+			}
+			map[cord.Y][cord.X] = 'p';
+			disasters[i]->move();
+			cord = disasters[i]->getcord();
+			disasters[i]->reaction(player, map[cord.Y][cord.X]);
+			map[cord.Y][cord.X] = disasters[i]->geticon();
+		}
+	}
 }
