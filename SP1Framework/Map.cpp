@@ -10,8 +10,7 @@ Map::Map() :
 	map{ },
 	DisasterPlane{ },
 	disasters { },
-	EQArray{ },
-	TArray{ }
+	EQArray{ }
 {
 	for (int row = 0; row < x; row++) {
 		for (int col = 0; col < y; col++) {
@@ -30,11 +29,6 @@ Map::Map() :
 	for (int i = 0; i < 50; i++)
 	{
 		disasters[i] = nullptr;
-	}
-
-	for (int i = 0; i < 50; i++)
-	{
-		TArray[i] = nullptr;
 	}
 }
 
