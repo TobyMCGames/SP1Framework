@@ -18,7 +18,12 @@ void Tornado::reaction(Player& player, char tile)
 {
 	switch (tile)
 	{
-	case 'P': //if tornado touches P
+	case 'W': //if tornado touches the Walls
+		c.X = Spawner.X;
+		c.Y = Spawner.Y;
+	}
+	if ((c.X == player.getX()) && (c.Y == player.getY()))
+	{
 		player.decreaselife(); // lose 1 life
 		player.setX(2); //setting player to original pos
 		player.setY(2);
@@ -27,10 +32,6 @@ void Tornado::reaction(Player& player, char tile)
 		gotoXY(c.X, c.Y);
 		c.X = Spawner.X; //Tornado go back to original pos
 		c.Y = Spawner.Y;
-	case 'W': //if tornado touches the Walls
-		c.X = Spawner.X;
-		c.Y = Spawner.Y;
-
 	}
 }
 
