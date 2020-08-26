@@ -17,6 +17,7 @@ private:
 	int x, y, maplevel;
 	double fixed_update;
 	char map[135][135];
+	char DisasterPlane[135][135];
 	bool mapchange;
 	MovingD* disasters[50];
 	Earthquake* EQArray[500];
