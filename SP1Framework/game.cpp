@@ -431,6 +431,7 @@ void updateGameOver()
 void updateGame()       // gameplay logic
 {
     map.updateMap(g_dDeltaTime);
+    map.Dmoves(g_sChar);
     moveCharacter();    // moves the character, collision detection, physics, etc                                    #230
                         // sound can be played here too.
     inventoryManagement();
@@ -604,17 +605,14 @@ void renderUI()
 
 void renderMap()
 {
-    if (map.getMapChange() == true) 
+    if (map.getMapChange() == true)
     {
         map.nextlevel();
-       //Change to TestMap.csv to well... test your items or something
-       //map.loadMap("TestMap.csv", g_sChar, g_sItem);
-       map.loadMap("map" + map.getlevel() + ".csv", g_sChar, g_sItem);
-       map.Disasterfacing();
+        //Change to TestMap.csv to well... test your items or something
+        //map.loadMap("TestMap.csv", g_sChar, g_sItem);
+        map.loadMap("map" + map.getlevel() + ".csv", g_sChar, g_sItem);
+        map.Disasterfacing();
     }
-    //if (g_dDeltaTime % 2 == 0) {
-    map.Dmoves(g_sChar);
-    //}
     map.DrawMap(g_Console, g_sChar);
 }
 

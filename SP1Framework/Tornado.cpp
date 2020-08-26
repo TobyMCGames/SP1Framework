@@ -25,11 +25,16 @@ void Tornado::reaction(Player& player, char tile)
 	if ((c.X == player.getX()) && (c.Y == player.getY()))
 	{
 		player.decreaselife(); // lose 1 life
-		player.setX(2); //setting player to original pos
-		player.setY(2);
-		c.X = player.getX();
-		c.Y = player.getY();
-		gotoXY(c.X, c.Y);
+		if (c.X != 'W' && c.Y != 'W')
+		{
+			player.setX(rand() % 135);
+			player.setY(rand() % 135);
+			c.X = player.getX();
+			c.Y = player.getY();
+			gotoXY(c.X, c.Y);
+		}
+		//player.setX(2);
+		//player.setY(2);
 		c.X = Spawner.X; //Tornado go back to original pos
 		c.Y = Spawner.Y;
 	}
