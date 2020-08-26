@@ -8,12 +8,14 @@ Map::Map() :
 	y(135),
 	fixed_update(0),
 	map{ },
+	DisasterPlane{ },
 	disasters { },
 	EQArray{ }
 {
 	for (int row = 0; row < x; row++) {
 		for (int col = 0; col < y; col++) {
 			map[row][col] = ' ';
+			DisasterPlane[row][col] = ' ';
 		}
 	}
 	maplevel = 0;
@@ -147,12 +149,14 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 				player.setX(col);
 				player.setY(row);
 				map[row][col] = ' ';
+				DisasterPlane[row][col] = ' ';
 				col++;
 			}
 			else if (data[datarow] == 'E' && EQArray[EQidx] == nullptr)
 			{
 				earthquakeI = true;
 				map[row][col] = data[datarow];
+				DisasterPlane[row][col] = ' ';
 				EQArray[EQidx] = new Earthquake;
 				EQArray[EQidx]->setCOORD(col, row);
 				EQidx++;
@@ -164,11 +168,13 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 					item.setX(col);
 					item.setY(row);
 					map[row][col] = 'I';
+					DisasterPlane[row][col] = ' ';
 					col++;
 				}
 				else
 				{
 					map[row][col] = ' ';
+					DisasterPlane[row][col] = ' ';
 					col++;
 				}
 			}
@@ -176,7 +182,20 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			{
 				disasters[Didx] = new Boulder(col, row, 'B');
 				Didx++;
-				map[row][col] = 'B';
+				map[row][col] = ' ';
+				DisasterPlane[row][col] = 'B';
+				col++;
+			}
+			else if (data[datarow] == 'p')
+			{
+				map[row][col] = ' ';
+				DisasterPlane[row][col] = 'p';
+				col++;
+			}
+			else if (data[datarow] == 'h')
+			{
+				map[row][col] = ' ';
+				DisasterPlane[row][col] = 'h';
 				col++;
 			}
 			else if (data[datarow] == 'T')
@@ -189,6 +208,7 @@ void Map::loadMap(std::string anothermap, Player& player, item_general& item)
 			else
 			{
 				map[row][col] = data[datarow];
+				DisasterPlane[row][col] = ' ';
 				col++;
 			}
 		}
@@ -287,13 +307,17 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'S':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
 					break;
-				case 'B':
-					anotherC.writeToBuffer(45 + j * 2, i, " ", 0x1F);
-					anotherC.writeToBuffer(46 + j * 2, i, " ", 0x1F);
-				case 'T':
-					anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x2A);
-					anotherC.writeToBuffer(46 + j * 2, i, "²²", 0x2A);
-			}		
+			}	
+			switch (DisasterPlane[i + offset.Y][j + offset.X])
+			{
+			case 'B':
+				anotherC.writeToBuffer(45 + j * 2, i, " ", 0x1F);
+				anotherC.writeToBuffer(46 + j * 2, i, " ", 0x1F);
+				break;
+			case 'T':
+				anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x2A);
+				anotherC.writeToBuffer(46 + j * 2, i, "²²", 0x2A);
+			}
 		}
 	}
 }
@@ -391,18 +415,18 @@ void Map::Dmoves(Player& player)
 				x = 1;
 				break;
 			}
-			if ((map[cord.Y + y][cord.X + x] != 'p') && (map[cord.Y + y][cord.X + x] != 'h'))
+			if ((DisasterPlane[cord.Y + y][cord.X + x] != 'p') && (DisasterPlane[cord.Y + y][cord.X + x] != 'h'))
 			{
 				switch (disasters[i]->getdirection())
 				{
 				case 'W':
 				case 'S':
-					if ((map[cord.Y][cord.X + 1] == 'p') || (map[cord.Y][cord.X + 1] == 'h'))
+					if ((DisasterPlane[cord.Y][cord.X + 1] == 'p') || (DisasterPlane[cord.Y][cord.X + 1] == 'h'))
 					{
 						disasters[i]->changeDirection('D');
 						break;
 					}
-					else if ((map[cord.Y][cord.X - 1] == 'p') || (map[cord.Y][cord.X - 1] == 'h'))
+					else if ((DisasterPlane[cord.Y][cord.X - 1] == 'p') || (DisasterPlane[cord.Y][cord.X - 1] == 'h'))
 					{
 						disasters[i]->changeDirection('A');
 						break;
@@ -419,12 +443,12 @@ void Map::Dmoves(Player& player)
 					}
 				case 'A':
 				case 'D':
-					if ((map[cord.Y + 1][cord.X] == 'p') || (map[cord.Y + 1][cord.X] == 'h'))
+					if ((DisasterPlane[cord.Y + 1][cord.X] == 'p') || (DisasterPlane[cord.Y + 1][cord.X] == 'h'))
 					{
 						disasters[i]->changeDirection('S');
 						break;
 					}
-					else if ((map[cord.Y - 1][cord.X] == 'p') || (map[cord.Y - 1][cord.X] == 'h'))
+					else if ((DisasterPlane[cord.Y - 1][cord.X] == 'p') || (DisasterPlane[cord.Y - 1][cord.X] == 'h'))
 					{
 						disasters[i]->changeDirection('W');
 						break;
@@ -441,11 +465,11 @@ void Map::Dmoves(Player& player)
 					}
 				}
 			}
-			map[cord.Y][cord.X] = 'p';
+			DisasterPlane[cord.Y][cord.X] = 'p';
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
 			disasters[i]->reaction(player, map[cord.Y][cord.X]);
-			map[cord.Y][cord.X] = disasters[i]->geticon();
+			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
 		}
 	}
 }

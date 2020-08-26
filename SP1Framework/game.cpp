@@ -612,7 +612,9 @@ void renderMap()
        map.loadMap("map" + map.getlevel() + ".csv", g_sChar, g_sItem);
        map.Disasterfacing();
     }
+    //if (g_dDeltaTime % 2 == 0) {
     map.Dmoves(g_sChar);
+    //}
     map.DrawMap(g_Console, g_sChar);
 }
 
