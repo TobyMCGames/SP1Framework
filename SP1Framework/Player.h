@@ -1,5 +1,6 @@
 #pragma once
 #include "Framework/console.h"
+#include "inventory.h"
 #include <string>
 #include <sstream>
 
@@ -8,6 +9,7 @@ class Player
 private:
 	COORD c;
 	WORD charColor;
+	inventory playerinventory;
 	std::string model;
 	static int life;
 	int speed;
@@ -38,6 +40,7 @@ public:
 	void setY(int y);
 	void increaselife();
 	void decreaselife();
+	void interact();
 
 	//movement
 	void moveLEFT();

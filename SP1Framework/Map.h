@@ -4,15 +4,14 @@
 #include <string>
 #include <sstream>
 #include <random>
+#include <sstream>
 #include "Framework\console.h"
 #include "Player.h"
-#include "Objects.h"
 #include "Earthquake.h"
-#include "Item.h"
 #include "Boulder.h"
 #include "Tornado.h"
 #include "Volcano.h"
-#include <sstream>
+
 class Map
 {
 private:
@@ -32,8 +31,9 @@ public:
 
 	//get functions
 	bool getMapChange();
-	string getlevel();
+	std::string getlevel();
 	bool collides(char direction, Player& anotherP);
+
 	//char facing_icon(char facing, Player& player, Item& item);
 	bool getearthquakeI();
 	bool gettornadoI();
@@ -47,8 +47,8 @@ public:
 	//Input and draw 
 	void nextlevel();
 	void updateMap(double dt);
-	void item_remove(char facing, Player& player, Item& item, inventory& Inventory);
-	void loadMap(std::string anothermap, Player& player, Item& item);
+	//void item_remove(char facing, Player& player, Item& item, inventory& Inventory);
+	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
 	

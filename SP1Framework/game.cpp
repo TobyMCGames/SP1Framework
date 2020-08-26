@@ -7,7 +7,6 @@
 #include "SplashScreen.h"
 #include "mainmenu.h"
 #include "Pausemenu.h"
-#include "inventory.h"
 #include "UI.h"
 #include "gameover.h"
 #include <iostream>
@@ -28,12 +27,10 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 Player  g_sChar;
-Item g_sItem;
 Map map;
 SplashScreen splashscreen;
 mainmenu _mainmenu;
 Pausemenu _pausemenu;
-inventory _inventory;
 gameover _gameover;
 UI ui;
 EGAMESTATES g_eGameState = EGAMESTATES::S_SPLASHSCREEN; // initial state
@@ -484,11 +481,7 @@ void moveCharacter()
 
 void inventoryManagement()
 {
-    if (g_skKeyEvent[(int)EKEYS::K_TAB].keyReleased)
-    {
-        _inventory.change_equipped_slot();
-    }
-    _inventory.renderEquipChange(g_Console);
+
 }
 
 void processUserInput()
@@ -596,7 +589,6 @@ void renderUI()
 {
     ui.renderlife(g_Console);
     ui.rendermapborder(g_Console);
-    _inventory.renderInventory(g_Console);
     ui.renderstate(g_Console);
     ui.renderdisasterindicator(g_Console, map);
 }
@@ -607,8 +599,8 @@ void renderMap()
     {
         map.nextlevel();
         //Change to TestMap.csv to well... test your items or something
-        //map.loadMap("TestMap.csv", g_sChar, g_sItem);
-        map.loadMap("map" + map.getlevel() + ".csv", g_sChar, g_sItem);
+        map.loadMap("TestMap.csv", g_sChar);
+        //map.loadMap("map" + map.getlevel() + ".csv", g_sChar);
         map.Disasterfacing();
     }
     map.DrawMap(g_Console, g_sChar);

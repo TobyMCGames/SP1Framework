@@ -115,6 +115,11 @@ void Player::decreaselife()
 	life--;
 }
 
+void Player::interact()
+{
+
+}
+
 void Player::moveLEFT()
 {
 	if (getX() > 23 && getX() <= 113)

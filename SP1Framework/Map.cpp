@@ -1,5 +1,4 @@
 ﻿#include "Map.h"
-using namespace std;
 
 COORD offset;
 
@@ -52,9 +51,9 @@ bool Map::getMapChange()
 	return mapchange;
 }
 
-string Map::getlevel()
+std::string Map::getlevel()
 {
-	string level = to_string(maplevel);
+	std::string level = std::to_string(maplevel);
 	return level;
 }
 
@@ -73,6 +72,7 @@ bool Map::collides(char direction, Player& anotherP)
 			volcanoI = false;
 			tornadoI = false;
 			tsunamiI = false;
+			break;
 		case 'E':
 			for (int i = 0; i < 500; i++)
 			{
@@ -81,6 +81,7 @@ bool Map::collides(char direction, Player& anotherP)
 					return true;
 				}
 			}
+			break;
 		case 'F':
 			for (int i = 0; i < 500; i++)
 			{
@@ -89,6 +90,7 @@ bool Map::collides(char direction, Player& anotherP)
 					return true;
 				}
 			}
+			break;
 		}
 		break;
 	case 'S':
@@ -97,6 +99,7 @@ bool Map::collides(char direction, Player& anotherP)
 			return true;
 		case '@':
 			mapchange = true;
+			break;
 		case 'E':
 			for (int i = 0; i < 500; i++)
 			{
@@ -105,6 +108,7 @@ bool Map::collides(char direction, Player& anotherP)
 					return true;
 				}
 			}
+			break;
 		case 'F':
 			for (int i = 0; i < 500; i++)
 			{
@@ -113,6 +117,7 @@ bool Map::collides(char direction, Player& anotherP)
 					return true;
 				}
 			}
+			break;
 		}
 		break;
 	case 'A':
@@ -121,6 +126,7 @@ bool Map::collides(char direction, Player& anotherP)
 			return true;
 		case '@':
 			mapchange = true;
+			break;
 		case 'E':
 			for (int i = 0; i < 500; i++)
 			{
@@ -129,6 +135,7 @@ bool Map::collides(char direction, Player& anotherP)
 					return true;
 				}
 			}
+			break;
 		case 'F':
 			for (int i = 0; i < 500; i++)
 			{
@@ -137,6 +144,7 @@ bool Map::collides(char direction, Player& anotherP)
 					return true;
 				}
 			}
+			break;
 		}
 		break;
 	case 'D':
@@ -145,6 +153,7 @@ bool Map::collides(char direction, Player& anotherP)
 			return true;
 		case '@':
 			mapchange = true;
+			break;
 		case 'E':
 			for (int i = 0; i < 500; i++)
 			{
@@ -153,6 +162,7 @@ bool Map::collides(char direction, Player& anotherP)
 					return true;
 				}
 			}
+			break;
 		case 'F':
 			for (int i = 0; i < 500; i++)
 			{
@@ -161,6 +171,7 @@ bool Map::collides(char direction, Player& anotherP)
 					return true;
 				}
 			}
+			break;
 		}
 		break;
 	}
@@ -172,7 +183,7 @@ void Map::nextlevel()
 	maplevel++;
 }
 
-void Map::loadMap(std::string anothermap, Player& player, Item& item)
+void Map::loadMap(std::string anothermap, Player& player)
 {
 	for (int i = 0; i < 50; i++)
 	{
@@ -182,7 +193,7 @@ void Map::loadMap(std::string anothermap, Player& player, Item& item)
 			disasters[i] = nullptr;
 		}
 	}
-	string path = "Maps\\" + anothermap;
+	std::string path = "Maps\\" + anothermap;
 	std::ifstream f;
 	f.open(path);
 	std::string line;
@@ -236,8 +247,10 @@ void Map::loadMap(std::string anothermap, Player& player, Item& item)
 						Didx++;
 						tornadoI = true;
 						DisasterPlane[row][col] = 'T';
-
 						break;
+					case '0':
+						map[row][col] = ' ';
+
 					default:
 						if (cell[i] == player.getIcon())
 						{
@@ -245,18 +258,6 @@ void Map::loadMap(std::string anothermap, Player& player, Item& item)
 							player.setX(col);
 							player.setY(row);
 						}
-						//else if (cell[i] == item.getIcon()) //Item Icon
-						//{
-						//	if (item.is_item_exist() == true) {
-						//		map[row][col] = 'I';
-						//		item.setX(col);
-						//		item.setY(row);
-						//	}
-						//	else
-						//	{
-						//		map[row][col] = ' ';
-						//	}
-						//}
 						else
 						{
 							map[row][col] = cell[i];
@@ -366,6 +367,10 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
 					break;
+				case '@':
+					anotherC.writeToBuffer(45 + j * 2, i, (char)223, 0x8F);
+					anotherC.writeToBuffer(46 + j * 2, i, (char)223, 0x8F);
+					break;
 				case '1':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
 					break;
@@ -380,6 +385,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 							anotherC.writeToBuffer(45 + j * 2, i, "²²", EQArray[k]->getColor());
 						}
 					}
+					break;
 				case 'F':
 					for (int k = 0; k < 500; k++)
 					{

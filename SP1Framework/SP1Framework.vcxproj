@@ -81,6 +81,7 @@
     <ClCompile Include="Boulder.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Earthquake.cpp" />
+    <ClCompile Include="HealthPotion.cpp" />
     <ClCompile Include="MovingD.cpp" />
     <ClCompile Include="Pausemenu.cpp" />
     <ClCompile Include="Tornado.cpp" />
@@ -94,7 +95,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainmenu.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Objects.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -104,6 +104,7 @@
     <ClInclude Include="Boulder.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Earthquake.h" />
+    <ClInclude Include="HealthPotion.h" />
     <ClInclude Include="MovingD.h" />
     <ClInclude Include="Pausemenu.h" />
     <ClInclude Include="Tornado.h" />
@@ -116,7 +117,6 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="Objects.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Player.h" />

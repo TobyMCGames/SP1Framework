@@ -1,80 +1,46 @@
 #include "Item.h"
 
 
-Item::Item()
+Item::Item() :
+	name(" "),
+	max_stacks(4),
+	symbol("  ")
 {
-	no_of_items = sizeof(itemIcons);
-	object[0] = new Objects(2, 2, "rock", '1');
-	object[1] = new Objects(2, 2, "axe", '2');
 }
+
 Item::~Item()
 {
 
 }
 
-char Item::itemSetXY(char icon, int x, int y)
+std::string Item::getname()
 {
-	for (int i = 0; i < no_of_items; i++) {
-		if (icon == itemIcons[i]) {
-			object[i]->setX(x);
-			object[i]->setY(y);
-			return itemIcons[i];
-			break;
-		}
-	}
+	return name;
 }
 
-int Item::getX(char icon)
+int Item::getmaxstacks()
 {
-	for (int i = 0; i < no_of_items; i++) {
-		if (icon == itemIcons[i]) {
-			return object[i]->getX();
-			break;
-		}
-	}
+	return max_stacks;
 }
 
-int Item::getY(char icon)
+std::string Item::getsymbol()
 {
-	for (int i = 0; i < no_of_items; i++) {
-		if (icon == itemIcons[i]) {
-			return object[i]->getY();
-			break;
-		}
-	}
+	return symbol;
 }
 
-string Item::getFunction(char icon)
+void Item::setname(std::string name)
 {
-	for (int i = 0; i < no_of_items; i++) {
-		if (icon == itemIcons[i]) {
-			return object[i]->getfunction();
-			break;
-		}
-	}
+	this->name = name;
 }
 
-bool Item::is_itemIcon(char icon)
+void Item::setmax(int max)
 {
-	char* Icon;
-	Icon = std::find(itemIcons, itemIcons + no_of_items, icon);
-	if (Icon != itemIcons + no_of_items) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	max_stacks = max;
 }
 
-char Item::what_itemIcon(char icon)
+void Item::setsymbol(char symbol)
 {
-	char* Icon;
-	Icon = std::find(itemIcons, itemIcons + no_of_items, icon);
-	if (Icon != itemIcons + no_of_items) {
-		return (Icon[0]);
-	}
-	else {
-		return 'X';
-	}
+	this->symbol = symbol;
 }
+
 
