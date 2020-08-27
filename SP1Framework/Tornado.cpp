@@ -14,24 +14,42 @@ Tornado::~Tornado()
 
 }
 
-void Tornado::reaction(Player& player, char tile)
+bool Tornado::reaction(Player& player, char tile)
 {
+	int x = 0;
+	int y = 0;
 	switch (tile)
 	{
 	case 'W': //if tornado touches the Walls
-		c.X = Spawner.X;
-		c.Y = Spawner.Y;
+		return true;
 	}
 	if ((c.X == player.getX()) && (c.Y == player.getY()))
 	{
 		player.decreaselife(); // lose 1 life
-		player.setX(2);
-		player.setY(2);
+		c.X = player.getX();
+		c.Y = player.getY();
+		switch (player.getFacing())
+		{
+		case 'W':
+			y = 1;
+			break;
+		case 'A':
+			x = 1;
+			break;
+		case 'S':
+			y = -1;
+			break;
+		case 'D':
+			x = -1;
+			break;
+		}
+		player.setX(player.getX() + x);
+		player.setY(player.getY() + y);
 		c.X = player.getX();
 		c.Y = player.getY();
 		gotoXY(c.X, c.Y);
-		c.X = Spawner.X; //Tornado go back to original pos
-		c.Y = Spawner.Y;
+		return true;
 	}
+	return false;
 }
 

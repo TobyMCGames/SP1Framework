@@ -20,6 +20,7 @@ void Volcano::toggle()
 	else
 	{
 		setActive(true);
-		setColor(0x4C);
+		setColor(0x44);
 	}
+
 }

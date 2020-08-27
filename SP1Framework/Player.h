@@ -44,8 +44,8 @@ public:
 	void setY(int y);
 	void increaselife();
 	void decreaselife();
-
-
+	void interact();
+	void setLife(int x);
 
 	//movement
 	void moveLEFT();

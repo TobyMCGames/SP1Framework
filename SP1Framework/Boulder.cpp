@@ -14,18 +14,17 @@ Boulder::~Boulder()
 
 }
 
-void Boulder::reaction(Player& player, char tile)
+bool Boulder::reaction(Player& player, char tile)
 {
 	switch (tile)
 	{
 	case 'W':
-		c.X = Spawner.X;
-		c.Y = Spawner.Y;
+		return true;
 	}
 	if ((c.X == player.getX()) && (c.Y == player.getY()))
 	{
 		player.decreaselife();
-		c.X = Spawner.X;
-		c.Y = Spawner.Y;
+		return true;
 	}
+	return false;
 }

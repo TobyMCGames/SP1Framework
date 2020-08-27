@@ -15,7 +15,7 @@
 class Map
 {
 private:
-	int x, y, maplevel;
+	int x, y, x_change, y_change, maplevel;
 	double fixed_update;
 	char map[135][135];
 	char DisasterPlane[135][135];
@@ -24,6 +24,7 @@ private:
 	MovingD* disasters[50];
 	Earthquake* EQArray[500];
 	Volcano* VArray[500];
+	Player player;
 
 public:
 	Map();
@@ -39,13 +40,14 @@ public:
 	bool getvolcanoI();
 
 	//Disaster movements
-	void Disasterfacing();
 	void Dmoves(Player& player);
 
 	//Input and draw 
 	void nextlevel();
 	void updateMap(double dt);
 	void interact(Player& player);
+	void setMap(int x);
+	//void item_remove(char facing, Player& player, Item& item, inventory& Inventory);
 	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);

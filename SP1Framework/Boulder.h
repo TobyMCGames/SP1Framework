@@ -6,6 +6,6 @@ public:
 	Boulder(int x, int y, char icon);
 	~Boulder();
 
-	void reaction(Player& player, char tile);
+	bool reaction(Player& player, char tile);
 };
 
