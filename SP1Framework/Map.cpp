@@ -268,6 +268,7 @@ void Map::updateMap(double dt)
 			while (VArray[Vidx] == nullptr)
 			{
 				Vidx = rand() % 50;
+
 			}
 
 			if (VArray[Vidx]->getState() != true)
@@ -275,6 +276,10 @@ void Map::updateMap(double dt)
 				VArray[Vidx]->toggle();
 				fixed_update = 0;
 			}
+			spreadLeft();
+			spreadRight();
+			spreadUp();
+			spreadDown();
 		}
 		//The rest of the disasters
 	}
@@ -490,6 +495,74 @@ void Map::Dmoves(Player& player)
 				cord = disasters[i]->getcord();
 			}
 			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
+		}
+	}
+}
+
+void Map::spreadLeft()
+{
+	int Vx, Vy;
+	for (int i = 0; i < 500; i++)
+	{
+		if (VArray[i] != nullptr)
+		{
+			Vx = VArray[i]->getX() - 1;
+			Vy = VArray[i]->getY();
+			if (map[Vx][Vy] == ' ')
+			{
+				map[Vx][Vy] = 'F';
+			}
+		}
+	}
+}
+
+void Map::spreadRight()
+{
+	int Vx, Vy;
+	for (int i = 0; i < 500; i++)
+	{
+		if (VArray[i] != nullptr)
+		{
+			Vx = VArray[i]->getX() + 1;
+			Vy = VArray[i]->getY();
+			if (map[Vx][Vy] == ' ')
+			{
+				map[Vx][Vy] = 'F';
+			}
+		}
+	}
+}
+
+void Map::spreadUp()
+{
+	int Vx, Vy;
+	for (int i = 0; i < 500; i++)
+	{
+		if (VArray[i] != nullptr)
+		{
+			Vx = VArray[i]->getX();
+			Vy = VArray[i]->getY() - 1;
+			if (map[Vx][Vy] == ' ')
+			{
+				map[Vx][Vy] = 'F';
+			}
+		}
+	}
+}
+
+void Map::spreadDown()
+{
+	int Vx, Vy;
+	for (int i = 0; i < 500; i++)
+	{
+		if (VArray[i] != nullptr)
+		{
+			Vx = VArray[i]->getX();
+			Vy = VArray[i]->getY() + 1;
+			if (map[Vx][Vy] == ' ')
+			{
+				map[Vx][Vy] = 'F';
+			}
 		}
 	}
 }

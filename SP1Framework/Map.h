@@ -42,6 +42,12 @@ public:
 	//Disaster movements
 	void Dmoves(Player& player);
 
+	//Fire spread
+	void spreadLeft();
+	void spreadRight();
+	void spreadUp();
+	void spreadDown();
+
 	//Inventory Stuff
 	void interact(Player& player);
 
