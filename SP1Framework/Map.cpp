@@ -83,6 +83,7 @@ bool Map::collides(char direction, Player& anotherP)
 	case 'S':
 	case 'W':
 	case '0':
+	case 'G':
 		return true;
 	case '@':
 		//insert reset stuff here
@@ -114,16 +115,18 @@ bool Map::collides(char direction, Player& anotherP)
 	return false;
 }
 
-void Map::interact(Player& player)
+char Map::interact(Player& player)
 {
 	switch (map[player.getY() + y_change][player.getX() + x_change])
 	{
 	case '0':
 		player.addInventory('0');
 		map[player.getY() + y_change][player.getX() + x_change] = ' ';
-		break;
+		return '0';
+	case 'G':
+		return 'G';
 	}
-	
+	return '-1';
 }
 
 void Map::nextlevel()

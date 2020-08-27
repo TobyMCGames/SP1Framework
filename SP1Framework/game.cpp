@@ -273,7 +273,7 @@ void update(double dt)
         {
             processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit   #261
             updateGame();       // gameplay logic when we are in the game                 #223
-            die();
+            //die();
             fixed_update = 0;
         }
         break;
@@ -482,7 +482,10 @@ void inventoryManagement()
     if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown && !spaceDown)
     {
         spaceDown = true;
-        map.interact(g_sChar);
+        if (map.interact(g_sChar) == 'G')
+        {
+            g_eGameState = EGAMESTATES::S_GAMEOVER;
+        }
     }
     else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown)
     {
@@ -620,6 +623,7 @@ void renderUI()
 
 void renderMap()
 {
+    die();
     if (map.getMapChange() == true)
     {
         map.nextlevel();

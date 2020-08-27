@@ -43,7 +43,7 @@ public:
 	void Dmoves(Player& player);
 
 	//Inventory Stuff
-	void interact(Player& player);
+	char interact(Player& player);
 
 	//Input and draw 
 	void nextlevel();
