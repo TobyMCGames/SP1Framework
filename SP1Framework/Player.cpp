@@ -6,8 +6,8 @@ Player::Player() :
 	charColor(0x4C),
 	model("  "),
 	inventory{ },
+	select(0),
 	speed(1),
-	Active(false),
 	icon('P'),
 	facing('W')
 {
@@ -18,11 +18,6 @@ Player::Player() :
 Player::~Player()
 {
 
-}
-
-void Player::changeActive()
-{
-	Active = !Active;
 }
 
 char Player::getIcon()
@@ -60,19 +55,38 @@ int Player::getlife()
 	return life;
 }
 
+int Player::getselect()
+{
+	return select;
+}
+
 char Player::getFacing()
 {
 	return facing;
 }
 
-bool Player::is_Active()
-{
-	return Active;
-}
 
 Item* Player::getInventory(int slot)
 {
 	return inventory[slot];
+}
+
+void Player::setInventory(int slot, char item, int value)
+{
+	for (int i = 0; i < value; i++)
+	{
+		switch (item)
+		{
+		case '0':
+			inventory[slot] = new HealthPotion;
+			inventory[slot]->increase();
+			break;
+		case ' ':				//value needs to be at least 1
+			delete inventory[slot];
+			inventory[slot] = nullptr;
+			break;
+		}
+	}
 }
 
 void Player::addInventory(char item)
@@ -99,6 +113,36 @@ void Player::addInventory(char item)
 				added = true;
 			}
 			
+		}
+	}
+}
+
+void Player::nextItem()
+{
+	if (select < 3)
+	{
+		select++;
+	}
+	else
+	{
+		select = 0;
+	}
+}
+
+void Player::useItem()
+{
+	if (inventory[select])
+	{
+		if (inventory[select]->GetType() == Item::ITEM_TYPE::HP)
+		{
+			life++;
+			inventory[select]->decrease();
+		}
+		
+		if (inventory[select]->getamt() == 0)
+		{
+			delete inventory[select];
+			inventory[select] = nullptr;
 		}
 	}
 }
