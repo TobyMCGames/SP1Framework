@@ -21,5 +21,6 @@ public:
 	void rendermapborder(Console& anotherC, Player& anotherP);
 	void loaddisasterindicator();
 	void renderdisasterindicator(Console& anotherC, Map& map);
+	void loadInventory();
 	void renderInventory(Console& anotherC, Player& anotherP);
 };

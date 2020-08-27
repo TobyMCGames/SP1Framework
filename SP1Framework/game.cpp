@@ -62,8 +62,8 @@ void init( void )
     loadMainMenu();
     loadGameOver();
     splashscreen.loadSplashScreen();
-    //ui.loadstate();
     ui.loaddisasterindicator();
+    ui.loadInventory();
 
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(0, 16, L"Consolas");

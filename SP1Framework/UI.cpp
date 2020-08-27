@@ -2,7 +2,8 @@
 
 
 UI::UI() :
-	disasterindicator{ }
+	disasterindicator{ },
+	inventory{ }
 {
 	for (int row = 0; row < 38; row++)
 	{
@@ -274,53 +275,125 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 	}
 }
 
+void UI::loadInventory()
+{
+	int col = 0;
+	int row = 0;
+	//std::string path = "UI/Inventory/" + idk;
+	std::ifstream f;
+	f.open("UI/Inventory.csv");
+	std::string line;
+	std::string cell;
+	while (getline(f, line))  //gets the line
+	{
+		std::stringstream ss(line);
+		while (getline(ss, cell, ',')) //gets cell
+		{
+			for (unsigned int i = 0; i < cell.length(); i++)
+			{
+				if (i == 0)									//FIRST CHAR REPRESENTS THE OBJECT
+				{
+					inventory[row][col] = cell[i];
+					
+				}
+
+			}
+			col++;
+		}
+		row++;
+		col = 0;
+	}
+	f.close();
+}
+
 void UI::renderInventory(Console& anotherC, Player& anotherP)
 {
-	COORD c;
-	c.X = 2;
-	c.Y = 15;
-	std::ostringstream ss;
+
+	// 18 by 9
+	COORD origin,c;
+	WORD select_color;
+	const WORD colors[] = {
+		0x0F, //Black 0
+		0x8F, //Grey 1
+		0xFF, //White 2
+		0xAF, //Green 3
+		0xCF, //Red 4
+
+	};
 	for (int i = 0; i < 4; i++)
 	{
-		if (i == 1)
+		if (anotherP.getselect() == i)
 		{
-			c.X = 23;
-			c.Y = 15;
-		}
-		else if (i == 2)
-		{
-			c.X = 2;
-			c.Y = 25;
-		}
-		else if (i == 3)
-		{
-			c.X = 23;
-			c.Y = 25;
-		}
-
-		if (anotherP.getInventory(i))
-		{
-			ss.str("");
-			if (anotherP.getInventory(anotherP.getselect()))
-			{
-				ss << anotherP.getInventory(i)->getname() << anotherP.getInventory(i)->getamt() << "Active";
-			}
-			else
-			{
-				ss << anotherP.getInventory(i)->getname() << anotherP.getInventory(i)->getamt();
-			}
-			anotherC.writeToBuffer(c, ss.str(), 0x0F); 
+			select_color = colors[3];
 		}
 		else
 		{
-			for (int j = 0; j < 9; j++)
-			{
-				ss.str("");
-				ss << "000000000000000000";
-				anotherC.writeToBuffer(c, ss.str(), 0x1F);
-				c.Y += 1;
-			}
+			select_color = colors[1];
+		}
+		switch (i)
+		{
+		case 0:
+			origin.X = 2;
+			origin.Y = 12;
+			break;
+		case 1:
+			origin.X = 22;
+			origin.Y = 12;
+			break;
+		case 2:
+			origin.X = 2;
+			origin.Y = 22;
+			break;
+		case 3:
+			origin.X = 22;
+			origin.Y = 22;
 		}
 
+		c.Y = origin.Y;
+		for (int y = 0; y < 9; y++)
+		{
+			c.X = origin.X;
+			for (int x = 0; x < 18; x++)
+			{	
+				switch (inventory[y][x])
+				{
+				case 'B': //Border
+					anotherC.writeToBuffer(c, " ", select_color);
+					break;
+				case 'P': //HP Pot Border
+					if (anotherP.getInventory(i) && anotherP.getInventory(i)->GetType() == Item::ITEM_TYPE::HP)
+					{
+						anotherC.writeToBuffer(c, " ", colors[2]);
+					}
+					else
+					{
+						anotherC.writeToBuffer(c, " ", colors[0]);
+					}
+					break; 
+				case 'R': //HP Liquid
+					if (anotherP.getInventory(i) && anotherP.getInventory(i)->GetType() == Item::ITEM_TYPE::HP)
+					{
+						anotherC.writeToBuffer(c, " ", colors[4]);
+					}
+					else
+					{
+						anotherC.writeToBuffer(c, " ", colors[0]);
+					}
+					break;
+				case 'N':
+					if (anotherP.getInventory(i))
+					{
+						
+						anotherC.writeToBuffer(c, std::to_string(anotherP.getInventory(i)->getamt()), colors[0]);
+					}
+					break;
+				default:
+					anotherC.writeToBuffer(c, " ", colors[0]);
+
+				}
+				c.X += 1;
+			}
+			c.Y += 1;
+		}
 	}
 }
