@@ -24,7 +24,7 @@ Map::Map() :
 			DisasterPlane[row][col] = ' ';
 		}
 	}
-	maplevel = 0;
+	maplevel = -1;
 	mapchange = true;
 
 	for (int i = 0; i < 500; i++) 
