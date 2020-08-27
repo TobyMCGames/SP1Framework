@@ -12,16 +12,15 @@ private:
 	WORD charColor;
 	std::string model;
 	Item* inventory[4];
+	int select;
 	static int life;
 	int speed;
-	bool Active;
 	char icon;
 	char facing;
 
 public:
 	Player();
 	~Player();
-	void changeActive();
 
 	//get functions
 	char getIcon();
@@ -32,11 +31,14 @@ public:
 	char getFacing();
 	int getspeed();
 	int getlife();
-	bool is_Active();
+	int getselect();
 
 	//inventory
 	Item* getInventory(int slot);
+	void setInventory(int slot, char item, int value);
 	void addInventory(char item);
+	void nextItem();
+	void useItem();
 
 	//set functions
 	void setmodel(char direction);

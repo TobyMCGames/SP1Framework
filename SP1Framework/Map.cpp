@@ -83,6 +83,7 @@ bool Map::collides(char direction, Player& anotherP)
 	case 'S':
 	case 'W':
 	case '0':
+	case 'G':
 		return true;
 	case '@':
 		//insert reset stuff here
@@ -95,7 +96,7 @@ bool Map::collides(char direction, Player& anotherP)
 	case 'E':
 		for (int i = 0; i < 500; i++)
 		{
-			if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() + x && EQArray[i]->getY() == anotherP.getY() + y && EQArray[i]->getState() == true)
+			if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() + x_change && EQArray[i]->getY() == anotherP.getY() + y_change && EQArray[i]->getState() == true)
 			{
 				return true;
 			}
@@ -104,7 +105,7 @@ bool Map::collides(char direction, Player& anotherP)
 	case 'F':
 		for (int i = 0; i < 50; i++)
 		{
-			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x && VArray[i]->getY() == anotherP.getY() + y && VArray[i]->getState() == true)
+			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x_change && VArray[i]->getY() == anotherP.getY() + y_change && VArray[i]->getState() == true)
 			{
 				player.decreaselife();
 			}
@@ -114,16 +115,18 @@ bool Map::collides(char direction, Player& anotherP)
 	return false;
 }
 
-void Map::interact(Player& player)
+char Map::interact(Player& player)
 {
 	switch (map[player.getY() + y_change][player.getX() + x_change])
 	{
 	case '0':
 		player.addInventory('0');
 		map[player.getY() + y_change][player.getX() + x_change] = ' ';
-		break;
+		return '0';
+	case 'G':
+		return 'G';
 	}
-	
+	return '-1';
 }
 
 void Map::nextlevel()
@@ -249,37 +252,38 @@ void Map::updateMap(double dt)
 	{
 		for (int i = 0; i < 5; i++) //EarthQuake Tiles
 		{
-			EQidx = rand() % 500;
-			while (EQArray[EQidx] == nullptr)
+			if (earthquakeI) 
 			{
 				EQidx = rand() % 500;
-			}
+				while (EQArray[EQidx] == nullptr)
+				{
+					EQidx = rand() % 500;
+				}
 
-			if (EQArray[EQidx]->getState() != true)
-			{
-				EQArray[EQidx]->toggle();
-				fixed_update = 0;
+				if (EQArray[EQidx]->getState() != true)
+				{
+					EQArray[EQidx]->toggle();
+					fixed_update = 0;
+				}
 			}
 		}
 
 		for (int j = 0; j < 5; j++) //Volcano Tiles
 		{
-			Vidx = rand() % 50;
-			while (VArray[Vidx] == nullptr)
+			if (volcanoI)
 			{
 				Vidx = rand() % 50;
+				while (VArray[Vidx] == nullptr)
+				{
+					Vidx = rand() % 50;
+				}
 
+				if (VArray[Vidx]->getState() != true)
+				{
+					VArray[Vidx]->toggle();
+					fixed_update = 0;
+				}
 			}
-
-			if (VArray[Vidx]->getState() != true)
-			{
-				VArray[Vidx]->toggle();
-				fixed_update = 0;
-			}
-			spreadLeft();
-			spreadRight();
-			spreadUp();
-			spreadDown();
 		}
 		//The rest of the disasters
 	}
@@ -342,7 +346,8 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					anotherC.writeToBuffer(46 + j * 2, i, (char)220, 0xF8);
 					break;
 				case 'G':
-					anotherC.writeToBuffer(45 + j * 2, i, "°°", 0x84);
+					anotherC.writeToBuffer(45 + j * 2, i, (char)233, 0xF4);
+					anotherC.writeToBuffer(46 + j * 2, i, (char)247, 0xF4);
 					break;
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
