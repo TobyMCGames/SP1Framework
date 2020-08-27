@@ -23,6 +23,7 @@ double  fixed_update;
 bool spaceDown = false;
 bool returnDown = false;
 bool EscDown = false;
+bool TabDown = false;
 SKeyEvent g_skKeyEvent[(int)EKEYS::K_COUNT];
 SMouseEvent g_mouseEvent;
 
@@ -61,7 +62,7 @@ void init( void )
     loadMainMenu();
     loadGameOver();
     splashscreen.loadSplashScreen();
-    ui.loadstate();
+    //ui.loadstate();
     ui.loaddisasterindicator();
 
     // sets the width, height and the font name to use in the console
@@ -475,6 +476,10 @@ void moveCharacter()
             g_sChar.moveRIGHT();
         }
     }
+}
+
+void inventoryManagement()
+{
     if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown && !spaceDown)
     {
         spaceDown = true;
@@ -484,11 +489,16 @@ void moveCharacter()
     {
         spaceDown = false;
     }
-}
 
-void inventoryManagement()
-{
+    if (g_skKeyEvent[(int)EKEYS::K_TAB].keyDown && !TabDown)
+    {
+        TabDown = true;
 
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_TAB].keyReleased) && TabDown)
+    {
+        TabDown = false;
+    }
 }
 
 void processUserInput()

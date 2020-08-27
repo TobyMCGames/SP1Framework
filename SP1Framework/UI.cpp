@@ -12,7 +12,7 @@ UI::UI() :
 			state[row][col] = ' ';
 		}
 	}
-	for (int row = 0; row < 12; row++)
+	for (int row = 0; row < 38; row++)
 	{
 		for (int col = 0; col < 43; col++)
 		{
@@ -85,7 +85,7 @@ void UI::rendermapborder(Console& anotherC, Player& anotherP)
 	}
 }
 
-void UI::loadstate()
+/*void UI::loadstate()
 {
 	
 	std::ifstream f;
@@ -169,13 +169,13 @@ void UI::renderstate(Console& anotherC, Player& anotherP)
 			}
 		}
 	}
-}
+}*/
 
 void UI::loaddisasterindicator()
 {
 
 	std::ifstream f;
-	f.open("UI/disasterindicator.csv");
+	f.open("UI/disastericons.csv");
 	std::string data;
 	int row = 0;
 	int col = 0;
@@ -216,7 +216,7 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 			}
 		}
 	}
-	for (int row = 10; row < 12; row++)
+	for (int row = 36; row < 38; row++)
 	{
 		for (int col = 0; col < 43; col++)
 		{
@@ -230,9 +230,9 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 			}
 		}
 	}
-	for (int row = 2; row < 10; row++)
+	for (int row = 2; row < 18; row++)
 	{
-		for (int col = 0; col < 11; col++)
+		for (int col = 0; col < 22; col++)
 		{
 			if (map.getvolcanoI() == true)
 			{
@@ -266,9 +266,9 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 			}
 		}
 	}
-	for (int row = 2; row < 10; row++)
+	for (int row = 18; row < 36; row++)
 	{
-		for (int col = 11; col < 22; col++)
+		for (int col = 0; col < 22; col++)
 		{
 			if (map.gettornadoI() == true)
 			{
@@ -302,9 +302,10 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 			}
 		}
 	}
-	for (int row = 2; row < 10; row++)
+
+	for (int row = 2; row < 18; row++)
 	{
-		for (int col = 22; col < 33; col++)
+		for (int col = 22; col < 43; col++)
 		{
 			if (map.getearthquakeI() == true)
 			{
@@ -329,9 +330,9 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 				}
 			}
 		}
-		for (int row = 2; row < 10; row++)
+		for (int row = 18; row < 36; row++)
 		{
-			for (int col = 33; col < 43; col++)
+			for (int col = 22; col < 43; col++)
 			{
 				if (map.gettsunamiI() == true)
 				{

@@ -37,7 +37,7 @@ Map::Map() :
 		disasters[i] = nullptr;
 	}
 
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		VArray[i] = nullptr;
 	}
@@ -102,11 +102,11 @@ bool Map::collides(char direction, Player& anotherP)
 		}
 		break;
 	case 'F':
-		for (int i = 0; i < 500; i++)
+		for (int i = 0; i < 50; i++)
 		{
 			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x && VArray[i]->getY() == anotherP.getY() + y && VArray[i]->getState() == true)
 			{
-				return true;
+				player.decreaselife();
 			}
 		}
 		break;
@@ -252,10 +252,10 @@ void Map::updateMap(double dt)
 
 		for (int j = 0; j < 5; j++) //Volcano Tiles
 		{
-			Vidx = rand() % 500;
+			Vidx = rand() % 50;
 			while (VArray[Vidx] == nullptr)
 			{
-				Vidx = rand() % 500;
+				Vidx = rand() % 50;
 			}
 
 			if (VArray[Vidx]->getState() != true)
