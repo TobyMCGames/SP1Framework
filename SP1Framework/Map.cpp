@@ -88,6 +88,7 @@ bool Map::collides(char direction, Player& anotherP)
 			{
 				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
 				{
+					player.decreaselife();
 					return true;
 				}
 			}
@@ -116,6 +117,7 @@ bool Map::collides(char direction, Player& anotherP)
 			{
 				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
 				{
+					player.decreaselife();
 					return true;
 				}
 			}
@@ -144,6 +146,7 @@ bool Map::collides(char direction, Player& anotherP)
 			{
 				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
 				{
+					player.decreaselife();
 					return true;
 				}
 			}
@@ -172,6 +175,7 @@ bool Map::collides(char direction, Player& anotherP)
 			{
 				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
 				{
+					player.decreaselife();
 					return true;
 				}
 			}
@@ -230,7 +234,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 						VArray[Vidx] = new Volcano;
 						VArray[Vidx]->setCOORD(col, row);
 						Vidx++;
-						volcanoI = false;
+						volcanoI = true;
 						break;
 					case 'B':
 						map[row][col] = ' ';
@@ -308,20 +312,20 @@ void Map::updateMap(double dt)
 			}
 		}
 
-		//for (int j = 0; j < 5; j++) //Volcano Tiles
-		//{
-		//	Vidx = rand() % 500;
-		//	while (VArray[Vidx] == nullptr)
-		//	{
-		//		Vidx = rand() % 500;
-		//	}
+		for (int j = 0; j < 5; j++) //Volcano Tiles
+		{
+			Vidx = rand() % 500;
+			while (VArray[Vidx] == nullptr)
+			{
+				Vidx = rand() % 500;
+			}
 
-		//	if (VArray[Vidx]->getState() != true)
-		//	{
-		//		VArray[Vidx]->toggle();
-		//		fixed_update = 0;
-		//	}
-		//}
+			if (VArray[Vidx]->getState() != true)
+			{
+				VArray[Vidx]->toggle();
+				fixed_update = 0;
+			}
+		}
 		//The rest of the disasters
 	}
 

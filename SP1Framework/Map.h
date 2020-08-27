@@ -24,6 +24,7 @@ private:
 	MovingD* disasters[50];
 	Earthquake* EQArray[500];
 	Volcano* VArray[500];
+	Player player;
 
 public:
 	Map();
