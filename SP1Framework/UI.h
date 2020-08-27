@@ -11,7 +11,7 @@ class UI
 {
 private:
 	char state[29][36];
-	char disasterindicator[12][43];
+	char disasterindicator[38][43];
 	Player User;
 public:
 	UI();
