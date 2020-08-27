@@ -59,123 +59,51 @@ std::string Map::getlevel()
 
 bool Map::collides(char direction, Player& anotherP)
 {
+	int x = 0, y = 0;
 	switch (direction)
 	{
 	case 'W':
-		switch (map[anotherP.getY() - anotherP.getspeed()][anotherP.getX()]) {
-		case 'S':
-		case 'W':
-			return true;
-		case '@':
-			//insert reset stuff here
-			mapchange = true;
-			earthquakeI = false;
-			volcanoI = false;
-			tornadoI = false;
-			tsunamiI = false;
-			break;
-		case 'E':
-			for (int i = 0; i < 500; i++)
-			{
-				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() && EQArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && EQArray[i]->getState() == true)
-				{
-					return true;
-				}
-			}
-			break;
-		case 'F':
-			for (int i = 0; i < 500; i++)
-			{
-				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
-				{
-					return true;
-				}
-			}
-			break;
-		}
-		break;
-	case 'S':
-		switch (map[anotherP.getY() + anotherP.getspeed()][anotherP.getX()]) {
-		case 'S':
-		case 'W':
-			return true;
-		case '@':
-			mapchange = true;
-			break;
-		case 'E':
-			for (int i = 0; i < 500; i++)
-			{
-				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() && EQArray[i]->getY() == anotherP.getY() + anotherP.getspeed() && EQArray[i]->getState() == true)
-				{
-					return true;
-				}
-			}
-			break;
-		case 'F':
-			for (int i = 0; i < 500; i++)
-			{
-				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
-				{
-					return true;
-				}
-			}
-			break;
-		}
+		y = -1;
 		break;
 	case 'A':
-		switch (map[anotherP.getY()][anotherP.getX() - anotherP.getspeed()]) {
-		case 'S':
-		case 'W':
-			return true;
-		case '@':
-			mapchange = true;
-			break;
-		case 'E':
-			for (int i = 0; i < 500; i++)
-			{
-				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() - anotherP.getspeed() && EQArray[i]->getY() == anotherP.getY() && EQArray[i]->getState() == true)
-				{
-					return true;
-				}
-			}
-			break;
-		case 'F':
-			for (int i = 0; i < 500; i++)
-			{
-				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
-				{
-					return true;
-				}
-			}
-			break;
-		}
+		x = -1;
+		break;
+	case 'S':
+		y = 1;
 		break;
 	case 'D':
-		switch (map[anotherP.getY()][anotherP.getX() + anotherP.getspeed()]) {
-		case 'S':
-		case 'W':
-			return true;
-		case '@':
-			mapchange = true;
-			break;
-		case 'E':
-			for (int i = 0; i < 500; i++)
+		x = 1;
+		break;
+	}
+	switch (map[anotherP.getY() + y][anotherP.getX() + x])
+	{
+	case 'S':
+	case 'W':
+		return true;
+	case '@':
+		//insert reset stuff here
+		mapchange = true;
+		earthquakeI = false;
+		volcanoI = false;
+		tornadoI = false;
+		tsunamiI = false;
+		break;
+	case 'E':
+		for (int i = 0; i < 500; i++)
+		{
+			if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() + x && EQArray[i]->getY() == anotherP.getY() + y && EQArray[i]->getState() == true)
 			{
-				if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() + anotherP.getspeed() && EQArray[i]->getY() == anotherP.getY() && EQArray[i]->getState() == true)
-				{
-					return true;
-				}
+				return true;
 			}
-			break;
-		case 'F':
-			for (int i = 0; i < 500; i++)
+		}
+		break;
+	case 'F':
+		for (int i = 0; i < 500; i++)
+		{
+			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x && VArray[i]->getY() == anotherP.getY() + y && VArray[i]->getState() == true)
 			{
-				if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() && VArray[i]->getY() == anotherP.getY() - anotherP.getspeed() && VArray[i]->getState() == true)
-				{
-					return true;
-				}
+				return true;
 			}
-			break;
 		}
 		break;
 	}
@@ -235,26 +163,20 @@ void Map::loadMap(std::string anothermap, Player& player)
 					case 'B':
 						map[row][col] = ' ';
 						disasters[Didx] = new Boulder(col, row, 'B');
-						Didx++;
 						DisasterPlane[row][col] = 'B';
 					case 'p':
 						map[row][col] = ' ';
 						DisasterPlane[row][col] = 'p';
 						break;
-					case 'h':
-						map[row][col] = ' ';
-						DisasterPlane[row][col] = 'h';
-						break;
 					case 'T':
 						map[row][col] = ' ';
 						disasters[Didx] = new Tornado(col, row, 'T');
-						Didx++;
 						tornadoI = true;
 						DisasterPlane[row][col] = 'T';
 						break;
 					case '0':
 						map[row][col] = ' ';
-
+						break;
 					default:
 						if (cell[i] == player.getIcon())
 						{
@@ -274,6 +196,22 @@ void Map::loadMap(std::string anothermap, Player& player)
 				else										//SECOND CHAR REPRESENTS DIRECTION OR WHATEVER U WANT IT TO BE
 				{
 					//if (cell[i] == d) blahblahblah
+					switch (cell[i])
+					{
+					case 'U':
+						disasters[Didx]->changeDirection('W');
+						break;
+					case 'D':
+						disasters[Didx]->changeDirection('S');
+						break;
+					case 'L':
+						disasters[Didx]->changeDirection('A');
+						break;
+					case 'R':
+						disasters[Didx]->changeDirection('D');
+						break;
+					}
+					Didx++;
 				}
 			}
 			col++;
@@ -482,33 +420,6 @@ bool Map::getvolcanoI()
 
 
 // Disaster functions
-void Map::Disasterfacing()
-{
-	for (int i = 0; i < 50; i++)
-	{
-		if (disasters[i] != nullptr)
-		{
-			COORD cord= disasters[i]->getcord();
-			if (DisasterPlane[cord.Y - 1][cord.X] == 'h')
-			{
-				disasters[i]->changeDirection('W');
-			}
-			if (DisasterPlane[cord.Y][cord.X - 1] == 'h')
-			{
-				disasters[i]->changeDirection('A');
-			}
-			if (DisasterPlane[cord.Y + 1][cord.X] == 'h')
-			{
-				disasters[i]->changeDirection('S');
-			}
-			if (DisasterPlane[cord.Y][cord.X + 1] == 'h')
-			{
-				disasters[i]->changeDirection('D');
-			}
-		}
-	}
-}
-
 void Map::Dmoves(Player& player)
 {
 	for (int i = 0; i < 50; i++)
@@ -532,18 +443,18 @@ void Map::Dmoves(Player& player)
 				x = 1;
 				break;
 			}
-			if ((DisasterPlane[cord.Y + y][cord.X + x] != 'p') && (DisasterPlane[cord.Y + y][cord.X + x] != 'h'))
+			if (DisasterPlane[cord.Y + y][cord.X + x] != 'p')
 			{
 				switch (disasters[i]->getdirection())
 				{
 				case 'W':
 				case 'S':
-					if ((DisasterPlane[cord.Y][cord.X + 1] == 'p') || (DisasterPlane[cord.Y][cord.X + 1] == 'h'))
+					if (DisasterPlane[cord.Y][cord.X + 1] == 'p')
 					{
 						disasters[i]->changeDirection('D');
 						break;
 					}
-					else if ((DisasterPlane[cord.Y][cord.X - 1] == 'p') || (DisasterPlane[cord.Y][cord.X - 1] == 'h'))
+					else if((DisasterPlane[cord.Y][cord.X - 1] == 'p'))
 					{
 						disasters[i]->changeDirection('A');
 						break;
@@ -560,12 +471,12 @@ void Map::Dmoves(Player& player)
 					}
 				case 'A':
 				case 'D':
-					if ((DisasterPlane[cord.Y + 1][cord.X] == 'p') || (DisasterPlane[cord.Y + 1][cord.X] == 'h'))
+					if (DisasterPlane[cord.Y + 1][cord.X] == 'p')
 					{
 						disasters[i]->changeDirection('S');
 						break;
 					}
-					else if ((DisasterPlane[cord.Y - 1][cord.X] == 'p') || (DisasterPlane[cord.Y - 1][cord.X] == 'h'))
+					else if (DisasterPlane[cord.Y - 1][cord.X] == 'p')
 					{
 						disasters[i]->changeDirection('W');
 						break;

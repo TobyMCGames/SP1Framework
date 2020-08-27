@@ -41,7 +41,6 @@ public:
 	bool getvolcanoI();
 
 	//Disaster movements
-	void Disasterfacing();
 	void Dmoves(Player& player);
 
 	//Input and draw 
