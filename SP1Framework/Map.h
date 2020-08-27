@@ -11,6 +11,7 @@
 #include "Boulder.h"
 #include "Tornado.h"
 #include "Volcano.h"
+#include "Tsunami.h"
 
 class Map
 {
@@ -24,6 +25,7 @@ private:
 	MovingD* disasters[50];
 	Earthquake* EQArray[500];
 	Volcano* VArray[500];
+	Tsunami* TArray[500];
 	Player player;
 
 public:

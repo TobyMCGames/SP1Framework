@@ -93,6 +93,9 @@
     <ClCompile Include="HealthPotion.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="Tsunami.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="HealthPotion.h">
       <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Tsunami.h">
+      <Filter>Header Files\Disasters</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

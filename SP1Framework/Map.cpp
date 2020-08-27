@@ -16,7 +16,8 @@ Map::Map() :
 	volcanoI(false),
 	disasters { },
 	EQArray{ },
-	VArray{ }
+	VArray{ },
+	TArray{ }
 {
 	for (int row = 0; row < x; row++) {
 		for (int col = 0; col < y; col++) {
@@ -40,6 +41,11 @@ Map::Map() :
 	for (int i = 0; i < 50; i++)
 	{
 		VArray[i] = nullptr;
+	}
+
+	for (int i = 0; i < 500; i++)
+	{
+		TArray[i] = nullptr;
 	}
 }
 
@@ -111,6 +117,15 @@ bool Map::collides(char direction, Player& anotherP)
 			}
 		}
 		break;
+	case 'M':
+		for (int i = 0; i < 500; i++)
+		{
+			if (TArray[i] != nullptr && TArray[i]->getX() == anotherP.getX() + x_change && TArray[i]->getY() == anotherP.getY() + y_change && TArray[i]->getState() == true)
+			{
+				return true;
+			}
+		}
+		break;
 	}
 	return false;
 }
@@ -151,6 +166,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 	std::string cell;
 	int EQidx = 0;
 	int Vidx = 0;
+	int Tidx = 0;
 	int Didx = 0;
 	int col = 0;
 	int row = 0;
@@ -178,6 +194,13 @@ void Map::loadMap(std::string anothermap, Player& player)
 						VArray[Vidx]->setCOORD(col, row);
 						Vidx++;
 						volcanoI = true;
+						break;
+					case'M':
+						map[row][col] = cell[i];
+						TArray[Tidx] = new Tsunami;
+						TArray[Tidx]->setCOORD(col, row);
+						Tidx++;
+						tsunamiI = true;
 						break;
 					case 'B':
 						map[row][col] = ' ';
@@ -229,6 +252,9 @@ void Map::loadMap(std::string anothermap, Player& player)
 					case 'R':
 						disasters[Didx]->changeDirection('D');
 						break;
+					case 'Q':
+						TArray[(Tidx - 1)]->toggle();
+						break;
 					}
 					Didx++;
 				}
@@ -247,12 +273,13 @@ void Map::updateMap(double dt)
 {
 	int EQidx;
 	int Vidx;
+	int Tidx_active = 0;
 	fixed_update += dt;
 	if (fixed_update >= 0.16 * 1) 
 	{
-		for (int i = 0; i < 5; i++) //EarthQuake Tiles
+		if (earthquakeI) //EarthQuake Tiles
 		{
-			if (earthquakeI) 
+			for (int i = 0; i < 5; i++)
 			{
 				EQidx = rand() % 500;
 				while (EQArray[EQidx] == nullptr)
@@ -268,9 +295,9 @@ void Map::updateMap(double dt)
 			}
 		}
 
-		for (int j = 0; j < 5; j++) //Volcano Tiles
+		if (volcanoI) //Volcano Tiles
 		{
-			if (volcanoI)
+			for (int j = 0; j < 5; j++)
 			{
 				Vidx = rand() % 50;
 				while (VArray[Vidx] == nullptr)
@@ -282,6 +309,35 @@ void Map::updateMap(double dt)
 				{
 					VArray[Vidx]->toggle();
 					fixed_update = 0;
+				}
+			}
+		}
+
+		if (tsunamiI) //Tsunami Tiles
+		{
+			for (int k = 0; k < 5; k++)
+			{
+				for (int Tidx = 0; Tidx < 500; Tidx++)
+				{
+					if (TArray[Tidx]->getState() == true)
+					{
+						Tidx_active = Tidx;
+						break;
+					}
+				}
+
+				for (int Tidx = 0; Tidx < 500; Tidx++)
+				{
+					if (TArray[Tidx] != nullptr &&
+						((((TArray[Tidx]->getX() + 1) == TArray[Tidx_active]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_active]->getY())) ||
+							((TArray[Tidx]->getX() == TArray[Tidx_active]->getX()) && ((TArray[Tidx]->getY() + 1) == TArray[Tidx_active]->getY())) ||
+							(((TArray[Tidx]->getX() - 1) == TArray[Tidx_active]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_active]->getY())) ||
+							((TArray[Tidx]->getX() == TArray[Tidx_active]->getX()) && ((TArray[Tidx]->getY() - 1) == TArray[Tidx_active]->getY()))))
+					{
+						TArray[Tidx]->toggle();
+						fixed_update = 0;
+						break;
+					}
 				}
 			}
 		}
@@ -370,6 +426,15 @@ void Map::DrawMap(Console& anotherC, Player& player)
 						if (VArray[k] != nullptr && VArray[k]->getX() == j + offset.X && VArray[k]->getY() == i + offset.Y)
 						{
 							anotherC.writeToBuffer(45 + j * 2, i, "²²", VArray[k]->getColor());
+						}
+					}
+					break;
+				case 'M':
+					for (int k = 0; k < 500; k++)
+					{
+						if (TArray[k] != nullptr && TArray[k]->getX() == j + offset.X && TArray[k]->getY() == i + offset.Y)
+						{
+							anotherC.writeToBuffer(45 + j * 2, i, "²²", TArray[k]->getColor());
 						}
 					}
 					break;

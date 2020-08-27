@@ -95,6 +95,7 @@
     <ClCompile Include="mainmenu.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
+    <ClCompile Include="Tsunami.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Volcano.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="SplashScreen.h" />
+    <ClInclude Include="Tsunami.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Volcano.h" />
