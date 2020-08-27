@@ -90,7 +90,6 @@
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameover.cpp" />
-    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainmenu.cpp" />
@@ -113,7 +112,6 @@
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameover.h" />
-    <ClInclude Include="inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="Map.h" />

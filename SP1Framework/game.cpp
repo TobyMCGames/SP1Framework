@@ -472,10 +472,14 @@ void moveCharacter()
             g_sChar.moveRIGHT();
         }
     }
-    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown)
+    if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown && !spaceDown)
     {
-        g_sChar.changeActive();
-        //map.item_remove(g_sChar.getFacing(), g_sChar, g_sItem, _inventory);
+        spaceDown = true;
+        map.interact(g_sChar);
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown)
+    {
+        spaceDown = false;
     }
 }
 
@@ -587,10 +591,7 @@ void renderGame()
 
 void renderUI()
 {
-    ui.renderlife(g_Console);
-    ui.rendermapborder(g_Console);
-    ui.renderstate(g_Console);
-    ui.renderdisasterindicator(g_Console, map);
+    ui.renderUI(g_Console, g_sChar, map);
 }
 
 void renderMap()

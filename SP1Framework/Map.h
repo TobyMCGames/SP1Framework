@@ -33,8 +33,6 @@ public:
 	bool getMapChange();
 	std::string getlevel();
 	bool collides(char direction, Player& anotherP);
-
-	//char facing_icon(char facing, Player& player, Item& item);
 	bool getearthquakeI();
 	bool gettornadoI();
 	bool gettsunamiI();
@@ -47,7 +45,7 @@ public:
 	//Input and draw 
 	void nextlevel();
 	void updateMap(double dt);
-	//void item_remove(char facing, Player& player, Item& item, inventory& Inventory);
+	void interact(Player& player);
 	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);

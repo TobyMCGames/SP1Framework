@@ -1,30 +1,42 @@
 #pragma once
 #include <string>
 #include <sstream>
-
-class Player;
-
 class Item
 {
-private:
-	std::string name;
-	std::string symbol;
-	int max_stacks;
-
 public:
-	Item();
-	~Item();
 
-	virtual void use(Player& player) = 0;
+	enum class ITEM_TYPE : unsigned char
+	{
+		NOTHING,
+		HP
+	};
+
+	ITEM_TYPE GetType() const
+	{
+		return itemType;
+	}
+
+	Item(ITEM_TYPE argumentItemType);
+	~Item();
 
 	//getter
 	std::string getname();
+	int getamt();
 	int getmaxstacks();
 	std::string getsymbol();
 
+
 	//setter
 	void setname(std::string name);
+	void increase();
+	void decrease();
 	void setmax(int max);
-	void setsymbol(char symbol);
+	void setsymbol(std::string symbol);
+
+private:
+	std::string name;
+	std::string symbol;
+	int amt, max_stacks;
+	const ITEM_TYPE itemType;
 };
 

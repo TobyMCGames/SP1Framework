@@ -253,7 +253,8 @@ void Map::loadMap(std::string anothermap, Player& player)
 						DisasterPlane[row][col] = 'T';
 						break;
 					case '0':
-						map[row][col] = ' ';
+						map[row][col] = '0';
+
 
 					default:
 						if (cell[i] == player.getIcon())
@@ -327,6 +328,21 @@ void Map::updateMap(double dt)
 
 }
 
+void Map::interact(Player& player)
+{
+	switch (player.getFacing())
+	{
+	case 'W':
+		switch (map[player.getY() - player.getspeed()][player.getX()])
+		{
+		case '0':
+			player.addInventory('0');
+			
+			break;
+		}
+	}
+}
+
 void Map::DrawMap(Console& anotherC, Player& player)
 {
 	if (player.getX() >= 23 && player.getX() <= 113)
@@ -380,11 +396,8 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
 					break;
-				case '1':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
-					break;
-				case '2':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
+				case '0':
+					anotherC.writeToBuffer(45 + j * 2, i, "00", 0xF4);
 					break;
 				case 'E':
 					for (int k = 0; k < 500; k++)
@@ -425,40 +438,6 @@ void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 {
 	anotherC.writeToBuffer(45 + 2 * (anotherP.getX() - offset.X), anotherP.getY() - offset.Y, anotherP.getmodel() , charColor);
 }
-
-/*
-char Map::facing_icon(char facing, Player& player, Item& item)
-{
-	if (player.is_Active() == true) {
-		switch (facing)
-		{
-		case 'W':
-			if ((player.getX() == item.getX()) && ((player.getY() - 1) == item.getY() - 1)) {
-				item.change_exist();
-				return item.is_item_exist();
-				break;
-			}
-		case 'A':
-			if (((player.getX() - 1) == item.getX()) && (player.getY() == item.getY())) {
-				item.change_exist();
-				return item.is_item_exist();
-				break;
-			}
-		case 'S':
-			if ((player.getX() == item.getX()) && ((player.getY() - 1) == item.getY() + 1)) {
-				item.change_exist();
-				return item.is_item_exist();
-				break;
-			}
-		case 'D':
-			if (((player.getX() + 1) == item.getX()) && (player.getY() == item.getY())) {
-				item.change_exist();
-				return item.is_item_exist();
-			}
-		}
-	}
-}
-*/
 
 bool Map::getearthquakeI()
 {

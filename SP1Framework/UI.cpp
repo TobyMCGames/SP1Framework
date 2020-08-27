@@ -26,7 +26,16 @@ UI::~UI()
 {
 }
 
-void UI::renderlife(Console& anotherC)
+void UI::renderUI(Console& anotherC, Player& anotherP, Map& map)
+{
+	renderlife(anotherC, anotherP);
+	rendermapborder(anotherC, anotherP);
+	renderstate(anotherC, anotherP);
+	renderdisasterindicator(anotherC, map);
+	renderInventory(anotherC, anotherP);
+}
+
+void UI::renderlife(Console& anotherC, Player& anotherP)
 {
 	COORD c;
 	c.X = 2;
@@ -37,7 +46,7 @@ void UI::renderlife(Console& anotherC)
 		if (j != 1)
 		{
 			c.X = 6;
-			for (int i = 0; i < User.getlife(); i++)
+			for (int i = 0; i < anotherP.getlife(); i++)
 			{
 				anotherC.writeToBuffer(c, "ллллл", 0x2A);
 				c.X += 6;
@@ -47,7 +56,7 @@ void UI::renderlife(Console& anotherC)
 		{
 			c.X = 6;
 			c.Y = 3;
-			for (int i = 0; i < User.getlife(); i++)
+			for (int i = 0; i < anotherP.getlife(); i++)
 			{
 				anotherC.writeToBuffer(c, "ллллл", 0x2A);
 				c.X += 6;
@@ -57,10 +66,10 @@ void UI::renderlife(Console& anotherC)
 	}
 }
 
-void UI::rendermapborder(Console& anotherC)
+void UI::rendermapborder(Console& anotherC, Player& anotherP)
 {
 	WORD color = 0x8F;
-	if (User.getlife() > 2)
+	if (anotherP.getlife() > 2)
 	{
 		color = 0xAF;
 	}
@@ -107,13 +116,13 @@ void UI::loadstate()
 	
 	
 
-void UI::renderstate(Console& anotherC)
+void UI::renderstate(Console& anotherC, Player& anotherP)
 {
 	for (int row = 0; row < 29; row++)
 	{
 		for (int col = 0; col < 36; col++)
 		{
-			if (User.getlife() >=4) 
+			if (anotherP.getlife() >=4) 
 			{
 				if ((state[row][col] == 'G'))
 				{
@@ -128,7 +137,7 @@ void UI::renderstate(Console& anotherC)
 					anotherC.writeToBuffer(140 + col, 13 + row, " ", 0x0A);
 				}
 			}
-			else if (User.getlife() >=2)
+			else if (anotherP.getlife() >=2)
 			{
 				if ((state[row][col] == 'G'))
 				{
@@ -356,5 +365,44 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 				}
 			}
 		}
+	}
+}
+
+void UI::renderInventory(Console& anotherC, Player& anotherP)
+{
+	COORD c;
+	c.X = 10;
+	c.Y = 15;
+	std::ostringstream ss;
+	for (int i = 0; i < 4; i++)
+	{
+		std::string j = std::to_string(i);
+
+		if (i == 1)
+		{
+			c.X = 33;
+			c.Y = 15;
+		}
+		else if (i == 2)
+		{
+			c.X = 10;
+			c.Y = 25;
+		}
+		else if (i == 3)
+		{
+			c.X = 33;
+		}
+
+		if (anotherP.getInventory(i))
+		{
+			ss.str("");
+			ss << anotherP.getInventory(i)->getname() << anotherP.getInventory(i)->getamt();
+			anotherC.writeToBuffer(c, ss.str(), 0x0F); 
+		}
+		else
+		{
+			anotherC.writeToBuffer(c, "Blank", 0x0F);
+		}
+
 	}
 }

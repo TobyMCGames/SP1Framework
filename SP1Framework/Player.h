@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework/console.h"
-#include "inventory.h"
+#include "Item.h"
+#include "HealthPotion.h"
 #include <string>
 #include <sstream>
 
@@ -9,8 +10,8 @@ class Player
 private:
 	COORD c;
 	WORD charColor;
-	inventory playerinventory;
 	std::string model;
+	Item* inventory[4];
 	static int life;
 	int speed;
 	bool Active;
@@ -29,10 +30,13 @@ public:
 	int getX();
 	int getY();
 	char getFacing();
-
 	int getspeed();
 	int getlife();
 	bool is_Active();
+
+	//inventory
+	Item* getInventory(int slot);
+	void addInventory(char item);
 
 	//set functions
 	void setmodel(char direction);
@@ -40,7 +44,8 @@ public:
 	void setY(int y);
 	void increaselife();
 	void decreaselife();
-	void interact();
+
+
 
 	//movement
 	void moveLEFT();
