@@ -8,6 +8,7 @@
 #include "mainmenu.h"
 #include "Pausemenu.h"
 #include "UI.h"
+#include "Player.h"
 #include "gameover.h"
 #include <iostream>
 #include <iomanip>
@@ -527,6 +528,7 @@ void render()
     case EGAMESTATES::S_GAMEOVER: renderGameOver();
         break;
     case EGAMESTATES::S_GAME: renderGame();
+        die();
         break;
     case EGAMESTATES::S_PAUSEMENU: renderPauseMenu();
         break;
@@ -736,6 +738,18 @@ void renderInputEvents()
     }
     
 }
+
+void die()
+{
+    int life = 0;
+    Player getlife;
+    life = getlife.getlife();
+    if (life == 0)
+    {
+        g_eGameState = EGAMESTATES::S_GAMEOVER;
+    }
+}
+
 
 
 
