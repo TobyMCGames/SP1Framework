@@ -282,8 +282,6 @@ void UI::renderInventory(Console& anotherC, Player& anotherP)
 	std::ostringstream ss;
 	for (int i = 0; i < 4; i++)
 	{
-		std::string j = std::to_string(i);
-
 		if (i == 1)
 		{
 			c.X = 33;
@@ -302,12 +300,28 @@ void UI::renderInventory(Console& anotherC, Player& anotherP)
 		if (anotherP.getInventory(i))
 		{
 			ss.str("");
-			ss << anotherP.getInventory(i)->getname() << anotherP.getInventory(i)->getamt();
+			if (anotherP.getInventory(anotherP.getselect()))
+			{
+				ss << anotherP.getInventory(i)->getname() << anotherP.getInventory(i)->getamt() << "Active";
+			}
+			else
+			{
+				ss << anotherP.getInventory(i)->getname() << anotherP.getInventory(i)->getamt();
+			}
 			anotherC.writeToBuffer(c, ss.str(), 0x0F); 
 		}
 		else
 		{
-			anotherC.writeToBuffer(c, "Blank", 0x0F);
+			ss.str("");
+			if (i == anotherP.getselect())
+			{
+				ss << "blank" << "Active";
+			}
+			else
+			{
+				ss << "blank";
+			}
+			anotherC.writeToBuffer(c, ss.str(), 0x0F);
 		}
 
 	}
