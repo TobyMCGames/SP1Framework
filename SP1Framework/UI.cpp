@@ -277,24 +277,25 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 void UI::renderInventory(Console& anotherC, Player& anotherP)
 {
 	COORD c;
-	c.X = 10;
+	c.X = 2;
 	c.Y = 15;
 	std::ostringstream ss;
 	for (int i = 0; i < 4; i++)
 	{
 		if (i == 1)
 		{
-			c.X = 33;
+			c.X = 23;
 			c.Y = 15;
 		}
 		else if (i == 2)
 		{
-			c.X = 10;
+			c.X = 2;
 			c.Y = 25;
 		}
 		else if (i == 3)
 		{
-			c.X = 33;
+			c.X = 23;
+			c.Y = 25;
 		}
 
 		if (anotherP.getInventory(i))
@@ -312,16 +313,13 @@ void UI::renderInventory(Console& anotherC, Player& anotherP)
 		}
 		else
 		{
-			ss.str("");
-			if (i == anotherP.getselect())
+			for (int j = 0; j < 9; j++)
 			{
-				ss << "blank" << "Active";
+				ss.str("");
+				ss << "000000000000000000";
+				anotherC.writeToBuffer(c, ss.str(), 0x1F);
+				c.Y += 1;
 			}
-			else
-			{
-				ss << "blank";
-			}
-			anotherC.writeToBuffer(c, ss.str(), 0x0F);
 		}
 
 	}

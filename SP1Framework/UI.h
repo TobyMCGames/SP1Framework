@@ -11,7 +11,7 @@ class UI
 {
 private:
 	char disasterindicator[38][43];
-
+	char inventory[9][18];
 public:
 	UI();
 	~UI();
