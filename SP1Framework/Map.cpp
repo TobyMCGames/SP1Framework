@@ -265,6 +265,12 @@ void Map::updateMap(double dt)
 
 }
 
+void Map::setMap(int x)
+{
+	mapchange = true;
+	maplevel = x;
+}
+
 void Map::DrawMap(Console& anotherC, Player& player)
 {
 	if (player.getX() >= 23 && player.getX() <= 113)
