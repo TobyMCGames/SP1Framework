@@ -337,7 +337,8 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					anotherC.writeToBuffer(46 + j * 2, i, (char)220, 0xF8);
 					break;
 				case 'G':
-					anotherC.writeToBuffer(45 + j * 2, i, "°°", 0x84);
+					anotherC.writeToBuffer(45 + j * 2, i, (char)233, 0xF4);
+					anotherC.writeToBuffer(46 + j * 2, i, (char)247, 0xF4);
 					break;
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
