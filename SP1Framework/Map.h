@@ -42,12 +42,13 @@ public:
 	//Disaster movements
 	void Dmoves(Player& player);
 
+	//Inventory Stuff
+	void interact(Player& player);
+
 	//Input and draw 
 	void nextlevel();
 	void updateMap(double dt);
-	void interact(Player& player);
 	void setMap(int x);
-	//void item_remove(char facing, Player& player, Item& item, inventory& Inventory);
 	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);

@@ -114,6 +114,18 @@ bool Map::collides(char direction, Player& anotherP)
 	return false;
 }
 
+void Map::interact(Player& player)
+{
+	switch (map[player.getY() + y_change][player.getX() + x_change])
+	{
+	case '0':
+		player.addInventory('0');
+		map[player.getY() + y_change][player.getX() + x_change] = ' ';
+		break;
+	}
+	
+}
+
 void Map::nextlevel()
 {
 	maplevel++;
@@ -269,17 +281,6 @@ void Map::updateMap(double dt)
 
 }
 
-void Map::interact(Player& player)
-{
-	switch (map[player.getY() + y_change][player.getX() + x_change])
-	{
-	case '0':
-		player.addInventory('0');
-		map[player.getY() + y_change][player.getX() + x_change] = ' ';
-		break;
-	}
-	
-}
 
 void Map::setMap(int x)
 {

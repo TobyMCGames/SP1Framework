@@ -313,7 +313,6 @@ void updateMenu()
         {
         case 0:
             g_eGameState = EGAMESTATES::S_GAME;
-            reset();
             break;
         case 3:
             g_bQuitGame = true;
@@ -757,7 +756,7 @@ void die()
     if (g_sChar.getlife() == 0)
     {
         g_eGameState = EGAMESTATES::S_GAMEOVER;
-        
+        reset();
     }
 }
 

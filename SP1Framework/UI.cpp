@@ -2,16 +2,8 @@
 
 
 UI::UI() :
-	state{ },
 	disasterindicator{ }
 {
-	for (int row = 0; row < 29; row++)
-	{
-		for (int col = 0; col < 36; col++)
-		{
-			state[row][col] = ' ';
-		}
-	}
 	for (int row = 0; row < 38; row++)
 	{
 		for (int col = 0; col < 43; col++)
@@ -30,7 +22,6 @@ void UI::renderUI(Console& anotherC, Player& anotherP, Map& map)
 {
 	renderlife(anotherC, anotherP);
 	rendermapborder(anotherC, anotherP);
-	renderstate(anotherC, anotherP);
 	renderdisasterindicator(anotherC, map);
 	renderInventory(anotherC, anotherP);
 }
@@ -84,92 +75,6 @@ void UI::rendermapborder(Console& anotherC, Player& anotherP)
 		anotherC.writeToBuffer( 135, i, "  ", color);
 	}
 }
-
-/*void UI::loadstate()
-{
-	
-	std::ifstream f;
-	f.open("UI/Stat(G).csv");
-	std::string data;
-	int row = 0;
-	int col = 0;
-	while (getline(f, data))
-	{
-		for (int datarow = 0; datarow < (36 * 2 - 1); datarow++) {
-			if (data[datarow] == ',')
-			{
-				continue;
-			}
-			else
-			{
-				state[row][col] = data[datarow];
-				col++;
-			}
-
-		}
-		col = 0;
-		row++;
-	}
-	f.close();
-	
-}
-	
-	
-
-void UI::renderstate(Console& anotherC, Player& anotherP)
-{
-	for (int row = 0; row < 29; row++)
-	{
-		for (int col = 0; col < 36; col++)
-		{
-			if (anotherP.getlife() >=4) 
-			{
-				if ((state[row][col] == 'G'))
-				{
-					anotherC.writeToBuffer(140 + col, 13 + row, "Û", 0x2A);
-				}
-				else if ((state[row][col] == 'I'))
-				{
-					anotherC.writeToBuffer(140 + col, 13 + row, "Û", 0x7F);
-				}
-				else
-				{
-					anotherC.writeToBuffer(140 + col, 13 + row, " ", 0x0A);
-				}
-			}
-			else if (anotherP.getlife() >=2)
-			{
-				if ((state[row][col] == 'G'))
-				{
-					anotherC.writeToBuffer(140 + col, 13 + row, "Û", 0x6E);
-				}
-				else if ((state[row][col] == 'I'))
-				{
-					anotherC.writeToBuffer(140 + col, 13 + row, "Û", 0x7F);
-				}
-				else
-				{
-					anotherC.writeToBuffer(140 + col, 13 + row, " ", 0x0A);
-				}
-			}
-			else
-			{
-				if ((state[row][col] == 'G'))
-				{
-					anotherC.writeToBuffer(140 + col, 13 + row, "Û", 0x4C);
-				}
-				else if ((state[row][col] == 'I'))
-				{
-					anotherC.writeToBuffer(140 + col, 13 + row, "Û", 0x7F);
-				}
-				else
-				{
-					anotherC.writeToBuffer(140 + col, 13 + row, " ", 0x0A);
-				}
-			}
-		}
-	}
-}*/
 
 void UI::loaddisasterindicator()
 {
