@@ -10,18 +10,16 @@
 class UI
 {
 private:
-	char state[29][36];
-	char disasterindicator[12][43];
-	Player User;
+	char disasterindicator[38][43];
+
 public:
 	UI();
 	~UI();
 
-	void renderlife(Console& anotherC);
-	void rendermapborder(Console& anotherC);
-	void loadstate();
-	void renderstate(Console& anotherC);
+	void renderUI(Console& anotherC, Player& anotherP, Map& map);
+	void renderlife(Console& anotherC, Player& anotherP);
+	void rendermapborder(Console& anotherC, Player& anotherP);
 	void loaddisasterindicator();
 	void renderdisasterindicator(Console& anotherC, Map& map);
+	void renderInventory(Console& anotherC, Player& anotherP);
 };
-

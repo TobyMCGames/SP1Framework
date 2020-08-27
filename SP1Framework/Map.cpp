@@ -5,6 +5,8 @@ COORD offset;
 Map::Map() :
 	x(135),
 	y(135),
+	x_change(0),
+	y_change(0),
 	fixed_update(0),
 	map{ },
 	DisasterPlane{ },
@@ -35,7 +37,7 @@ Map::Map() :
 		disasters[i] = nullptr;
 	}
 
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		VArray[i] = nullptr;
 	}
@@ -59,26 +61,28 @@ std::string Map::getlevel()
 
 bool Map::collides(char direction, Player& anotherP)
 {
-	int x = 0, y = 0;
+	x_change = 0;
+	y_change = 0;
 	switch (direction)
 	{
 	case 'W':
-		y = -1;
+		y_change = -1;
 		break;
 	case 'A':
-		x = -1;
+		x_change = -1;
 		break;
 	case 'S':
-		y = 1;
+		y_change = 1;
 		break;
 	case 'D':
-		x = 1;
+		x_change = 1;
 		break;
 	}
-	switch (map[anotherP.getY() + y][anotherP.getX() + x])
+	switch (map[anotherP.getY() + y_change][anotherP.getX() + x_change])
 	{
 	case 'S':
 	case 'W':
+	case '0':
 		return true;
 	case '@':
 		//insert reset stuff here
@@ -98,16 +102,28 @@ bool Map::collides(char direction, Player& anotherP)
 		}
 		break;
 	case 'F':
-		for (int i = 0; i < 500; i++)
+		for (int i = 0; i < 50; i++)
 		{
 			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x && VArray[i]->getY() == anotherP.getY() + y && VArray[i]->getState() == true)
 			{
-				return true;
+				player.decreaselife();
 			}
 		}
 		break;
 	}
 	return false;
+}
+
+void Map::interact(Player& player)
+{
+	switch (map[player.getY() + y_change][player.getX() + x_change])
+	{
+	case '0':
+		player.addInventory('0');
+		map[player.getY() + y_change][player.getX() + x_change] = ' ';
+		break;
+	}
+	
 }
 
 void Map::nextlevel()
@@ -175,7 +191,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 						DisasterPlane[row][col] = 'T';
 						break;
 					case '0':
-						map[row][col] = ' ';
+						map[row][col] = '0';
 						break;
 					default:
 						if (cell[i] == player.getIcon())
@@ -248,10 +264,10 @@ void Map::updateMap(double dt)
 
 		for (int j = 0; j < 5; j++) //Volcano Tiles
 		{
-			Vidx = rand() % 500;
+			Vidx = rand() % 50;
 			while (VArray[Vidx] == nullptr)
 			{
-				Vidx = rand() % 500;
+				Vidx = rand() % 50;
 			}
 
 			if (VArray[Vidx]->getState() != true)
@@ -262,6 +278,14 @@ void Map::updateMap(double dt)
 		}
 		//The rest of the disasters
 	}
+
+}
+
+
+void Map::setMap(int x)
+{
+	mapchange = true;
+	maplevel = x;
 
 }
 
@@ -318,11 +342,8 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'I':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
 					break;
-				case '1':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
-					break;
-				case '2':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6E);
+				case '0':
+					anotherC.writeToBuffer(45 + j * 2, i, "00", 0xF4);
 					break;
 				case 'E':
 					for (int k = 0; k < 500; k++)
@@ -363,40 +384,6 @@ void Map::DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor)
 {
 	anotherC.writeToBuffer(45 + 2 * (anotherP.getX() - offset.X), anotherP.getY() - offset.Y, anotherP.getmodel() , charColor);
 }
-
-/*
-char Map::facing_icon(char facing, Player& player, Item& item)
-{
-	if (player.is_Active() == true) {
-		switch (facing)
-		{
-		case 'W':
-			if ((player.getX() == item.getX()) && ((player.getY() - 1) == item.getY() - 1)) {
-				item.change_exist();
-				return item.is_item_exist();
-				break;
-			}
-		case 'A':
-			if (((player.getX() - 1) == item.getX()) && (player.getY() == item.getY())) {
-				item.change_exist();
-				return item.is_item_exist();
-				break;
-			}
-		case 'S':
-			if ((player.getX() == item.getX()) && ((player.getY() - 1) == item.getY() + 1)) {
-				item.change_exist();
-				return item.is_item_exist();
-				break;
-			}
-		case 'D':
-			if (((player.getX() + 1) == item.getX()) && (player.getY() == item.getY())) {
-				item.change_exist();
-				return item.is_item_exist();
-			}
-		}
-	}
-}
-*/
 
 bool Map::getearthquakeI()
 {

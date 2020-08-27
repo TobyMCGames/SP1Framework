@@ -5,6 +5,7 @@ int Player::life = 5;
 Player::Player() :
 	charColor(0x4C),
 	model("  "),
+	inventory{ },
 	speed(1),
 	Active(false),
 	icon('P'),
@@ -69,6 +70,39 @@ bool Player::is_Active()
 	return Active;
 }
 
+Item* Player::getInventory(int slot)
+{
+	return inventory[slot];
+}
+
+void Player::addInventory(char item)
+{
+	bool added = false;
+	for (int i = 0; i < 4; i++)
+	{
+		if (!inventory[i] && !added)
+		{
+			switch (item)
+			{
+			case '0':
+				inventory[i] = new HealthPotion;
+				inventory[i]->increase();
+				added = true;
+				break;
+			}
+		}
+		else if(inventory[i])
+		{
+			if (inventory[i]->GetType() == Item::ITEM_TYPE::HP && inventory[i]->getamt() < inventory[i]->getmaxstacks())
+			{
+				inventory[i]->increase();
+				added = true;
+			}
+			
+		}
+	}
+}
+
 void Player::setmodel(char direction)
 {
 	std::ostringstream ss;
@@ -118,6 +152,11 @@ void Player::decreaselife()
 void Player::interact()
 {
 
+}
+
+void Player::setLife(int x)
+{
+	life = x;
 }
 
 void Player::moveLEFT()
