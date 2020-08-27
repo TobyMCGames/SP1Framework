@@ -189,7 +189,7 @@ void Map::nextlevel()
 
 void Map::loadMap(std::string anothermap, Player& player)
 {
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 50; i++)   //reset disaster
 	{
 		if (disasters[i] != nullptr)
 		{
@@ -259,12 +259,14 @@ void Map::loadMap(std::string anothermap, Player& player)
 						if (cell[i] == player.getIcon())
 						{
 							map[row][col] = ' ';
+							DisasterPlane[row][col] = ' ';
 							player.setX(col);
 							player.setY(row);
 						}
 						else
 						{
 							map[row][col] = cell[i];
+							DisasterPlane[row][col] = ' ';
 						}
 					}
 					
