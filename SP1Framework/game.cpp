@@ -8,6 +8,7 @@
 #include "mainmenu.h"
 #include "Pausemenu.h"
 #include "UI.h"
+#include "Player.h"
 #include "gameover.h"
 #include <iostream>
 #include <iomanip>
@@ -271,6 +272,7 @@ void update(double dt)
         {
             processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit   #261
             updateGame();       // gameplay logic when we are in the game                 #223
+            die();
             fixed_update = 0;
         }
         break;
@@ -310,8 +312,9 @@ void updateMenu()
         {
         case 0:
             g_eGameState = EGAMESTATES::S_GAME;
+            reset();
             break;
-        case 4:
+        case 3:
             g_bQuitGame = true;
             break;
         }
@@ -324,7 +327,7 @@ void updateMenu()
         case 0:
             g_eGameState = EGAMESTATES::S_GAME;
             break;
-        case 4:
+        case 3:
             g_bQuitGame = true;
             break;
         }
@@ -526,7 +529,7 @@ void render()
         break;
     case EGAMESTATES::S_GAMEOVER: renderGameOver();
         break;
-    case EGAMESTATES::S_GAME: renderGame();
+    case EGAMESTATES::S_GAME: renderGame();       
         break;
     case EGAMESTATES::S_PAUSEMENU: renderPauseMenu();
         break;
@@ -583,6 +586,7 @@ void renderGame()
     renderUI();
     renderMap();        // renders the map to the buffer first               #323
     renderCharacter();  // renders the character into the buffer             #341
+    die();
 }
 
 void renderUI()
@@ -736,6 +740,25 @@ void renderInputEvents()
     }
     
 }
+
+void die()
+{
+    if (g_sChar.getlife() == 0)
+    {
+        g_eGameState = EGAMESTATES::S_GAMEOVER;
+        
+    }
+}
+
+void reset() 
+{
+    
+    g_sChar.setLife(5);
+    map.setMap(0);
+
+}
+
+
 
 
 

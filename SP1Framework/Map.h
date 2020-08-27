@@ -47,6 +47,7 @@ public:
 	//Input and draw 
 	void nextlevel();
 	void updateMap(double dt);
+	void setMap(int x);
 	//void item_remove(char facing, Player& player, Item& item, inventory& Inventory);
 	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);
