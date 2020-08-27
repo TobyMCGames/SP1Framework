@@ -741,10 +741,7 @@ void renderInputEvents()
 
 void die()
 {
-    int life = 0;
-    Player getlife;
-    life = getlife.getlife();
-    if (life == 0)
+    if (g_sChar.getlife() == 0)
     {
         g_eGameState = EGAMESTATES::S_GAMEOVER;
     }
