@@ -8,6 +8,6 @@ public:
 	Tornado(int x, int y,char icon);
 	~Tornado();
 
-	void reaction(Player &player, char tile);
+	bool reaction(Player &player, char tile);
 };
 

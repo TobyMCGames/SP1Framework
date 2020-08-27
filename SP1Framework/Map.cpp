@@ -496,7 +496,12 @@ void Map::Dmoves(Player& player)
 			DisasterPlane[cord.Y][cord.X] = 'p';
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
-			disasters[i]->reaction(player, map[cord.Y][cord.X]);
+			if (disasters[i]->reaction(player, map[cord.Y][cord.X]) == true)
+			{
+				DisasterPlane[cord.Y][cord.X] = 'p';
+				disasters[i]->BTSpawner();
+				cord = disasters[i]->getcord();
+			}
 			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
 		}
 	}

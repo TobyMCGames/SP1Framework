@@ -36,6 +36,12 @@ char MovingD::geticon()
 }
 
 
+void MovingD::BTSpawner()
+{
+	c.X = Spawner.X;
+	c.Y = Spawner.Y;
+}
+
 void MovingD::changeDirection(char d)
 {
 	direction = d;

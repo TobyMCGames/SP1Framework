@@ -19,8 +19,9 @@ public:
 	char getdirection();
 	char geticon();
 
+	void BTSpawner();
 	void changeDirection(char d);
 	void move();
-	virtual void reaction(Player& player, char tile) = 0;
+	virtual bool reaction(Player& player, char tile) = 0;
 };
 
