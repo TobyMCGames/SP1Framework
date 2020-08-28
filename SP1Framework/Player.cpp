@@ -100,19 +100,43 @@ void Player::addInventory(char item)
 			{
 			case '0':
 				inventory[i] = new HealthPotion;
-				inventory[i]->increase();
-				added = true;
+				break;
+			case 'k':
+				inventory[i] = new Key;
+				break;
+			case 'C':
+				inventory[i] = new Keycard;
 				break;
 			}
+			inventory[i]->increase();
+			added = true;
 		}
 		else if(inventory[i])
 		{
-			if (inventory[i]->GetType() == Item::ITEM_TYPE::HP && inventory[i]->getamt() < inventory[i]->getmaxstacks())
+			switch (inventory[i]->GetType())
 			{
-				inventory[i]->increase();
-				added = true;
+			case Item::ITEM_TYPE::HP:
+				if (item == inventory[i]->getsymbol() && inventory[i]->getamt() < inventory[i]->getmaxstacks())
+				{
+					inventory[i]->increase();
+					added = true;
+				}
+				break;
+			case Item::ITEM_TYPE::KEY:
+				if (item == inventory[i]->getsymbol())
+				{
+					inventory[i]->increase();
+					added = true;
+				}
+				break;
+			case Item::ITEM_TYPE::KEYCARD:
+				if (item == inventory[i]->getsymbol())
+				{
+					inventory[i]->increase();
+					added = true;
+				}
+				break;
 			}
-			
 		}
 	}
 }
@@ -133,10 +157,18 @@ void Player::useItem()
 {
 	if (inventory[select])
 	{
-		if (inventory[select]->GetType() == Item::ITEM_TYPE::HP)
+		switch (inventory[select]->GetType())
 		{
+		case Item::ITEM_TYPE::HP:
 			increaselife();
 			inventory[select]->decrease();
+			break;
+		case Item::ITEM_TYPE::KEY:
+			inventory[select]->decrease();
+			break;
+		case Item::ITEM_TYPE::KEYCARD:
+			inventory[select]->decrease();
+			break;
 		}
 		
 		if (inventory[select]->getamt() == 0)

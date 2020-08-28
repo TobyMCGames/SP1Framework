@@ -8,7 +8,9 @@ public:
 	enum class ITEM_TYPE : unsigned char
 	{
 		NOTHING,
-		HP
+		HP,
+		KEY,		//For normal doors
+		KEYCARD		//For stair door
 	};
 
 	ITEM_TYPE GetType() const
@@ -23,7 +25,7 @@ public:
 	std::string getname();
 	int getamt();
 	int getmaxstacks();
-	std::string getsymbol();
+	char getsymbol();
 
 
 	//setter
@@ -31,11 +33,11 @@ public:
 	void increase();
 	void decrease();
 	void setmax(int max);
-	void setsymbol(std::string symbol);
+	void setsymbol(char symbol);
 
 private:
 	std::string name;
-	std::string symbol;
+	char symbol;
 	int amt, max_stacks;
 	const ITEM_TYPE itemType;
 };

@@ -6,7 +6,7 @@ Item::Item(ITEM_TYPE argumentItemType) :
 	name(" "),
 	amt(0),
 	max_stacks(4),
-	symbol("  ")
+	symbol(' ')
 {
 }
 
@@ -31,7 +31,7 @@ int Item::getmaxstacks()
 	return max_stacks;
 }
 
-std::string Item::getsymbol()
+char Item::getsymbol()
 {
 	return symbol;
 }
@@ -57,7 +57,7 @@ void Item::setmax(int max)
 	max_stacks = max;
 }
 
-void Item::setsymbol(std::string symbol)
+void Item::setsymbol(char symbol)
 {
 	this->symbol = symbol;
 }

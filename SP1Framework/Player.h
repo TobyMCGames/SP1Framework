@@ -2,6 +2,8 @@
 #include "Framework/console.h"
 #include "Item.h"
 #include "HealthPotion.h"
+#include "Key.h"
+#include "Keycard.h"
 #include <string>
 #include <sstream>
 
