@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="Boulder.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Doors.cpp" />
     <ClCompile Include="Earthquake.cpp" />
     <ClCompile Include="HealthPotion.cpp" />
     <ClCompile Include="Key.cpp" />
@@ -104,6 +105,7 @@
   <ItemGroup>
     <ClInclude Include="Boulder.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Doors.h" />
     <ClInclude Include="Earthquake.h" />
     <ClInclude Include="HealthPotion.h" />
     <ClInclude Include="Key.h" />

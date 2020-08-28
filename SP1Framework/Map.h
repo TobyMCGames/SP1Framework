@@ -11,6 +11,7 @@
 #include "Boulder.h"
 #include "Tornado.h"
 #include "Volcano.h"
+#include "Doors.h"
 
 class Map
 {
@@ -24,7 +25,7 @@ private:
 	MovingD* disasters[50];
 	Earthquake* EQArray[500];
 	Volcano* VArray[500];
-	Player player;
+	Doors* DoorArray[500];
 
 public:
 	Map();
@@ -34,6 +35,7 @@ public:
 	bool getMapChange();
 	std::string getlevel();
 	bool collides(char direction, Player& anotherP);
+	char getPlayerfront(Player& player);
 	bool getearthquakeI();
 	bool gettornadoI();
 	bool gettsunamiI();
@@ -44,6 +46,9 @@ public:
 
 	//Inventory Stuff
 	char interact(Player& player);
+	void unlockDoor(Player& player, int doortype);
+	int frontDoortype(Player& player);
+	bool frontDoorState(Player& player);
 
 	//Input and draw 
 	void nextlevel();

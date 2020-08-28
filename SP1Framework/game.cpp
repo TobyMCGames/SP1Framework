@@ -508,7 +508,18 @@ void inventoryManagement()
     if (g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown && !returnDown)
     {
         returnDown = true;
-        g_sChar.useItem();
+        g_sChar.useItem(map.getPlayerfront(g_sChar), map.frontDoortype(g_sChar), map.frontDoorState(g_sChar));
+        if (map.getPlayerfront(g_sChar) == 'D')
+        {
+            if (g_sChar.getSelected() != nullptr) {
+                if (g_sChar.getSelected()->GetType() == Item::ITEM_TYPE::KEYCARD && map.frontDoortype(g_sChar) == 2) {
+                    map.unlockDoor(g_sChar, 2);
+                }
+                else if (g_sChar.getSelected()->GetType() == Item::ITEM_TYPE::KEY && map.frontDoortype(g_sChar) == 1) {
+                    map.unlockDoor(g_sChar, 1);
+                }
+            }
+        }
     }
     else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown)
     {
