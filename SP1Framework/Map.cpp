@@ -272,6 +272,10 @@ void Map::updateMap(double dt)
 		{
 			if (volcanoI)
 			{
+				spreadLeft();
+				spreadRight();
+				spreadUp();
+				spreadDown();
 				Vidx = rand() % 50;
 				while (VArray[Vidx] == nullptr)
 				{
@@ -365,7 +369,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					}
 					break;
 				case 'F':
-					for (int k = 0; k < 500; k++)
+					for (int k = 0; k < 50; k++)
 					{
 						if (VArray[k] != nullptr && VArray[k]->getX() == j + offset.X && VArray[k]->getY() == i + offset.Y)
 						{
@@ -506,16 +510,13 @@ void Map::Dmoves(Player& player)
 
 void Map::spreadLeft()
 {
-	int Vx, Vy;
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		if (VArray[i] != nullptr)
 		{
-			Vx = VArray[i]->getX() - 1;
-			Vy = VArray[i]->getY();
-			if (map[Vx][Vy] == ' ')
+			if (map[VArray[i]->getY()][VArray[i]->getX()-1] == ' ')
 			{
-				map[Vx][Vy] = 'F';
+				map[VArray[i]->getY()][VArray[i]->getX()-1] = 'F';
 			}
 		}
 	}
@@ -523,16 +524,13 @@ void Map::spreadLeft()
 
 void Map::spreadRight()
 {
-	int Vx, Vy;
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		if (VArray[i] != nullptr)
 		{
-			Vx = VArray[i]->getX() + 1;
-			Vy = VArray[i]->getY();
-			if (map[Vx][Vy] == ' ')
+			if (map[VArray[i]->getY()][VArray[i]->getX() + 1] == ' ')
 			{
-				map[Vx][Vy] = 'F';
+				map[VArray[i]->getY()][VArray[i]->getX() + 1] = 'F';
 			}
 		}
 	}
@@ -540,16 +538,13 @@ void Map::spreadRight()
 
 void Map::spreadUp()
 {
-	int Vx, Vy;
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		if (VArray[i] != nullptr)
 		{
-			Vx = VArray[i]->getX();
-			Vy = VArray[i]->getY() - 1;
-			if (map[Vx][Vy] == ' ')
+			if (map[VArray[i]->getY()-1][VArray[i]->getX()] == ' ')
 			{
-				map[Vx][Vy] = 'F';
+				map[VArray[i]->getY()-1][VArray[i]->getX()] = 'F';
 			}
 		}
 	}
@@ -557,16 +552,13 @@ void Map::spreadUp()
 
 void Map::spreadDown()
 {
-	int Vx, Vy;
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		if (VArray[i] != nullptr)
 		{
-			Vx = VArray[i]->getX();
-			Vy = VArray[i]->getY() + 1;
-			if (map[Vx][Vy] == ' ')
+			if (map[VArray[i]->getY()+1][VArray[i]->getX()] == ' ')
 			{
-				map[Vx][Vy] = 'F';
+				map[VArray[i]->getY()+1][VArray[i]->getX()] = 'F';
 			}
 		}
 	}
