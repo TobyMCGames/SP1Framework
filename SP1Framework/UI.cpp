@@ -291,12 +291,21 @@ void UI::loadInventory()
 		{
 			for (unsigned int i = 0; i < cell.length(); i++)
 			{
-				if (i == 0)									//FIRST CHAR REPRESENTS THE OBJECT
+				switch (cell[i])
 				{
+				case 'B':
+				case ' ':
+				case 'N':
 					inventory[row][col] = cell[i];
-					
+					break;
+				case 'P':
+				case 'R':
+				case 'k':
+					item[row][col] += cell[i];
+					break;
 				}
 
+				
 			}
 			col++;
 		}
@@ -310,7 +319,7 @@ void UI::renderInventory(Console& anotherC, Player& anotherP)
 {
 
 	// 18 by 9
-	COORD origin,c;
+	COORD origin, c;
 	WORD select_color;
 	const WORD colors[] = {
 		0x0F, //Black 0
@@ -318,6 +327,7 @@ void UI::renderInventory(Console& anotherC, Player& anotherP)
 		0xFF, //White 2
 		0xAF, //Green 3
 		0xCF, //Red 4
+		0x6F //Yellow 5
 
 	};
 	for (int i = 0; i < 4; i++)
@@ -360,40 +370,55 @@ void UI::renderInventory(Console& anotherC, Player& anotherP)
 				case 'B': //Border
 					anotherC.writeToBuffer(c, " ", select_color);
 					break;
-				case 'P': //HP Pot Border
-					if (anotherP.getInventory(i) && anotherP.getInventory(i)->GetType() == Item::ITEM_TYPE::HP)
-					{
-						anotherC.writeToBuffer(c, " ", colors[2]);
-					}
-					else
-					{
-						anotherC.writeToBuffer(c, " ", colors[0]);
-					}
-					break; 
-				case 'R': //HP Liquid
-					if (anotherP.getInventory(i) && anotherP.getInventory(i)->GetType() == Item::ITEM_TYPE::HP)
-					{
-						anotherC.writeToBuffer(c, " ", colors[4]);
-					}
-					else
-					{
-						anotherC.writeToBuffer(c, " ", colors[0]);
-					}
-					break;
 				case 'N':
 					if (anotherP.getInventory(i))
 					{
-						
+
 						anotherC.writeToBuffer(c, std::to_string(anotherP.getInventory(i)->getamt()), colors[0]);
 					}
 					break;
 				default:
 					anotherC.writeToBuffer(c, " ", colors[0]);
+				}
 
+				for (int j = 0; j < item[y][x].length(); j++)
+				{
+					switch (item[y][x][j])
+					{
+					case 'P': //HP Pot Border
+						if (anotherP.getInventory(i) && anotherP.getInventory(i)->GetType() == Item::ITEM_TYPE::HP)
+						{
+							anotherC.writeToBuffer(c, " ", colors[2]);
+						}
+						break;
+					case 'R': //HP Liquid
+						if (anotherP.getInventory(i) && anotherP.getInventory(i)->GetType() == Item::ITEM_TYPE::HP)
+						{
+							anotherC.writeToBuffer(c, " ", colors[4]);
+						}
+						break;
+					case 'k':
+						if (anotherP.getInventory(i) && anotherP.getInventory(i)->GetType() == Item::ITEM_TYPE::KEY)
+						{
+							anotherC.writeToBuffer(c, " ", colors[5]);
+						}
+						break;
+					}
 				}
 				c.X += 1;
 			}
 			c.Y += 1;
 		}
+
+		/*c.X = origin.X;
+		c.Y = origin.Y;
+		if(anotherP.getInventory(i))
+		{ 
+			anotherC.writeToBuffer(c, anotherP.getInventory(i)->getname(), 0x0F);
+		}
+		else
+		{
+			anotherC.writeToBuffer(c, "Nothing", 0x0F);
+		}*/
 	}
 }
