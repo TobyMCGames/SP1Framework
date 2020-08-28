@@ -71,6 +71,11 @@ Item* Player::getInventory(int slot)
 	return inventory[slot];
 }
 
+Item* Player::getSelected()
+{
+	return inventory[select];
+}
+
 void Player::setInventory(int slot, char item, int value)
 {
 	for (int i = 0; i < value; i++)
@@ -153,7 +158,7 @@ void Player::nextItem()
 	}
 }
 
-void Player::useItem()
+void Player::useItem(char front, int doortype, bool isActive)
 {
 	if (inventory[select])
 	{
@@ -164,10 +169,14 @@ void Player::useItem()
 			inventory[select]->decrease();
 			break;
 		case Item::ITEM_TYPE::KEY:
-			inventory[select]->decrease();
+			if (front == 'D' && doortype == 1 && isActive == true) {
+				inventory[select]->decrease();
+			}
 			break;
 		case Item::ITEM_TYPE::KEYCARD:
-			inventory[select]->decrease();
+			if (front == 'D' && doortype == 2 && isActive == true) {
+				inventory[select]->decrease();
+			}
 			break;
 		}
 		

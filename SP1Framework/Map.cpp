@@ -37,9 +37,13 @@ Map::Map() :
 		disasters[i] = nullptr;
 	}
 
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 500; i++)
 	{
 		VArray[i] = nullptr;
+	}
+	for (int i = 0; i < 500; i++)
+	{
+		DoorArray[i] = nullptr;
 	}
 }
 
@@ -86,7 +90,6 @@ bool Map::collides(char direction, Player& anotherP)
 	case 'k': //key
 	case 'C':
 	case 'G': //Endgame stuff
-	case 'D':
 		return true;
 	case '@':
 		//insert reset stuff here
@@ -95,6 +98,15 @@ bool Map::collides(char direction, Player& anotherP)
 		volcanoI = false;
 		tornadoI = false;
 		tsunamiI = false;
+		break;
+	case 'D':
+		for (int i = 0; i < 500; i++)
+		{
+			if (DoorArray[i] != nullptr && DoorArray[i]->getX() == anotherP.getX() + x_change && DoorArray[i]->getY() == anotherP.getY() + y_change && DoorArray[i]->getState() == true)
+			{
+				return true;
+			}
+		}
 		break;
 	case 'E':
 		for (int i = 0; i < 500; i++)
@@ -110,7 +122,7 @@ bool Map::collides(char direction, Player& anotherP)
 		{
 			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x_change && VArray[i]->getY() == anotherP.getY() + y_change && VArray[i]->getState() == true)
 			{
-				player.decreaselife();
+				anotherP.decreaselife();
 			}
 		}
 		break;
@@ -118,7 +130,12 @@ bool Map::collides(char direction, Player& anotherP)
 	return false;
 }
 
-char Map::interact(Player& player)
+char Map::getPlayerfront(Player& player)
+{
+	return map[player.getY() + y_change][player.getX() + x_change];
+}
+
+void Map::interact(Player& player)
 {
 	switch (map[player.getY() + y_change][player.getX() + x_change])
 	{
@@ -134,86 +151,177 @@ char Map::interact(Player& player)
 		player.addInventory('C');
 		map[player.getY() + y_change][player.getX() + x_change] = ' ';
 		break;
-	case 'G':
-		return 'G';
-	case 'D':
-		int x = player.getX() + x_change, col = player.getX() + x_change;
-		int y = player.getY() + y_change, row = player.getY() + y_change;
+	}
+}
+
+void Map::unlockDoor(Player& player, int doortype)
+{
+	int x = player.getX() + x_change;
+	int y = player.getY() + y_change;
+	int idx = 1, set = 0, origin = 0;
+	for (int i = 0; i < 500; i++)
+	{
+		if (DoorArray[i]->getX() == x && DoorArray[i]->getY() == y && DoorArray[i]->getDoorType() == doortype && DoorArray != nullptr)
+		{
+			idx = i;
+			set = i;
+			origin = i;
+			break;
+		}
+	}
+	while (true) {
 		while (true)
 		{
-			while (true)
-			{
-				map[row][col] = ' ';
-				if (map[row][col - 1] == 'D')
+			if (DoorArray[idx] != nullptr) {
+				DoorArray[idx]->changeState();
+				if (map[DoorArray[idx]->getY()][DoorArray[idx]->getX() - 1] == 'D')
 				{
-					col--;
+					if (idx > 0) {
+						idx--;
+					}
 				}
 				else
 				{
-					col = x;
+					idx = set;
 					break;
 				}
-			}
-			while (true)
-			{
-				map[row][col] = ' ';
-				if (map[row][col + 1] == 'D')
-				{
-					col++;
-				}
-				else
-				{
-					col = x;
-					break;
-				}
-			}
-			if (map[row - 1][col] == 'D') {
-				row--;
-			}
-			else
-			{
-				row = y;
-				break;
 			}
 		}
 		while (true)
 		{
-			while (true)
-			{
-				map[row][col] = ' ';
-				if (map[row][col - 1] == 'D')
+			if (DoorArray[idx] != nullptr) {
+				DoorArray[idx]->changeState();
+				if (map[DoorArray[idx]->getY()][DoorArray[idx]->getX() + 1] == 'D')
 				{
-					col--;
+					idx++;
 				}
 				else
 				{
-					col = x;
+					idx = set;
 					break;
+				}
+			}
+		}
+		if (map[DoorArray[idx]->getY() - 1][DoorArray[idx]->getX()] == 'D') {
+			for (int i = 0; i < 500; i++)
+			{
+				if (DoorArray[i]->getX() == DoorArray[idx]->getX() && DoorArray[i]->getY() == DoorArray[idx]->getY() - 1) {
+					idx = i;
+					set = i;
+					break;
+				}
+			}
+		}
+		else
+		{
+			idx = origin;
+			set = origin;
+			break;
+		}
+	}
+	/////////////
+	if (map[DoorArray[idx]->getY() + 1][DoorArray[idx]->getX()] == 'D') {
+		for (int i = 0; i < 500; i++)
+		{
+			if (DoorArray[i]->getX() == DoorArray[idx]->getX() && DoorArray[i]->getY() == DoorArray[idx]->getY() + 1) {
+				idx = i;
+				set = i;
+				break;
+			}
+		}
+		while (true) {
+			while (true)
+			{
+				if (DoorArray[idx] != nullptr) {
+					DoorArray[idx]->changeState();
+					if (map[DoorArray[idx]->getY()][DoorArray[idx]->getX() - 1] == 'D')
+					{
+						idx--;
+					}
+					else
+					{
+						idx = set;
+						break;
+					}
 				}
 			}
 			while (true)
 			{
-				map[row][col] = ' ';
-				if (map[row][col + 1] == 'D')
-				{
-					col++;
-				}
-				else
-				{
-					col = x;
-					break;
+				if (DoorArray[idx] != nullptr) {
+					DoorArray[idx]->changeState();
+					if (map[DoorArray[idx]->getY()][DoorArray[idx]->getX() + 1] == 'D')
+					{
+						idx++;
+					}
+					else
+					{
+						idx = set;
+						break;
+					}
 				}
 			}
-			if (map[row + 1][col] == 'D') {
-				row++;
+			if (map[DoorArray[idx]->getY() + 1][DoorArray[idx]->getX()] == 'D') {
+				for (int i = 0; i < 500; i++)
+				{
+					if (DoorArray[i]->getX() == DoorArray[idx]->getX() && DoorArray[i]->getY() == DoorArray[idx]->getY() + 1) {
+						idx = i;
+						set = i;
+					}
+				}
 			}
 			else
 			{
-				row = y;
+				idx = origin;
+				set = origin;
 				break;
 			}
 		}
 	}
+	/*while (true) {
+		DoorArray[idx]->changeState();
+		if (DoorArray[idx - 1]->getX() == col - 1 && DoorArray[idx - 1]->getY() == row) {
+			idx--;
+			col--;
+		}
+		else {
+
+		}
+	}*/
+}
+
+int Map::frontDoortype(Player& player)
+{
+	for (int i = 0; i < 500; i++)
+	{
+		if (DoorArray[i] != nullptr) {
+			if (DoorArray[i]->getX() == player.getX() + x_change && DoorArray[i]->getY() == player.getY() + y_change)
+			{
+				return DoorArray[i]->getDoorType();
+			}
+		}
+		else {
+			break;
+		}
+	}
+	return 0;
+}
+
+bool Map::frontDoorState(Player& player)
+{
+	for (int i = 0; i < 500; i++)
+	{
+		if (DoorArray[i] != nullptr)
+		{
+			if (DoorArray[i]->getX() == player.getX() + x_change && DoorArray[i]->getY() == player.getY() + y_change)
+			{
+				return DoorArray[i]->getState();
+			}
+		}
+		else {
+			break;
+		}
+	}
+	return false;
 }
 
 void Map::nextlevel()
@@ -239,6 +347,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 	int EQidx = 0;
 	int Vidx = 0;
 	int Didx = 0;
+	int Dooridx = 0;
 	int col = 0;
 	int row = 0;
 	while (getline(f, line))  //gets the line
@@ -281,6 +390,11 @@ void Map::loadMap(std::string anothermap, Player& player)
 						tornadoI = true;
 						DisasterPlane[row][col] = 'T';
 						break;
+					case 'D':       //Door object
+						map[row][col] = 'D';
+						DoorArray[Dooridx] = new Doors;
+						DoorArray[Dooridx]->setcord(col, row);
+						break;
 					case '0':		//HP Potion
 						map[row][col] = '0';
 						break;
@@ -312,18 +426,29 @@ void Map::loadMap(std::string anothermap, Player& player)
 					{
 					case 'U':
 						disasters[Didx]->changeDirection('W');
+						Didx++;
 						break;
 					case 'D':
 						disasters[Didx]->changeDirection('S');
+						Didx++;
 						break;
 					case 'L':
 						disasters[Didx]->changeDirection('A');
+						Didx++;
 						break;
 					case 'R':
 						disasters[Didx]->changeDirection('D');
+						Didx++;
+						break;
+					case '1':
+						DoorArray[Dooridx]->setType(1);
+						Dooridx++;
+						break;
+					case '2':
+						DoorArray[Dooridx]->setType(2);
+						Dooridx++;
 						break;
 					}
-					Didx++;
 				}
 			}
 			col++;
@@ -479,7 +604,13 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
 					break;
 				case 'D':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
+					for (int k = 0; k < 500; k++)
+					{
+						if (DoorArray[k] != nullptr && DoorArray[k]->getX() == j + offset.X && DoorArray[k]->getY() == i + offset.Y)
+						{
+							anotherC.writeToBuffer(45 + j * 2, i, "²²", DoorArray[k]->getcolor());
+						}
+					}
 					break;
 			}	
 			switch (DisasterPlane[i + offset.Y][j + offset.X])
