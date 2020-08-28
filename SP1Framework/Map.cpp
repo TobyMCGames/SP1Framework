@@ -273,7 +273,15 @@ void Map::updateMap(double dt)
 {
 	int EQidx;
 	int Vidx;
-	int Tidx_active = 0;
+	int T_tiles = 0;
+	int Tidx_temp = 0;
+	int Tidx_active[500];
+	for (int i = 0; i < 500; i++) {
+		Tidx_active[i] = -1;
+		if (TArray[i] != nullptr) {
+			T_tiles++;
+		}
+	}
 	fixed_update += dt;
 	if (fixed_update >= 0.16 * 1) 
 	{
@@ -317,22 +325,23 @@ void Map::updateMap(double dt)
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				for (int Tidx = 0; Tidx < 500; Tidx++)
+				for (int Tidx = 0; Tidx < T_tiles; Tidx++)
 				{
-					if (TArray[Tidx]->getState() == true)
+					if (TArray[Tidx]->getState() == true && ((std::find(Tidx_active, Tidx_active+500, Tidx)) == Tidx_active+500))
 					{
-						Tidx_active = Tidx;
+						Tidx_temp = Tidx;
+						Tidx_active[std::distance(Tidx_active, std::find(Tidx_active, Tidx_active + 500, -1))] = Tidx;
 						break;
 					}
 				}
 
-				for (int Tidx = 0; Tidx < 500; Tidx++)
+				for (int Tidx = 0; Tidx < T_tiles; Tidx++)
 				{
-					if (TArray[Tidx] != nullptr &&
-						((((TArray[Tidx]->getX() + 1) == TArray[Tidx_active]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_active]->getY())) ||
-							((TArray[Tidx]->getX() == TArray[Tidx_active]->getX()) && ((TArray[Tidx]->getY() + 1) == TArray[Tidx_active]->getY())) ||
-							(((TArray[Tidx]->getX() - 1) == TArray[Tidx_active]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_active]->getY())) ||
-							((TArray[Tidx]->getX() == TArray[Tidx_active]->getX()) && ((TArray[Tidx]->getY() - 1) == TArray[Tidx_active]->getY()))))
+					if (TArray[Tidx]->getState() == false &&
+						((((TArray[Tidx]->getX() + 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY())) ||
+							((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() + 1) == TArray[Tidx_temp]->getY())) ||
+							(((TArray[Tidx]->getX() - 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY())) ||
+							((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() - 1) == TArray[Tidx_temp]->getY()))))
 					{
 						TArray[Tidx]->toggle();
 						fixed_update = 0;
