@@ -10,6 +10,13 @@ Volcano::~Volcano()
 {
 }
 
+Volcano::Volcano(int x, int y)
+{
+	setIcon('F');
+	setColor(0x44);
+	setCOORD(x, y);
+}
+
 void Volcano::toggle()
 {
 	if (getState() == true)

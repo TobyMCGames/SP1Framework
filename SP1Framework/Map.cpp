@@ -357,10 +357,8 @@ void Map::updateMap(double dt)
 		{
 			if (volcanoI)
 			{
-				spreadLeft();
-				spreadRight();
-				spreadUp();
-				spreadDown();
+				//spreadUp();
+				
 				Vidx = rand() % 50;
 				while (VArray[Vidx] == nullptr)
 				{
@@ -459,6 +457,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'F':
 					for (int k = 0; k < 50; k++)
 					{
+
 						if (VArray[k] != nullptr && VArray[k]->getX() == j + offset.X && VArray[k]->getY() == i + offset.Y)
 						{
 							anotherC.writeToBuffer(45 + j * 2, i, "²²", VArray[k]->getColor());
@@ -606,9 +605,15 @@ void Map::spreadLeft()
 	{
 		if (VArray[i] != nullptr)
 		{
-			if (map[VArray[i]->getY()][VArray[i]->getX()-1] == ' ')
+ 			if (map[VArray[i]->getY()][VArray[i]->getX()-1] == ' ')
 			{
-				map[VArray[i]->getY()][VArray[i]->getX()-1] = 'F';
+				for (int j = 0; j < 50; j++)
+				{
+					if (VArray[j] == nullptr)		
+					{
+						VArray[j] = new Volcano(VArray[j]->getY(), VArray[j]->getX() - 1);
+					}
+				}
 			}
 		}
 	}
@@ -622,7 +627,7 @@ void Map::spreadRight()
 		{
 			if (map[VArray[i]->getY()][VArray[i]->getX() + 1] == ' ')
 			{
-				map[VArray[i]->getY()][VArray[i]->getX() + 1] = 'F';
+				map[VArray[i]->getY() - 1][VArray[i]->getX()] = 'F';
 			}
 		}
 	}

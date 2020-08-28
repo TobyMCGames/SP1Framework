@@ -431,6 +431,7 @@ void updateGameOver()
 
 void updateGame()       // gameplay logic
 {
+    map.spreadLeft();
     map.updateMap(g_dDeltaTime);
     map.Dmoves(g_sChar);
     moveCharacter();    // moves the character, collision detection, physics, etc                                    #230
