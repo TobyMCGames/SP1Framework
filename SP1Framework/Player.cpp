@@ -135,7 +135,7 @@ void Player::useItem()
 	{
 		if (inventory[select]->GetType() == Item::ITEM_TYPE::HP)
 		{
-			life++;
+			increaselife();
 			inventory[select]->decrease();
 		}
 		
@@ -185,7 +185,10 @@ void Player::setY(int y)
 
 void Player::increaselife()
 {
-	life++;
+	if (life < 5)
+	{
+		life++;	
+	}
 }
 
 void Player::decreaselife()
