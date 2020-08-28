@@ -81,8 +81,10 @@
     <ClCompile Include="Boulder.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Earthquake.cpp" />
+    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="HealthPotion.cpp" />
     <ClCompile Include="Key.cpp" />
+    <ClCompile Include="Keycard.cpp" />
     <ClCompile Include="MovingD.cpp" />
     <ClCompile Include="Pausemenu.cpp" />
     <ClCompile Include="Tornado.cpp" />
@@ -104,8 +106,10 @@
     <ClInclude Include="Boulder.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Earthquake.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="HealthPotion.h" />
     <ClInclude Include="Key.h" />
+    <ClInclude Include="Keycard.h" />
     <ClInclude Include="MovingD.h" />
     <ClInclude Include="Pausemenu.h" />
     <ClInclude Include="Tornado.h" />

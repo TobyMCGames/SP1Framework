@@ -301,6 +301,7 @@ void UI::loadInventory()
 				case 'P':
 				case 'R':
 				case 'k':
+				case 'C':
 					item[row][col] += cell[i];
 					break;
 				}
@@ -397,10 +398,16 @@ void UI::renderInventory(Console& anotherC, Player& anotherP)
 							anotherC.writeToBuffer(c, " ", colors[4]);
 						}
 						break;
-					case 'k':
+					case 'k': //KEY
 						if (anotherP.getInventory(i) && anotherP.getInventory(i)->GetType() == Item::ITEM_TYPE::KEY)
 						{
 							anotherC.writeToBuffer(c, " ", colors[5]);
+						}
+						break;
+					case 'C': //KEYCARD
+						if (anotherP.getInventory(i) && anotherP.getInventory(i)->GetType() == Item::ITEM_TYPE::KEYCARD)
+						{
+							anotherC.writeToBuffer(c, " ", colors[2]);
 						}
 						break;
 					}

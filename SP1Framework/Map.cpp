@@ -84,6 +84,7 @@ bool Map::collides(char direction, Player& anotherP)
 	case 'W': //Wall
 	case '0': //HP Pot
 	case 'k': //key
+	case 'C':
 	case 'G': //Endgame stuff
 	case 'D':
 		return true;
@@ -127,6 +128,10 @@ char Map::interact(Player& player)
 		break;
 	case 'k':	//key
 		player.addInventory('k');
+		map[player.getY() + y_change][player.getX() + x_change] = ' ';
+		break;
+	case 'C': //KeyCard
+		player.addInventory('C');
 		map[player.getY() + y_change][player.getX() + x_change] = ' ';
 		break;
 	case 'G':
@@ -281,6 +286,9 @@ void Map::loadMap(std::string anothermap, Player& player)
 						break;
 					case 'k':
 						map[row][col] = 'k';
+						break;
+					case 'C':
+						map[row][col] = 'C';
 						break;
 					default:
 						if (cell[i] == player.getIcon())
@@ -444,6 +452,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					break;
 				case 'k':
 					anotherC.writeToBuffer(45 + j * 2, i, "kk", 0x8E);
+					break;
+				case 'C':
+					anotherC.writeToBuffer(45 + j * 2, i, "CC", 0x8E);
 					break;
 				case 'E':
 					for (int k = 0; k < 500; k++)

@@ -104,6 +104,9 @@ void Player::addInventory(char item)
 			case 'k':
 				inventory[i] = new Key;
 				break;
+			case 'C':
+				inventory[i] = new Keycard;
+				break;
 			}
 			inventory[i]->increase();
 			added = true;
@@ -120,6 +123,13 @@ void Player::addInventory(char item)
 				}
 				break;
 			case Item::ITEM_TYPE::KEY:
+				if (item == inventory[i]->getsymbol())
+				{
+					inventory[i]->increase();
+					added = true;
+				}
+				break;
+			case Item::ITEM_TYPE::KEYCARD:
 				if (item == inventory[i]->getsymbol())
 				{
 					inventory[i]->increase();
@@ -154,6 +164,9 @@ void Player::useItem()
 			inventory[select]->decrease();
 			break;
 		case Item::ITEM_TYPE::KEY:
+			inventory[select]->decrease();
+			break;
+		case Item::ITEM_TYPE::KEYCARD:
 			inventory[select]->decrease();
 			break;
 		}

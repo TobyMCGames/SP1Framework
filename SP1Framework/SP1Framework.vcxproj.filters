@@ -94,6 +94,12 @@
       <Filter>Source Files\Items</Filter>
     </ClCompile>
     <ClCompile Include="Key.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Keycard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClear.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,6 +162,12 @@
       <Filter>Header Files\Items</Filter>
     </ClInclude>
     <ClInclude Include="Key.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Keycard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClear.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
