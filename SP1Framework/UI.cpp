@@ -428,4 +428,6 @@ void UI::renderInventory(Console& anotherC, Player& anotherP)
 			anotherC.writeToBuffer(c, "Nothing", 0x0F);
 		}*/
 	}
+
+	anotherC.writeToBuffer(12 , 33, "<Tab> to change slot" , colors[0]);
 }
