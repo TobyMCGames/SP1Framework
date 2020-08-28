@@ -84,6 +84,7 @@ bool Map::collides(char direction, Player& anotherP)
 	case 'W':
 	case '0':
 	case 'G':
+	case 'D':
 		return true;
 	case '@':
 		//insert reset stuff here
@@ -125,6 +126,83 @@ char Map::interact(Player& player)
 		return '0';
 	case 'G':
 		return 'G';
+	case 'D':
+		int x = player.getX() + x_change, col = player.getX() + x_change;
+		int y = player.getY() + y_change, row = player.getY() + y_change;
+		while (true)
+		{
+			while (true)
+			{
+				map[row][col] = ' ';
+				if (map[row][col - 1] == 'D')
+				{
+					col--;
+				}
+				else
+				{
+					col = x;
+					break;
+				}
+			}
+			while (true)
+			{
+				map[row][col] = ' ';
+				if (map[row][col + 1] == 'D')
+				{
+					col++;
+				}
+				else
+				{
+					col = x;
+					break;
+				}
+			}
+			if (map[row - 1][col] == 'D') {
+				row--;
+			}
+			else
+			{
+				row = y;
+				break;
+			}
+		}
+		while (true)
+		{
+			while (true)
+			{
+				map[row][col] = ' ';
+				if (map[row][col - 1] == 'D')
+				{
+					col--;
+				}
+				else
+				{
+					col = x;
+					break;
+				}
+			}
+			while (true)
+			{
+				map[row][col] = ' ';
+				if (map[row][col + 1] == 'D')
+				{
+					col++;
+				}
+				else
+				{
+					col = x;
+					break;
+				}
+			}
+			if (map[row + 1][col] == 'D') {
+				row++;
+			}
+			else
+			{
+				row = y;
+				break;
+			}
+		}
 	}
 	return '-1';
 }
@@ -376,14 +454,17 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'S':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
 					break;
+				case 'D':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
+					break;
 			}	
 			switch (DisasterPlane[i + offset.Y][j + offset.X])
 			{
 			case 'B':
-				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x1F);
+				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6F);
 				break;
 			case 'T':
-				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x2A);
+				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xBA);
 				break;
 			}
 		}
@@ -440,7 +521,7 @@ void Map::Dmoves(Player& player)
 				x = 1;
 				break;
 			}
-			if (DisasterPlane[cord.Y + y][cord.X + x] != 'p')
+			if ((DisasterPlane[cord.Y + y][cord.X + x] != 'p') &&  (DisasterPlane[cord.Y + y][cord.X + x] != 'h'))
 			{
 				switch (disasters[i]->getdirection())
 				{
@@ -493,13 +574,14 @@ void Map::Dmoves(Player& player)
 			DisasterPlane[cord.Y][cord.X] = 'p';
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
-			if (disasters[i]->reaction(player, map[cord.Y][cord.X]) == true)
+			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
+			if (disasters[i]->reaction(player, map[cord.Y + y][cord.X + x]) == true)
 			{
 				DisasterPlane[cord.Y][cord.X] = 'p';
 				disasters[i]->BTSpawner();
 				cord = disasters[i]->getcord();
+				DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
 			}
-			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
 		}
 	}
 }
