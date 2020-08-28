@@ -363,6 +363,7 @@ void updatePauseMenu()
             break;
         case 2:
             g_eGameState = EGAMESTATES::S_MAINMENU;
+            reset();
             break;
         }
     }
@@ -485,6 +486,7 @@ void inventoryManagement()
         if (map.interact(g_sChar) == 'G')
         {
             g_eGameState = EGAMESTATES::S_GAMEOVER;
+            reset();
         }
     }
     else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown)
