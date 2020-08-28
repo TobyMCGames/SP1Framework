@@ -45,7 +45,7 @@ public:
 	void Dmoves(Player& player);
 
 	//Inventory Stuff
-	char interact(Player& player);
+	void interact(Player& player);
 	void unlockDoor(Player& player, int doortype);
 	int frontDoortype(Player& player);
 	bool frontDoorState(Player& player);

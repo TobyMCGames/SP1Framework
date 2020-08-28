@@ -135,7 +135,7 @@ char Map::getPlayerfront(Player& player)
 	return map[player.getY() + y_change][player.getX() + x_change];
 }
 
-char Map::interact(Player& player)
+void Map::interact(Player& player)
 {
 	switch (map[player.getY() + y_change][player.getX() + x_change])
 	{
@@ -151,8 +151,6 @@ char Map::interact(Player& player)
 		player.addInventory('C');
 		map[player.getY() + y_change][player.getX() + x_change] = ' ';
 		break;
-	case 'G':
-		return 'G';
 	}
 }
 
@@ -160,7 +158,7 @@ void Map::unlockDoor(Player& player, int doortype)
 {
 	int x = player.getX() + x_change;
 	int y = player.getY() + y_change;
-	int idx = 0, set = 0, origin = 0;
+	int idx = 1, set = 0, origin = 0;
 	for (int i = 0; i < 500; i++)
 	{
 		if (DoorArray[i]->getX() == x && DoorArray[i]->getY() == y && DoorArray[i]->getDoorType() == doortype && DoorArray != nullptr)
@@ -178,7 +176,9 @@ void Map::unlockDoor(Player& player, int doortype)
 				DoorArray[idx]->changeState();
 				if (map[DoorArray[idx]->getY()][DoorArray[idx]->getX() - 1] == 'D')
 				{
-					idx--;
+					if (idx > 0) {
+						idx--;
+					}
 				}
 				else
 				{

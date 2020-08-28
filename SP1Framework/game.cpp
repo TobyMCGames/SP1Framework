@@ -538,7 +538,8 @@ void inventoryManagement()
     if (g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown && !spaceDown)
     {
         spaceDown = true;
-        if (map.interact(g_sChar) == 'G')
+        map.interact(g_sChar);
+        if (map.getPlayerfront(g_sChar) == 'G')
         {
             g_eGameState = EGAMESTATES::S_GAMECLEAR;
             reset();
@@ -563,7 +564,7 @@ void inventoryManagement()
     if (g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown && !returnDown)
     {
         returnDown = true;
-        g_sChar.useItem(map.getPlayerfront(g_sChar), map.frontDoortype(g_sChar), map.frontDoorState(g_sChar));
+        bool initialState = map.frontDoorState(g_sChar);
         if (map.getPlayerfront(g_sChar) == 'D')
         {
             if (g_sChar.getSelected() != nullptr) {
@@ -575,6 +576,7 @@ void inventoryManagement()
                 }
             }
         }
+        g_sChar.useItem(map.getPlayerfront(g_sChar), map.frontDoortype(g_sChar), initialState);
     }
     else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown)
     {

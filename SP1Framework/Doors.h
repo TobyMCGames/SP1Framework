@@ -16,7 +16,7 @@ public:
 	int getX();
 	int getY();
 	int getDoorType();
-	int getState();
+	bool getState();
 	WORD getcolor();
 
 	void setcord(int x, int y);

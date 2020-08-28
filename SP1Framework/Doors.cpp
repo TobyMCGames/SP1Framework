@@ -28,7 +28,7 @@ int Doors::getDoorType()
 	return doortype;
 }
 
-int Doors::getState()
+bool Doors::getState()
 {
 	return Activated;
 }
