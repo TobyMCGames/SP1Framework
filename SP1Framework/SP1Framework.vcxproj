@@ -82,6 +82,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Doors.cpp" />
     <ClCompile Include="Earthquake.cpp" />
+    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="HealthPotion.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Keycard.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Doors.h" />
     <ClInclude Include="Earthquake.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="HealthPotion.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Keycard.h" />

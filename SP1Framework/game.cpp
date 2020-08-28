@@ -10,6 +10,7 @@
 #include "UI.h"
 #include "Player.h"
 #include "gameover.h"
+#include "GameClear.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -34,6 +35,7 @@ SplashScreen splashscreen;
 mainmenu _mainmenu;
 Pausemenu _pausemenu;
 gameover _gameover;
+GameClear _gameclear;
 UI ui;
 EGAMESTATES g_eGameState = EGAMESTATES::S_SPLASHSCREEN; // initial state
 
@@ -61,6 +63,7 @@ void init( void )
     //Temporary Load
     loadMainMenu();
     loadGameOver();
+    loadGameClear();
     splashscreen.loadSplashScreen();
     ui.loaddisasterindicator();
     ui.loadInventory();
@@ -138,6 +141,9 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case EGAMESTATES::S_PAUSEMENU:
         gameplayKBHandler(keyboardEvent);
         break;
+    case EGAMESTATES::S_GAMECLEAR:
+        gameplayKBHandler(keyboardEvent);
+        break;
     }
 }
 
@@ -170,6 +176,8 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
     case EGAMESTATES::S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case EGAMESTATES::S_PAUSEMENU: gameplayMouseHandler(mouseEvent);
+        break;
+    case EGAMESTATES::S_GAMECLEAR: gameplayMouseHandler(mouseEvent);
         break;
     }
 }
@@ -285,7 +293,15 @@ void update(double dt)
             fixed_update = 0;
         }
         break;
+    case EGAMESTATES::S_GAMECLEAR:
+        if (fixed_update > g_dDeltaTime * 5)
+        {
+            updateGameClear();
+            fixed_update = 0;
+        }
+        break;
     }
+
 }
 
 void splashScreenWait()    // waits for time to pass in splash screen
@@ -378,6 +394,45 @@ void updatePauseMenu()
         case 2:
             g_eGameState = EGAMESTATES::S_MAINMENU;
             break;
+        }
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown)
+    {
+        returnDown = false;
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown)
+    {
+        spaceDown = false;
+    }
+}
+
+void updateGameClear()
+{
+    if (g_skKeyEvent[(int)EKEYS::K_W].keyDown)
+    {
+        _gameover.decreaseselector();
+    }
+    else if (g_skKeyEvent[(int)EKEYS::K_S].keyDown)
+    {
+        _gameover.increaseselector();
+    }
+
+    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) && !returnDown)
+    {
+        returnDown = true;
+        switch (_gameover.getSelector())
+        {
+        case 0: g_eGameState = EGAMESTATES::S_MAINMENU; break;
+        case 1: g_bQuitGame = true; break;
+        }
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && !spaceDown)
+    {
+        spaceDown = true;
+        switch (_gameover.getSelector())
+        {
+        case 0: g_eGameState = EGAMESTATES::S_MAINMENU; break;
+        case 1: g_bQuitGame = true; break;
         }
     }
     else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown)
@@ -485,7 +540,7 @@ void inventoryManagement()
         spaceDown = true;
         if (map.interact(g_sChar) == 'G')
         {
-            g_eGameState = EGAMESTATES::S_GAMEOVER;
+            g_eGameState = EGAMESTATES::S_GAMECLEAR;
             reset();
         }
     }
@@ -573,6 +628,8 @@ void render()
         break;
     case EGAMESTATES::S_PAUSEMENU: renderPauseMenu();
         break;
+    case EGAMESTATES::S_GAMECLEAR: renderGameClear();
+        break;
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
     renderInputEvents();    // renders status of input events
@@ -593,6 +650,11 @@ void loadMainMenu()
 void loadGameOver()
 {
     _gameover.loadgameover();
+}
+
+void loadGameClear()
+{
+    _gameclear.loadgameclear();
 }
 
 void renderToScreen()
@@ -619,6 +681,11 @@ void renderGameOver()
 void renderPauseMenu()
 {
     _pausemenu.renderpause(g_Console);
+}
+
+void renderGameClear()
+{
+    _gameclear.renderGC(g_Console);
 }
 
 void renderGame()
