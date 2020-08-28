@@ -1,9 +1,9 @@
 B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B
 B,B,,,,P,Pk,Pk,Pk,Pk,Pk,Pk,P,,,N,B,B
-B,B,,,,,Pk,,,,,Pk,,,,,B,B
-B,B,,,,,Pk,,,,,Pk,,,,,B,B
-B,B,,,,P,k,k,k,k,k,k,P,,,,B,B
-B,B,,,P,R,R,R,Rk,Rk,R,R,R,P,,,B,B
-B,B,,P,R,R,R,R,Rk,Rk,Rk,R,R,R,P,,B,B
+B,B,C,C,C,C,PkC,C,C,C,C,PkC,C,C,C,C,B,B
+B,B,C,C,C,C,PkC,C,C,C,C,PkC,C,C,C,C,B,B
+B,B,C,C,C,PC,kC,kC,kC,kC,kC,kC,PC,C,C,C,B,B
+B,B,C,C,PC,RC,RC,RC,RkC,RkC,RC,RC,RC,PC,C,C,B,B
+B,B,C,PC,RC,RC,RC,RC,RkC,RkC,RkC,RC,RC,RC,PC,C,B,B
 B,B,,P,P,P,P,P,Pk,Pk,P,P,P,P,P, ,B,B
 B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B
