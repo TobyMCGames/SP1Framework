@@ -80,10 +80,12 @@ bool Map::collides(char direction, Player& anotherP)
 	}
 	switch (map[anotherP.getY() + y_change][anotherP.getX() + x_change])
 	{
-	case 'S':
-	case 'W':
-	case '0':
-	case 'G':
+	case 'S': //Silver Wall
+	case 'W': //Wall
+	case '0': //HP Pot
+	case 'k': //key
+	case 'G': //Endgame stuff
+	case 'D':
 		return true;
 	case '@':
 		//insert reset stuff here
@@ -119,14 +121,94 @@ char Map::interact(Player& player)
 {
 	switch (map[player.getY() + y_change][player.getX() + x_change])
 	{
-	case '0':
+	case '0':	//HP Potion
 		player.addInventory('0');
 		map[player.getY() + y_change][player.getX() + x_change] = ' ';
-		return '0';
+		break;
+	case 'k':	//key
+		player.addInventory('k');
+		map[player.getY() + y_change][player.getX() + x_change] = ' ';
+		break;
 	case 'G':
 		return 'G';
+	case 'D':
+		int x = player.getX() + x_change, col = player.getX() + x_change;
+		int y = player.getY() + y_change, row = player.getY() + y_change;
+		while (true)
+		{
+			while (true)
+			{
+				map[row][col] = ' ';
+				if (map[row][col - 1] == 'D')
+				{
+					col--;
+				}
+				else
+				{
+					col = x;
+					break;
+				}
+			}
+			while (true)
+			{
+				map[row][col] = ' ';
+				if (map[row][col + 1] == 'D')
+				{
+					col++;
+				}
+				else
+				{
+					col = x;
+					break;
+				}
+			}
+			if (map[row - 1][col] == 'D') {
+				row--;
+			}
+			else
+			{
+				row = y;
+				break;
+			}
+		}
+		while (true)
+		{
+			while (true)
+			{
+				map[row][col] = ' ';
+				if (map[row][col - 1] == 'D')
+				{
+					col--;
+				}
+				else
+				{
+					col = x;
+					break;
+				}
+			}
+			while (true)
+			{
+				map[row][col] = ' ';
+				if (map[row][col + 1] == 'D')
+				{
+					col++;
+				}
+				else
+				{
+					col = x;
+					break;
+				}
+			}
+			if (map[row + 1][col] == 'D') {
+				row++;
+			}
+			else
+			{
+				row = y;
+				break;
+			}
+		}
 	}
-	return '-1';
 }
 
 void Map::nextlevel()
@@ -165,36 +247,40 @@ void Map::loadMap(std::string anothermap, Player& player)
 				{
 					switch (cell[i])
 					{
-					case'E':
+					case'E':		//EarthQuake Tiles
 						map[row][col] = cell[i];
 						EQArray[EQidx] = new Earthquake;
 						EQArray[EQidx]->setCOORD(col, row);
 						EQidx++;
 						earthquakeI = true;
-						break;
-					case'F':
+						break;	
+					case'F':		//Volcano Tiles
 						map[row][col] = cell[i];
 						VArray[Vidx] = new Volcano;
 						VArray[Vidx]->setCOORD(col, row);
 						Vidx++;
 						volcanoI = true;
 						break;
-					case 'B':
+					case 'B':		//EarthQuake Boulders
 						map[row][col] = ' ';
 						disasters[Didx] = new Boulder(col, row, 'B');
 						DisasterPlane[row][col] = 'B';
-					case 'p':
+						break;
+					case 'p':		//Moving Disaster Object path
 						map[row][col] = ' ';
 						DisasterPlane[row][col] = 'p';
 						break;
-					case 'T':
+					case 'T':		//Tornado Object
 						map[row][col] = ' ';
 						disasters[Didx] = new Tornado(col, row, 'T');
 						tornadoI = true;
 						DisasterPlane[row][col] = 'T';
 						break;
-					case '0':
+					case '0':		//HP Potion
 						map[row][col] = '0';
+						break;
+					case 'k':
+						map[row][col] = 'k';
 						break;
 					default:
 						if (cell[i] == player.getIcon())
@@ -214,7 +300,6 @@ void Map::loadMap(std::string anothermap, Player& player)
 				}
 				else										//SECOND CHAR REPRESENTS DIRECTION OR WHATEVER U WANT IT TO BE
 				{
-					//if (cell[i] == d) blahblahblah
 					switch (cell[i])
 					{
 					case 'U':
@@ -359,6 +444,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case '0':
 					anotherC.writeToBuffer(45 + j * 2, i, "00", 0xF4);
 					break;
+				case 'k':
+					anotherC.writeToBuffer(45 + j * 2, i, "kk", 0x8E);
+					break;
 				case 'E':
 					for (int k = 0; k < 500; k++)
 					{
@@ -380,14 +468,17 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'S':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
 					break;
+				case 'D':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
+					break;
 			}	
 			switch (DisasterPlane[i + offset.Y][j + offset.X])
 			{
 			case 'B':
-				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x1F);
+				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6F);
 				break;
 			case 'T':
-				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x2A);
+				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xBA);
 				break;
 			}
 		}
@@ -444,7 +535,7 @@ void Map::Dmoves(Player& player)
 				x = 1;
 				break;
 			}
-			if (DisasterPlane[cord.Y + y][cord.X + x] != 'p')
+			if ((DisasterPlane[cord.Y + y][cord.X + x] != 'p') &&  (DisasterPlane[cord.Y + y][cord.X + x] != 'h'))
 			{
 				switch (disasters[i]->getdirection())
 				{
@@ -497,13 +588,14 @@ void Map::Dmoves(Player& player)
 			DisasterPlane[cord.Y][cord.X] = 'p';
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
-			if (disasters[i]->reaction(player, map[cord.Y][cord.X]) == true)
+			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
+			if (disasters[i]->reaction(player, map[cord.Y + y][cord.X + x]) == true)
 			{
 				DisasterPlane[cord.Y][cord.X] = 'p';
 				disasters[i]->BTSpawner();
 				cord = disasters[i]->getcord();
+				DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
 			}
-			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
 		}
 	}
 }

@@ -4,7 +4,7 @@ HealthPotion::HealthPotion() :
 	Item(ITEM_TYPE::HP)
 {
 	setname("HP Potion");
-	setsymbol("00");
+	setsymbol('0');
 	setmax(4);
 }
 
