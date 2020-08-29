@@ -25,7 +25,7 @@ Map::Map() :
 			DisasterPlane[row][col] = ' ';
 		}
 	}
-	maplevel = -1;
+	maplevel = 0;
 	mapchange = true;
 	xaxis = 0;
 	yaxis = 0;
@@ -439,18 +439,22 @@ void Map::loadMap(std::string anothermap, Player& player)
 						break;
 					case 'U':
 						disasters[Didx]->changeDirection('W');
+						disasters[Didx]->setSpawner();
 						Didx++;
 						break;
 					case 'D':
 						disasters[Didx]->changeDirection('S');
+						disasters[Didx]->setSpawner();
 						Didx++;
 						break;
 					case 'L':
 						disasters[Didx]->changeDirection('A');
+						disasters[Didx]->setSpawner();
 						Didx++;
 						break;
 					case 'R':
 						disasters[Didx]->changeDirection('D');
+						disasters[Didx]->setSpawner();
 						Didx++;
 						break;
 					case '1':
