@@ -36,6 +36,25 @@ char MovingD::geticon()
 }
 
 
+void MovingD::setSpawner()
+{
+	switch (direction)
+	{
+	case 'W':
+		Spawner.Y += 1;
+		break;
+	case 'A':
+		Spawner.X += 1;
+		break;
+	case 'S':
+		Spawner.Y -= 1;
+		break;
+	case 'D':
+		Spawner.X -= 1;
+		break;
+	}
+}
+
 void MovingD::BTSpawner()
 {
 	c.X = Spawner.X;

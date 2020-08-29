@@ -393,6 +393,7 @@ void updatePauseMenu()
             break;
         case 2:
             g_eGameState = EGAMESTATES::S_MAINMENU;
+            reset();
             break;
         }
     }
@@ -705,7 +706,6 @@ void renderUI()
 
 void renderMap()
 {
-    die();
     if (map.getMapChange() == true)
     {
         map.nextlevel();

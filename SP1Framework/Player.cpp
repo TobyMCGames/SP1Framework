@@ -99,24 +99,7 @@ void Player::addInventory(char item)
 	bool added = false;
 	for (int i = 0; i < 4; i++)
 	{
-		if (!inventory[i] && !added)
-		{
-			switch (item)
-			{
-			case '0':
-				inventory[i] = new HealthPotion;
-				break;
-			case 'k':
-				inventory[i] = new Key;
-				break;
-			case 'C':
-				inventory[i] = new Keycard;
-				break;
-			}
-			inventory[i]->increase();
-			added = true;
-		}
-		else if(inventory[i])
+		if (inventory[i]) 
 		{
 			switch (inventory[i]->GetType())
 			{
@@ -141,6 +124,29 @@ void Player::addInventory(char item)
 					added = true;
 				}
 				break;
+			}
+		}
+	}
+	if (!added)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (!inventory[i] && !added)
+			{
+				switch (item)
+				{
+				case '0':
+					inventory[i] = new HealthPotion;
+					break;
+				case 'k':
+					inventory[i] = new Key;
+					break;
+				case 'C':
+					inventory[i] = new Keycard;
+					break;
+				}
+				inventory[i]->increase();
+				added = true;
 			}
 		}
 	}

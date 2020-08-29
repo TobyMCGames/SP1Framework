@@ -18,8 +18,8 @@ Map::Map() :
 	volcanoI(false),
 	disasters { },
 	EQArray{ },
-	VArray{ },
-	TArray{ }
+	DoorArray{ },
+	VArray{ }
 {
 	for (int row = 0; row < x; row++) {
 		for (int col = 0; col < y; col++) {
@@ -27,10 +27,8 @@ Map::Map() :
 			DisasterPlane[row][col] = ' ';
 		}
 	}
-	maplevel = -1;
+	maplevel = 0;
 	mapchange = true;
-	xaxis = 0;
-	yaxis = 0;
 
 	for (int i = 0; i < 500; i++) 
 	{
@@ -362,6 +360,18 @@ void Map::loadMap(std::string anothermap, Player& player)
 			disasters[i] = nullptr;
 		}
 	}
+	
+	for (int i = 0; i < 500; i++)
+	{
+		delete DoorArray[i];
+		DoorArray[i] = nullptr;
+
+		delete VArray[i];
+		VArray[i] = nullptr;
+
+		delete EQArray[i];
+		EQArray[i] = nullptr;
+	}
 	std::string path = "Maps\\" + anothermap;
 	std::ifstream f;
 	f.open(path);
@@ -469,18 +479,22 @@ void Map::loadMap(std::string anothermap, Player& player)
 						break;
 					case 'U':
 						disasters[Didx]->changeDirection('W');
+						disasters[Didx]->setSpawner();
 						Didx++;
 						break;
 					case 'D':
 						disasters[Didx]->changeDirection('S');
+						disasters[Didx]->setSpawner();
 						Didx++;
 						break;
 					case 'L':
 						disasters[Didx]->changeDirection('A');
+						disasters[Didx]->setSpawner();
 						Didx++;
 						break;
 					case 'R':
 						disasters[Didx]->changeDirection('D');
+						disasters[Didx]->setSpawner();
 						Didx++;
 						break;
 					case '1':
@@ -532,15 +546,11 @@ void Map::updateMap(double dt, Player& player)
 		}
 	}
 		//Volcano Tiles
-	if (Vtime >= 0.16 * 5)
+	if (Vtime >= 0.16 * 3)
 	{
 		if (volcanoI)
 		{
-
-
 			spreadcheck();
-
-
 			Vtime = 0;
 
 
@@ -557,10 +567,6 @@ void Map::updateMap(double dt, Player& player)
 			Ttime = 0;
 		}
 	}
-		
-	
-		//The rest of the disasters
-	
 
 }
 
@@ -721,12 +727,13 @@ void Map::spreadcheck()
 {
 	int x = 0;
 	int y = 0;
+	int max = VArray[0]->getamt();
 	bool added = false;
-	for (int j = 0; j < 500; j++)
+	for (int j = 0; j < max; j++) //Starting Point
 	{
 		if (VArray[j] != nullptr)
 		{
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 4; i++) //Spread
 			{
 				VArray[j]->setDirection(i);
 				x = VArray[j]->getxchange();
@@ -783,7 +790,7 @@ void Map::wave(Player& player)
 				}
 			}
 		}
-	};
+	}
 }
 
 

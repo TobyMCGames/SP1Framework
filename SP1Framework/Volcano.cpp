@@ -1,5 +1,6 @@
 #include "Volcano.h"
 
+int Volcano::amount = 0;
 Volcano::Volcano()
 {
 	setIcon('F');
@@ -7,10 +8,12 @@ Volcano::Volcano()
 	x = 0;
 	y = 0;
 	direction = 0;
+	amount++;
 }
 
 Volcano::~Volcano()
 {
+	amount--;
 }
 
 int Volcano::getxchange()
@@ -21,6 +24,11 @@ int Volcano::getxchange()
 int Volcano::getychange()
 {
 	return y;
+}
+
+int Volcano::getamt()
+{
+	return amount;
 }
 
 void Volcano::toggle()

@@ -19,6 +19,7 @@ public:
 	char getdirection();
 	char geticon();
 
+	void setSpawner();
 	void BTSpawner(); //Sends cord back to spawner
 	void changeDirection(char d);
 	void move();
