@@ -562,7 +562,7 @@ void Map::updateMap(double dt, Player& player)
 	}
 
 		//Tsunami Tiles
-	if (Ttime >= 0.16 * 3)
+	if (Ttime >= 0.16 * 2)
 	{
 		if (tsunamiI)
 		{
@@ -788,7 +788,25 @@ void Map::wave(Player& player)
 							TArray[k]->setCOORD(TArray[j]->getX() + x, TArray[j]->getY() + y);
 							TArray[k]->toggle();
 							added = true;
-							TArray[k]->reaction(player, TArray[k]->getDirection());
+							if ((player.getFacing() == 'W' && map[player.getY() - 1][player.getX()] == 'M') ||
+								(player.getFacing() == 'A' && map[player.getY()][player.getX() - 1] == 'M') ||
+								(player.getFacing() == 'S' && map[player.getY() + 1][player.getX()] == 'M') ||
+								(player.getFacing() == 'D' && map[player.getY()][player.getX() + 1] == 'M')) {
+								TArray[k]->reaction_towards(player, player.getFacing());
+								if (map[player.getY()][player.getX()] == 'W') {
+									for (int y = 0; y < 5; y++) {
+										player.decreaselife();
+									}
+								}
+							}
+							else {
+								TArray[k]->reaction_away(player, player.getFacing());
+								if (map[player.getY()][player.getX()] == 'W') {
+									for (int y = 0; y < 5; y++) {
+										player.decreaselife();
+									}
+								}
+							}
 						}
 					}
 					added = false;

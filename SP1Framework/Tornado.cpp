@@ -27,16 +27,16 @@ bool Tornado::reaction(Player& player, char tile)
 		switch (player.getFacing())
 		{
 		case 'W':
-			y = 3;
+			y = 2;
 			break;
 		case 'A':
-			x = 3;
+			x = 2;
 			break;
 		case 'S':
-			y = -3;
+			y = -2;
 			break;
 		case 'D':
-			x = -3;
+			x = -2;
 			break;
 		}
 		player.setX(player.getX() + x);

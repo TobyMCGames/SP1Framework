@@ -17,5 +17,6 @@ public:
 
 	void toggle();
 	void setDirection(int i);
-	bool reaction(Player& player, char moveP);
+	bool reaction_away(Player& player, char moveP);
+	bool reaction_towards(Player& player, char moveP);
 };

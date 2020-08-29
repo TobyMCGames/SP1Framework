@@ -15,7 +15,8 @@ public:
 	~SpreadingD();
 
 	virtual void toggle() = 0;
-	virtual bool reaction(Player& player, char tile) = 0;
+	virtual bool reaction_away(Player& player, char moveP) = 0;
+	virtual bool reaction_towards(Player& player, char moveP) = 0;
 	//setter
 	void setIcon(char icon);
 	void setColor(WORD color);

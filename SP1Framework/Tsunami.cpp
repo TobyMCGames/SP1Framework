@@ -57,27 +57,55 @@ void Tsunami::setDirection(int i)
 	case 0:
 		x = 0;
 		y = -1;
-		direction = 'A';
+		direction = 'W';
 		break;
 	case 1:
 		x = 1;
 		y = 0;
-		direction = 'W';
+		direction = 'D';
 		break;
 	case 2:
 		x = 0;
 		y = 1;
-		direction = 'D';
+		direction = 'S';
 		break;
 	case 3:
 		x = -1;
 		y = 0;
-		direction = 'S';
+		direction = 'A';
 		break;
 	}
 }
 
-bool Tsunami::reaction(Player& player, char moveP)
+bool Tsunami::reaction_away(Player& player, char moveP)
+{
+	int x = 0;
+	int y = 0;
+
+	if ((getX() == player.getX()) && (getY() == player.getY()))
+	{
+		switch (moveP)
+		{
+		case 'S':
+			y = 1;
+			break;
+		case 'D':
+			x = 1;
+			break;
+		case 'W':
+			y = -1;
+			break;
+		case 'A':
+			x = -1;
+			break;
+		}
+		player.setX(player.getX() + x);
+		player.setY(player.getY() + y);
+	}
+	return false;
+}
+
+bool Tsunami::reaction_towards(Player& player, char moveP)
 {
 	int x = 0;
 	int y = 0;
