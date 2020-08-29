@@ -680,6 +680,12 @@ void Map::Dmoves(Player& player)
 				x = 1;
 				break;
 			}
+			if (disasters[i]->reaction(player, map[cord.Y + y][cord.X + x]) == true)
+			{
+				DisasterPlane[cord.Y][cord.X] = 'p';
+				cord = disasters[i]->getcord();
+				DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
+			}
 			if ((DisasterPlane[cord.Y + y][cord.X + x] != 'p') &&  (DisasterPlane[cord.Y + y][cord.X + x] != 'h'))
 			{
 				switch (disasters[i]->getdirection())
@@ -734,13 +740,6 @@ void Map::Dmoves(Player& player)
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
 			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
-			if (disasters[i]->reaction(player, map[cord.Y + y][cord.X + x]) == true)
-			{
-				DisasterPlane[cord.Y][cord.X] = 'p';
-				disasters[i]->BTSpawner();
-				cord = disasters[i]->getcord();
-				DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
-			}
 		}
 	}
 }
