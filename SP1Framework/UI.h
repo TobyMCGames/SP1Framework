@@ -10,7 +10,7 @@
 class UI
 {
 private:
-	char disasterindicator[38][43];
+	char disasterindicator[42][43];
 	char inventory[9][18];
 	std::string item[9][18];
 public:

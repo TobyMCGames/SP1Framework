@@ -5,7 +5,7 @@ UI::UI() :
 	disasterindicator{ },
 	inventory{ }
 {
-	for (int row = 0; row < 38; row++)
+	for (int row = 0; row < 42; row++)
 	{
 		for (int col = 0; col < 43; col++)
 		{
@@ -108,35 +108,35 @@ void UI::loaddisasterindicator()
 
 void UI::renderdisasterindicator(Console& anotherC, Map& map)
 {
-	for (int row = 0; row < 2; row++)
+	for (int row = 0; row < 4; row++)
 	{
 		for (int col = 0; col < 43; col++)
 		{
 			if (disasterindicator[row][col] == 'B')
 			{
-				anotherC.writeToBuffer(137+col, 2+row, " ", 0x1F);
+				anotherC.writeToBuffer(137+col, row, " ", 0x1F);
 			}
 			else
 			{
-				anotherC.writeToBuffer(137+col, 2+row , " ", 0x7F);
+				anotherC.writeToBuffer(137+col, row , " ", 0x7F);
 			}
 		}
 	}
-	for (int row = 36; row < 38; row++)
+	for (int row = 38; row < 42; row++)
 	{
 		for (int col = 0; col < 43; col++)
 		{
 			if (disasterindicator[row][col] == 'B')
 			{
-				anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x1F);
+				anotherC.writeToBuffer(137 + col, row, " ", 0x1F);
 			}
 			else
 			{
-				anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+				anotherC.writeToBuffer(137 + col, row, " ", 0x7F);
 			}
 		}
 	}
-	for (int row = 2; row < 18; row++)
+	for (int row = 4; row < 20; row++)
 	{
 		for (int col = 0; col < 22; col++)
 		{
@@ -144,35 +144,35 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 			{
 				if ((disasterindicator[row][col] == 'Y'))
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, "Û", 0x6E);
+					anotherC.writeToBuffer(137 + col, row, "Û", 0x6E);
 				}
 				else if ((disasterindicator[row][col] == 'R'))
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, "Û", 0x4C);
+					anotherC.writeToBuffer(137 + col, row, "Û", 0x4C);
 				}
 				else
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x7F);
 				}
 			}
 			else
 			{
 				if ((disasterindicator[row][col] == 'Y'))
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8E);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x8E);
 				}
 				else if ((disasterindicator[row][col] == 'R'))
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8C);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x8C);
 				}
 				else
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x7F);
 				}
 			}
 		}
 	}
-	for (int row = 18; row < 36; row++)
+	for (int row = 20; row < 38; row++)
 	{
 		for (int col = 0; col < 22; col++)
 		{
@@ -180,36 +180,36 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 			{
 				if ((disasterindicator[row][col] == 'G'))
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x0F);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x0F);
 				}
 				else if ((disasterindicator[row][col] == 'W'))
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, "Û", 0x7F);
+					anotherC.writeToBuffer(137 + col, row, "Û", 0x7F);
 				}
 				else
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x7F);
 				}
 			}
 			else
 			{
 				if ((disasterindicator[row][col] == 'G'))
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8F);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x8F);
 				}
 				else if ((disasterindicator[row][col] == 'W'))
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8F);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x8F);
 				}
 				else
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x7F);
 				}
 			}
 		}
 	}
 
-	for (int row = 2; row < 18; row++)
+	for (int row = 4; row < 20; row++)
 	{
 		for (int col = 22; col < 43; col++)
 		{
@@ -217,26 +217,26 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 			{
 				if ((disasterindicator[row][col] == 'T'))
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x6E);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x6E);
 				}
 				else
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x7F);
 				}
 			}
 			else
 			{
 				if ((disasterindicator[row][col] == 'T'))
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8F);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x8F);
 				}
 				else
 				{
-					anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+					anotherC.writeToBuffer(137 + col, row, " ", 0x7F);
 				}
 			}
 		}
-		for (int row = 18; row < 36; row++)
+		for (int row = 20; row < 38; row++)
 		{
 			for (int col = 22; col < 43; col++)
 			{
@@ -244,30 +244,30 @@ void UI::renderdisasterindicator(Console& anotherC, Map& map)
 				{
 					if ((disasterindicator[row][col] == 'A'))
 					{
-						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x3B);
+						anotherC.writeToBuffer(137 + col, row, " ", 0x3B);
 					}
 					else if ((disasterindicator[row][col] == 'O'))
 					{
-						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x1E);
+						anotherC.writeToBuffer(137 + col, row, " ", 0x1E);
 					}
 					else
 					{
-						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+						anotherC.writeToBuffer(137 + col, row, " ", 0x7F);
 					}
 				}
 				else
 				{
 					if ((disasterindicator[row][col] == 'A'))
 					{
-						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8B);
+						anotherC.writeToBuffer(137 + col, row, " ", 0x8B);
 					}
 					else if ((disasterindicator[row][col] == 'O'))
 					{
-						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x8E);
+						anotherC.writeToBuffer(137 + col, row, " ", 0x8E);
 					}
 					else
 					{
-						anotherC.writeToBuffer(137 + col, 2 + row, " ", 0x7F);
+						anotherC.writeToBuffer(137 + col, row, " ", 0x7F);
 					}
 				}
 			}

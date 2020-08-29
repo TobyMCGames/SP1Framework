@@ -16,9 +16,8 @@
 class Map
 {
 private:
-	int x, y, x_change, y_change, maplevel;
-	double fixed_update;
-	char map[135][135];
+	int x, y, x_change, y_change, maplevel, xaxis, yaxis;
+	double EQtime, Vtime;
 	char DisasterPlane[135][135];
 	bool mapchange;
 	bool earthquakeI, tornadoI, tsunamiI, volcanoI;
@@ -30,6 +29,7 @@ private:
 public:
 	Map();
 	~Map();
+	char map[135][135];
 
 	//get functions
 	bool getMapChange();      // AllowChange map
@@ -51,12 +51,12 @@ public:
 	bool frontDoorState(Player& player);// Check if Door is Active
 
 	//Input and draw 
-	void nextlevel(); // Increase level number
-	void updateMap(double dt); // Updates Disaster's with InActive / Active State
-	void setMap(int x); //Change map to what you want 
-	void loadMap(std::string anothermap, Player& player);  //Loads map from csv file
-	void DrawMap(Console& anotherC, Player& player);  //Draws map onto screen
-	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor); // Draw player onto screen
-	
+	void nextlevel();
+	void updateMap(double dt);
+	void setMap(int x);
+	void loadMap(std::string anothermap, Player& player);
+	void DrawMap(Console& anotherC, Player& player);
+	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
+	void spreadcheck();
 };
 
