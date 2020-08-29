@@ -19,7 +19,7 @@ public:
 	char getdirection();
 	char geticon();
 
-	void BTSpawner();
+	void BTSpawner(); //Sends cord back to spawner
 	void changeDirection(char d);
 	void move();
 	virtual bool reaction(Player& player, char tile) = 0;

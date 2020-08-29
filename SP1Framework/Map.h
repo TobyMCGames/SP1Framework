@@ -32,25 +32,23 @@ public:
 	char map[135][135];
 
 	//get functions
-	bool getMapChange();
-	std::string getlevel();
-	bool collides(char direction, Player& anotherP);
-	char getPlayerfront(Player& player);
-	bool getearthquakeI();
-	bool gettornadoI();
-	bool gettsunamiI();
-	int getxaxis();
-	int getyaxis();
-	bool getvolcanoI();
+	bool getMapChange();      // AllowChange map
+	std::string getlevel();   // Get level number
+	bool collides(char direction, Player& anotherP);  // Check for collision
+	char getPlayerfront(Player& player);  // Get tile infront of player
+	bool getearthquakeI(); //Check for Earth Disaster
+	bool gettornadoI();    //Check for Wind Disaster
+	bool gettsunamiI();    //Check for water Disaster
+	bool getvolcanoI();    //Check for Fire Disaster
 
 	//Disaster movements
-	void Dmoves(Player& player);
+	void Dmoves(Player& player);  // How Disaster moves
 
 	//Inventory Stuff
-	void interact(Player& player);
-	void unlockDoor(Player& player, int doortype);
-	int frontDoortype(Player& player);
-	bool frontDoorState(Player& player);
+	void interact(Player& player);  // Interact actions
+	void unlockDoor(Player& player, int doortype);  //Unlocks interacted door
+	int frontDoortype(Player& player);  // Check type of door infront of player
+	bool frontDoorState(Player& player);// Check if Door is Active
 
 	//Input and draw 
 	void nextlevel();

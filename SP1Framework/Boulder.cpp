@@ -19,11 +19,13 @@ bool Boulder::reaction(Player& player, char tile)
 	switch (tile)
 	{
 	case 'W':
+		BTSpawner();
 		return true;
 	}
 	if ((c.X == player.getX()) && (c.Y == player.getY()))
 	{
 		player.decreaselife();
+		BTSpawner();
 		return true;
 	}
 	return false;

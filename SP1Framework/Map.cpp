@@ -87,11 +87,12 @@ bool Map::collides(char direction, Player& anotherP)
 	}
 	switch (map[anotherP.getY() + y_change][anotherP.getX() + x_change])
 	{
+	case 'H': //Hole
 	case 'S': //Silver Wall
 	case 'W': //Wall
 	case '0': //HP Pot
 	case 'k': //key
-	case 'C':
+	case 'C': //Card
 	case 'G': //Endgame stuff
 		return true;
 	case '@':
@@ -102,16 +103,16 @@ bool Map::collides(char direction, Player& anotherP)
 		tornadoI = false;
 		tsunamiI = false;
 		break;
-	case 'D':
+	case 'D': //Door, if active - unable to pass
 		for (int i = 0; i < 500; i++)
 		{
 			if (DoorArray[i] != nullptr && DoorArray[i]->getX() == anotherP.getX() + x_change && DoorArray[i]->getY() == anotherP.getY() + y_change && DoorArray[i]->getState() == true)
 			{
-				return true;
+				return true; 
 			}
 		}
 		break;
-	case 'E':
+	case 'E': //Earthquake, if active - unable to pass
 		for (int i = 0; i < 500; i++)
 		{
 			if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() + x_change && EQArray[i]->getY() == anotherP.getY() + y_change && EQArray[i]->getState() == true)
@@ -120,7 +121,7 @@ bool Map::collides(char direction, Player& anotherP)
 			}
 		}
 		break;
-	case 'F':
+	case 'F': //Door, if active - take damage
 		for (int i = 0; i < 50; i++)
 		{
 			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x_change && VArray[i]->getY() == anotherP.getY() + y_change && VArray[i]->getState() == true)
@@ -266,9 +267,12 @@ void Map::unlockDoor(Player& player, int doortype)
 			if (map[DoorArray[idx]->getY() + 1][DoorArray[idx]->getX()] == 'D') {
 				for (int i = 0; i < 500; i++)
 				{
-					if (DoorArray[i]->getX() == DoorArray[idx]->getX() && DoorArray[i]->getY() == DoorArray[idx]->getY() + 1) {
-						idx = i;
-						set = i;
+					if (DoorArray[i] != nullptr) {
+						if (DoorArray[i]->getX() == DoorArray[idx]->getX() && DoorArray[i]->getY() == DoorArray[idx]->getY() + 1) {
+							idx = i;
+							set = i;
+							break;
+						}
 					}
 				}
 			}
@@ -566,6 +570,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'W':
 					anotherC.writeToBuffer(45 + j * 2, i, "±±", 0x08);
 					break;
+				case 'H':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x00);
+					break;
 				case ' ':
 					anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x8F);
 					break;
@@ -728,6 +735,12 @@ void Map::Dmoves(Player& player)
 				x = 1;
 				break;
 			}
+			if (disasters[i]->reaction(player, map[cord.Y + y][cord.X + x]) == true)
+			{
+				DisasterPlane[cord.Y][cord.X] = 'p';
+				cord = disasters[i]->getcord();
+				DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
+			}
 			if ((DisasterPlane[cord.Y + y][cord.X + x] != 'p') &&  (DisasterPlane[cord.Y + y][cord.X + x] != 'h'))
 			{
 				switch (disasters[i]->getdirection())
@@ -782,13 +795,6 @@ void Map::Dmoves(Player& player)
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
 			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
-			if (disasters[i]->reaction(player, map[cord.Y + y][cord.X + x]) == true)
-			{
-				DisasterPlane[cord.Y][cord.X] = 'p';
-				disasters[i]->BTSpawner();
-				cord = disasters[i]->getcord();
-				DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
-			}
 		}
 	}
 }
