@@ -32,31 +32,31 @@ public:
 	~Map();
 
 	//get functions
-	bool getMapChange();
-	std::string getlevel();
-	bool collides(char direction, Player& anotherP);
-	char getPlayerfront(Player& player);
-	bool getearthquakeI();
-	bool gettornadoI();
-	bool gettsunamiI();
-	bool getvolcanoI();
+	bool getMapChange();      // AllowChange map
+	std::string getlevel();   // Get level number
+	bool collides(char direction, Player& anotherP);  // Check for collision
+	char getPlayerfront(Player& player);  // Get tile infront of player
+	bool getearthquakeI(); //Check for Earth Disaster
+	bool gettornadoI();    //Check for Wind Disaster
+	bool gettsunamiI();    //Check for water Disaster
+	bool getvolcanoI();    //Check for Fire Disaster
 
 	//Disaster movements
-	void Dmoves(Player& player);
+	void Dmoves(Player& player);  // How Disaster moves
 
 	//Inventory Stuff
-	void interact(Player& player);
-	void unlockDoor(Player& player, int doortype);
-	int frontDoortype(Player& player);
-	bool frontDoorState(Player& player);
+	void interact(Player& player);  // Interact actions
+	void unlockDoor(Player& player, int doortype);  //Unlocks interacted door
+	int frontDoortype(Player& player);  // Check type of door infront of player
+	bool frontDoorState(Player& player);// Check if Door is Active
 
 	//Input and draw 
-	void nextlevel();
-	void updateMap(double dt);
-	void setMap(int x);
-	void loadMap(std::string anothermap, Player& player);
-	void DrawMap(Console& anotherC, Player& player);
-	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
+	void nextlevel(); // Increase level number
+	void updateMap(double dt); // Updates Disaster's with InActive / Active State
+	void setMap(int x); //Change map to what you want 
+	void loadMap(std::string anothermap, Player& player);  //Loads map from csv file
+	void DrawMap(Console& anotherC, Player& player);  //Draws map onto screen
+	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor); // Draw player onto screen
 	
 };
 
