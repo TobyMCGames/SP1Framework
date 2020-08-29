@@ -393,6 +393,7 @@ void updatePauseMenu()
             break;
         case 2:
             g_eGameState = EGAMESTATES::S_MAINMENU;
+            reset();
             break;
         }
     }

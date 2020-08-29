@@ -25,7 +25,6 @@ bool Boulder::reaction(Player& player, char tile)
 	if ((c.X == player.getX()) && (c.Y == player.getY()))
 	{
 		player.decreaselife();
-		BTSpawner();
 		return true;
 	}
 	return false;
