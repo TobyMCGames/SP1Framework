@@ -16,9 +16,8 @@
 class Map
 {
 private:
-	int x, y, x_change, y_change, maplevel;
-	double fixed_update;
-	char map[135][135];
+	int x, y, x_change, y_change, maplevel, xaxis, yaxis;
+	double EQtime, Vtime;
 	char DisasterPlane[135][135];
 	bool mapchange;
 	bool earthquakeI, tornadoI, tsunamiI, volcanoI;
@@ -30,6 +29,7 @@ private:
 public:
 	Map();
 	~Map();
+	char map[135][135];
 
 	//get functions
 	bool getMapChange();
@@ -39,16 +39,12 @@ public:
 	bool getearthquakeI();
 	bool gettornadoI();
 	bool gettsunamiI();
+	int getxaxis();
+	int getyaxis();
 	bool getvolcanoI();
 
 	//Disaster movements
 	void Dmoves(Player& player);
-
-	//Fire spread
-	void spreadLeft();
-	void spreadRight();
-	void spreadUp();
-	void spreadDown();
 
 	//Inventory Stuff
 	void interact(Player& player);
@@ -63,6 +59,6 @@ public:
 	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
-	
+	void spreadcheck();
 };
 

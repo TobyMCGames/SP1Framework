@@ -7,7 +7,8 @@ Map::Map() :
 	y(135),
 	x_change(0),
 	y_change(0),
-	fixed_update(0),
+	EQtime(0),
+	Vtime(0),
 	map{ },
 	DisasterPlane{ },
 	earthquakeI(false),
@@ -26,6 +27,8 @@ Map::Map() :
 	}
 	maplevel = -1;
 	mapchange = true;
+	xaxis = 0;
+	yaxis = 0;
 
 	for (int i = 0; i < 500; i++) 
 	{
@@ -424,6 +427,12 @@ void Map::loadMap(std::string anothermap, Player& player)
 				{
 					switch (cell[i])
 					{
+					case 'A':
+						if (cell[i - 1] == 'F' && Vidx >0)
+						{
+							VArray[Vidx - 1]->toggle();
+						}
+						break;
 					case 'U':
 						disasters[Didx]->changeDirection('W');
 						Didx++;
@@ -459,18 +468,19 @@ void Map::loadMap(std::string anothermap, Player& player)
 	}
 	f.close();
 	mapchange = false;
+
 }
 
 void Map::updateMap(double dt)
 {
 	int EQidx;
-	int Vidx;
-	fixed_update += dt;
-	if (fixed_update >= 0.16 * 1) 
+	EQtime += dt;
+	Vtime += dt;
+	if (EQtime >= 0.16 * 1)
 	{
 		for (int i = 0; i < 5; i++) //EarthQuake Tiles
 		{
-			if (earthquakeI) 
+			if (earthquakeI)
 			{
 				EQidx = rand() % 500;
 				while (EQArray[EQidx] == nullptr)
@@ -481,32 +491,30 @@ void Map::updateMap(double dt)
 				if (EQArray[EQidx]->getState() != true)
 				{
 					EQArray[EQidx]->toggle();
-					fixed_update = 0;
+					EQtime = 0;
 				}
 			}
 		}
-
-		for (int j = 0; j < 5; j++) //Volcano Tiles
-		{
-			if (volcanoI)
-			{
-				//spreadUp();
-				
-				Vidx = rand() % 50;
-				while (VArray[Vidx] == nullptr)
-				{
-					Vidx = rand() % 50;
-				}
-
-				if (VArray[Vidx]->getState() != true)
-				{
-					VArray[Vidx]->toggle();
-					fixed_update = 0;
-				}
-			}
-		}
-		//The rest of the disasters
 	}
+		//Volcano Tiles
+	if (Vtime >= 0.16 * 5)
+	{
+		if (volcanoI)
+		{
+
+
+			spreadcheck();
+
+
+			Vtime = 0;
+
+
+		}
+	}
+		
+	
+		//The rest of the disasters
+	
 
 }
 
@@ -591,7 +599,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					}
 					break;
 				case 'F':
-					for (int k = 0; k < 50; k++)
+					for (int k = 0; k < 500; k++)
 					{
 
 						if (VArray[k] != nullptr && VArray[k]->getX() == j + offset.X && VArray[k]->getY() == i + offset.Y)
@@ -649,6 +657,50 @@ bool Map::gettsunamiI()
 bool Map::getvolcanoI()
 {
 	return volcanoI;
+}
+
+void Map::spreadcheck()
+{
+	int x = 0;
+	int y = 0;
+	bool added = false;
+	for (int j = 0; j < 500; j++)
+	{
+		if (VArray[j] != nullptr)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				VArray[j]->setDirection(i);
+				x = VArray[j]->getxchange();
+				y = VArray[j]->getychange();
+				if (map[VArray[j]->getY() + y][VArray[j]->getX() + x] == ' ' )
+				{
+					map[VArray[j]->getY() + y][VArray[j]->getX() + x] = 'F';
+					for (int k = 0; k < 500; k++)
+					{
+						if (VArray[k] == nullptr && added == false)
+						{
+							VArray[k] = new Volcano;
+							VArray[k] -> setCOORD(VArray[j]->getX() + x, VArray[j]->getY() + y);
+							VArray[k]->toggle();
+							added = true;
+						}
+					}
+					added = false;
+				}
+			}
+		}
+	};
+}
+
+int Map::getxaxis()
+{
+	return xaxis;
+}
+
+int Map::getyaxis()
+{
+	return yaxis;
 }
 
 
@@ -736,68 +788,6 @@ void Map::Dmoves(Player& player)
 				disasters[i]->BTSpawner();
 				cord = disasters[i]->getcord();
 				DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
-			}
-		}
-	}
-}
-
-void Map::spreadLeft()
-{
-	for (int i = 0; i < 50; i++)
-	{
-		if (VArray[i] != nullptr)
-		{
- 			if (map[VArray[i]->getY()][VArray[i]->getX()-1] == ' ')
-			{
-				for (int j = 0; j < 50; j++)
-				{
-					if (VArray[j] == nullptr)		
-					{
-						VArray[j] = new Volcano(VArray[j]->getY(), VArray[j]->getX() - 1);
-					}
-				}
-			}
-		}
-	}
-}
-
-void Map::spreadRight()
-{
-	for (int i = 0; i < 50; i++)
-	{
-		if (VArray[i] != nullptr)
-		{
-			if (map[VArray[i]->getY()][VArray[i]->getX() + 1] == ' ')
-			{
-				map[VArray[i]->getY() - 1][VArray[i]->getX()] = 'F';
-			}
-		}
-	}
-}
-
-void Map::spreadUp()
-{
-	for (int i = 0; i < 50; i++)
-	{
-		if (VArray[i] != nullptr)
-		{
-			if (map[VArray[i]->getY()-1][VArray[i]->getX()] == ' ')
-			{
-				map[VArray[i]->getY()-1][VArray[i]->getX()] = 'F';
-			}
-		}
-	}
-}
-
-void Map::spreadDown()
-{
-	for (int i = 0; i < 50; i++)
-	{
-		if (VArray[i] != nullptr)
-		{
-			if (map[VArray[i]->getY()+1][VArray[i]->getX()] == ' ')
-			{
-				map[VArray[i]->getY()+1][VArray[i]->getX()] = 'F';
 			}
 		}
 	}
