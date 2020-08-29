@@ -86,6 +86,7 @@
     <ClCompile Include="Keycard.cpp" />
     <ClCompile Include="MovingD.cpp" />
     <ClCompile Include="Pausemenu.cpp" />
+    <ClCompile Include="SpreadingD.cpp" />
     <ClCompile Include="Tornado.cpp" />
     <ClCompile Include="trapfloor.cpp" />
     <ClCompile Include="Framework\console.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Keycard.h" />
     <ClInclude Include="MovingD.h" />
     <ClInclude Include="Pausemenu.h" />
+    <ClInclude Include="SpreadingD.h" />
     <ClInclude Include="Tornado.h" />
     <ClInclude Include="trapfloor.h" />
     <ClInclude Include="Framework\console.h" />

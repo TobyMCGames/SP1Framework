@@ -1,7 +1,7 @@
 #pragma once
-#include "trapfloor.h"
+#include "SpreadingD.h"
 
-class Tsunami : public trapfloor
+class Tsunami : public SpreadingD
 {
 private:
 
@@ -10,4 +10,5 @@ public:
 	~Tsunami();
 
 	void toggle();
+	bool reaction(Player& player, char moveP);
 };

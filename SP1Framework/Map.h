@@ -25,7 +25,7 @@ private:
 	MovingD* disasters[50];
 	Earthquake* EQArray[500];
 	Volcano* VArray[500];
-	Tsunami* TArray[500];
+	Tsunami* TArray[2000];
 	Player player;
 
 public:
@@ -49,7 +49,7 @@ public:
 
 	//Input and draw 
 	void nextlevel();
-	void updateMap(double dt);
+	void updateMap(double dt, Player& player);
 	void setMap(int x);
 	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);

@@ -431,7 +431,7 @@ void updateGameOver()
 
 void updateGame()       // gameplay logic
 {
-    map.updateMap(g_dDeltaTime);
+    map.updateMap(g_dDeltaTime, g_sChar);
     map.Dmoves(g_sChar);
     moveCharacter();    // moves the character, collision detection, physics, etc                                    #230
                         // sound can be played here too.

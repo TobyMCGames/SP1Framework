@@ -43,7 +43,7 @@ Map::Map() :
 		VArray[i] = nullptr;
 	}
 
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 2000; i++)
 	{
 		TArray[i] = nullptr;
 	}
@@ -121,7 +121,7 @@ bool Map::collides(char direction, Player& anotherP)
 		}
 		break;
 	case 'M':
-		for (int i = 0; i < 500; i++)
+		for (int i = 0; i < 2000; i++)
 		{
 			if (TArray[i] != nullptr && TArray[i]->getX() == anotherP.getX() + x_change && TArray[i]->getY() == anotherP.getY() + y_change && TArray[i]->getState() == true)
 			{
@@ -289,7 +289,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 						Tidx++;
 						tsunamiI = true;
 						break;
-					case 'B':
+					case 'B':		//EarthQuake Boulders
 						map[row][col] = ' ';
 						disasters[Didx] = new Boulder(col, row, 'B');
 						DisasterPlane[row][col] = 'B';
@@ -362,14 +362,14 @@ void Map::loadMap(std::string anothermap, Player& player)
 	mapchange = false;
 }
 
-void Map::updateMap(double dt)
+void Map::updateMap(double dt, Player& player)
 {
 	int EQidx;
 	int Vidx;
 	int T_tiles = 0;
 	int Tidx_temp = 0;
-	int Tidx_active[500];
-	for (int i = 0; i < 500; i++) {
+	int Tidx_active[2000];
+	for (int i = 0; i < 2000; i++) {
 		Tidx_active[i] = -1;
 		if (TArray[i] != nullptr) {
 			T_tiles++;
@@ -416,29 +416,92 @@ void Map::updateMap(double dt)
 
 		if (tsunamiI) //Tsunami Tiles
 		{
-			for (int k = 0; k < 5; k++)
+			for (int Tidx = 0; Tidx < T_tiles; Tidx++) //move right and diagonally right down.
 			{
-				for (int Tidx = 0; Tidx < T_tiles; Tidx++)
+				for (int k = 0; k < 5; k++)
 				{
-					if (TArray[Tidx]->getState() == true && ((std::find(Tidx_active, Tidx_active+500, Tidx)) == Tidx_active+500))
+					if (TArray[Tidx]->getState() == true && ((std::find(Tidx_active, Tidx_active + 2000, Tidx)) == Tidx_active + 2000))
 					{
 						Tidx_temp = Tidx;
-						Tidx_active[std::distance(Tidx_active, std::find(Tidx_active, Tidx_active + 500, -1))] = Tidx;
+						Tidx_active[std::distance(Tidx_active, std::find(Tidx_active, Tidx_active + 2000, -1))] = Tidx;
 						break;
 					}
-				}
 
-				for (int Tidx = 0; Tidx < T_tiles; Tidx++)
-				{
-					if (TArray[Tidx]->getState() == false &&
-						((((TArray[Tidx]->getX() + 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY())) ||
-							((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() + 1) == TArray[Tidx_temp]->getY())) ||
-							(((TArray[Tidx]->getX() - 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY())) ||
-							((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() - 1) == TArray[Tidx_temp]->getY()))))
+					if (TArray[Tidx]->getState() == false)
 					{
-						TArray[Tidx]->toggle();
-						fixed_update = 0;
+						if (((TArray[Tidx]->getX() + 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY()))
+						{
+							TArray[Tidx]->toggle();
+							TArray[Tidx]->reaction(player, 'D');
+							fixed_update = 0;
+							break;
+						}
+						else if ((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() + 1) == TArray[Tidx_temp]->getY()))
+						{
+							TArray[Tidx]->toggle();
+							TArray[Tidx]->reaction(player, 'W');
+							fixed_update = 0;
+							break;
+						}
+						else if (((TArray[Tidx]->getX() - 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY()))
+						{
+							TArray[Tidx]->toggle();
+							TArray[Tidx]->reaction(player, 'A');
+							fixed_update = 0;
+							break;
+						}
+						else if ((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() - 1) == TArray[Tidx_temp]->getY()))
+						{
+							TArray[Tidx]->toggle();
+							TArray[Tidx]->reaction(player, 'S');
+							fixed_update = 0;
+							break;
+						}
+					}
+				}
+			}
+
+			for (int Tidx = (T_tiles-1); Tidx > -1; Tidx--) //move left and diagonally left up
+			{
+				for (int k = 0; k < 5; k++)
+				{
+					if (TArray[Tidx]->getState() == true && ((std::find(Tidx_active, Tidx_active + 2000, Tidx)) == Tidx_active + 2000))
+					{
+						Tidx_temp = Tidx;
+						Tidx_active[std::distance(Tidx_active, std::find(Tidx_active, Tidx_active + 2000, -1))] = Tidx;
 						break;
+					}
+
+					if (TArray[Tidx]->getState() == false)
+					{
+						if (((TArray[Tidx]->getX() + 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY()))
+						{
+							TArray[Tidx]->toggle();
+							TArray[Tidx]->reaction(player, 'D');
+							fixed_update = 0;
+							break;
+						}
+						else if ((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() + 1) == TArray[Tidx_temp]->getY()))
+						{
+							TArray[Tidx]->toggle();
+							TArray[Tidx]->reaction(player, 'W');
+							fixed_update = 0;
+							break;
+						}
+						else if (((TArray[Tidx]->getX() - 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY()))
+						{
+							TArray[Tidx]->toggle();
+							TArray[Tidx]->reaction(player, 'A');
+							fixed_update = 0;
+							break;
+						}
+						else if ((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() - 1) == TArray[Tidx_temp]->getY()))
+						{
+							TArray[Tidx]->toggle();
+							TArray[Tidx]->reaction(player, 'S');
+							fixed_update = 0;
+							break;
+						}
 					}
 				}
 			}
@@ -538,7 +601,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					}
 					break;
 				case 'M':
-					for (int k = 0; k < 500; k++)
+					for (int k = 0; k < 2000; k++)
 					{
 						if (TArray[k] != nullptr && TArray[k]->getX() == j + offset.X && TArray[k]->getY() == i + offset.Y)
 						{
