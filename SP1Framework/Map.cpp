@@ -19,7 +19,8 @@ Map::Map() :
 	disasters { },
 	EQArray{ },
 	DoorArray{ },
-	VArray{ }
+	VArray{ },
+	TArray{ }
 {
 	for (int row = 0; row < x; row++) {
 		for (int col = 0; col < y; col++) {
@@ -45,7 +46,7 @@ Map::Map() :
 		VArray[i] = nullptr;
 	}
 
-	for (int i = 0; i < 2000; i++)
+	for (int i = 0; i < 500; i++)
 	{
 		TArray[i] = nullptr;
 	}
@@ -126,7 +127,7 @@ bool Map::collides(char direction, Player& anotherP)
 			}
 		}
 		break;
-	case 'F': //Door, if active - take damage
+	case 'F':
 		for (int i = 0; i < 500; i++)
 		{
 			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x_change && VArray[i]->getY() == anotherP.getY() + y_change && VArray[i]->getState() == true)
@@ -136,7 +137,7 @@ bool Map::collides(char direction, Player& anotherP)
 		}
 		break;
 	case 'M':
-		for (int i = 0; i < 2000; i++)
+		for (int i = 0; i < 500; i++)
 		{
 			if (TArray[i] != nullptr && TArray[i]->getX() == anotherP.getX() + x_change && TArray[i]->getY() == anotherP.getY() + y_change && TArray[i]->getState() == true)
 			{
@@ -371,6 +372,9 @@ void Map::loadMap(std::string anothermap, Player& player)
 
 		delete EQArray[i];
 		EQArray[i] = nullptr;
+
+		delete TArray[i];
+		TArray[i] = nullptr;
 	}
 	std::string path = "Maps\\" + anothermap;
 	std::ifstream f;
@@ -471,8 +475,8 @@ void Map::loadMap(std::string anothermap, Player& player)
 							VArray[Vidx - 1]->toggle();
 						}
 						break;
-					case 'B':
-						if (cell[i - 1] == 'B' && Tidx > 0)
+					case 'Q':
+						if (cell[i - 1] == 'M' && Tidx > 0)
 						{
 							TArray[Tidx - 1]->toggle();
 						}
@@ -558,13 +562,13 @@ void Map::updateMap(double dt, Player& player)
 	}
 
 		//Tsunami Tiles
-	if (Ttime >= 0.16 * 10)
+	if (Ttime >= 0.16 * 3)
 	{
 		if (tsunamiI)
 		{
 			wave(player);
-
 			Ttime = 0;
+
 		}
 	}
 
@@ -664,7 +668,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					}
 					break;
 				case 'M':
-					for (int k = 0; k < 2000; k++)
+					for (int k = 0; k < 500; k++)
 					{
 						if (TArray[k] != nullptr && TArray[k]->getX() == j + offset.X && TArray[k]->getY() == i + offset.Y)
 						{
@@ -762,20 +766,21 @@ void Map::wave(Player& player)
 {
 	int x = 0;
 	int y = 0;
+	int max = TArray[0]->getamt();
 	bool added = false;
-	for (int j = 0; j < 500; j++)
+	for (int j = 0; j < max; j++) //Starting Point
 	{
 		if (TArray[j] != nullptr)
 		{
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 4; i++) //Spread
 			{
 				TArray[j]->setDirection(i);
 				x = TArray[j]->getxchange();
 				y = TArray[j]->getychange();
-				if (map[TArray[j]->getY() + y][TArray[j]->getX() + x] == 'Q')
+				if (map[TArray[j]->getY() + y][TArray[j]->getX() + x] == ' ')
 				{
 					map[TArray[j]->getY() + y][TArray[j]->getX() + x] = 'M';
-					for (int k = 0; k < 2000; k++)
+					for (int k = 0; k < 500; k++)
 					{
 						if (TArray[k] == nullptr && added == false)
 						{

@@ -1,5 +1,6 @@
 #include "Tsunami.h"
 
+int Tsunami::amount = 0;
 Tsunami::Tsunami()
 {
 	setIcon('M');
@@ -7,10 +8,17 @@ Tsunami::Tsunami()
 	x = 0;
 	y = 0;
 	direction = 'W';
+	amount++;
 }
 
 Tsunami::~Tsunami()
 {
+	amount--;
+}
+
+int Tsunami::getamt()
+{
+	return amount;
 }
 
 int Tsunami::getxchange()
@@ -49,22 +57,22 @@ void Tsunami::setDirection(int i)
 	case 0:
 		x = 0;
 		y = -1;
-		direction = 'W';
+		direction = 'A';
 		break;
 	case 1:
 		x = 1;
 		y = 0;
-		direction = 'D';
+		direction = 'W';
 		break;
 	case 2:
 		x = 0;
 		y = 1;
-		direction = 'S';
+		direction = 'D';
 		break;
 	case 3:
 		x = -1;
 		y = 0;
-		direction = 'A';
+		direction = 'S';
 		break;
 	}
 }
@@ -79,16 +87,16 @@ bool Tsunami::reaction(Player& player, char moveP)
 		switch (moveP)
 		{
 		case 'W':
-			y = 2;
+			y = 1;
 			break;
 		case 'A':
-			x = 2;
+			x = 1;
 			break;
 		case 'S':
-			y = -2;
+			y = -1;
 			break;
 		case 'D':
-			x = -2;
+			x = -1;
 			break;
 		}
 		player.setX(player.getX() + x);

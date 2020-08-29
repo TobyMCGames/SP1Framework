@@ -18,14 +18,14 @@ class Map
 {
 private:
 	int x, y, x_change, y_change, maplevel;
-	double EQtime, Vtime;
+	double EQtime, Vtime, Ttime;
 	char DisasterPlane[135][135];
 	bool mapchange;
 	bool earthquakeI, tornadoI, tsunamiI, volcanoI;
 	MovingD* disasters[50];
 	Earthquake* EQArray[500];
 	Volcano* VArray[500];
-	Tsunami* TArray[2000];
+	Tsunami* TArray[500];
 	Doors* DoorArray[500];
 
 public:
