@@ -9,6 +9,7 @@ Map::Map() :
 	y_change(0),
 	EQtime(0),
 	Vtime(0),
+	Ttime(0),
 	map{ },
 	DisasterPlane{ },
 	earthquakeI(false),
@@ -50,7 +51,6 @@ Map::Map() :
 	{
 		TArray[i] = nullptr;
 	}
-}
 	for (int i = 0; i < 500; i++)
 	{
 		DoorArray[i] = nullptr;
@@ -129,7 +129,7 @@ bool Map::collides(char direction, Player& anotherP)
 		}
 		break;
 	case 'F': //Door, if active - take damage
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 500; i++)
 		{
 			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x_change && VArray[i]->getY() == anotherP.getY() + y_change && VArray[i]->getState() == true)
 			{
@@ -461,6 +461,12 @@ void Map::loadMap(std::string anothermap, Player& player)
 							VArray[Vidx - 1]->toggle();
 						}
 						break;
+					case 'B':
+						if (cell[i - 1] == 'B' && Tidx > 0)
+						{
+							TArray[Tidx - 1]->toggle();
+						}
+						break;
 					case 'U':
 						disasters[Didx]->changeDirection('W');
 						Didx++;
@@ -485,9 +491,6 @@ void Map::loadMap(std::string anothermap, Player& player)
 						DoorArray[Dooridx]->setType(2);
 						Dooridx++;
 						break;
-					case 'Q':
-						TArray[(Tidx - 1)]->toggle();
-						break;
 					}
 				}
 			}
@@ -507,6 +510,7 @@ void Map::updateMap(double dt, Player& player)
 	int EQidx;
 	EQtime += dt;
 	Vtime += dt;
+	Ttime += dt;
 	if (EQtime >= 0.16 * 1)
 	{
 		for (int i = 0; i < 5; i++) //EarthQuake Tiles
@@ -540,6 +544,17 @@ void Map::updateMap(double dt, Player& player)
 			Vtime = 0;
 
 
+		}
+	}
+
+		//Tsunami Tiles
+	if (Ttime >= 0.16 * 10)
+	{
+		if (tsunamiI)
+		{
+			wave(player);
+
+			Ttime = 0;
 		}
 	}
 		
@@ -727,6 +742,41 @@ void Map::spreadcheck()
 							VArray[k] -> setCOORD(VArray[j]->getX() + x, VArray[j]->getY() + y);
 							VArray[k]->toggle();
 							added = true;
+						}
+					}
+					added = false;
+				}
+			}
+		}
+	};
+}
+
+void Map::wave(Player& player)
+{
+	int x = 0;
+	int y = 0;
+	bool added = false;
+	for (int j = 0; j < 500; j++)
+	{
+		if (TArray[j] != nullptr)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				TArray[j]->setDirection(i);
+				x = TArray[j]->getxchange();
+				y = TArray[j]->getychange();
+				if (map[TArray[j]->getY() + y][TArray[j]->getX() + x] == 'Q')
+				{
+					map[TArray[j]->getY() + y][TArray[j]->getX() + x] = 'M';
+					for (int k = 0; k < 2000; k++)
+					{
+						if (TArray[k] == nullptr && added == false)
+						{
+							TArray[k] = new Tsunami;
+							TArray[k]->setCOORD(TArray[j]->getX() + x, TArray[j]->getY() + y);
+							TArray[k]->toggle();
+							added = true;
+							TArray[k]->reaction(player, TArray[k]->getDirection());
 						}
 					}
 					added = false;

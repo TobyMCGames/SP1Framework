@@ -4,10 +4,28 @@ Tsunami::Tsunami()
 {
 	setIcon('M');
 	setColor(0x8F);
+	x = 0;
+	y = 0;
+	direction = 'W';
 }
 
 Tsunami::~Tsunami()
 {
+}
+
+int Tsunami::getxchange()
+{
+	return x;
+}
+
+int Tsunami::getychange()
+{
+	return y;
+}
+
+char Tsunami::getDirection()
+{
+	return direction;
 }
 
 void Tsunami::toggle()
@@ -24,6 +42,33 @@ void Tsunami::toggle()
 	}
 }
 
+void Tsunami::setDirection(int i)
+{
+	switch (i)
+	{
+	case 0:
+		x = 0;
+		y = -1;
+		direction = 'W';
+		break;
+	case 1:
+		x = 1;
+		y = 0;
+		direction = 'D';
+		break;
+	case 2:
+		x = 0;
+		y = 1;
+		direction = 'S';
+		break;
+	case 3:
+		x = -1;
+		y = 0;
+		direction = 'A';
+		break;
+	}
+}
+
 bool Tsunami::reaction(Player& player, char moveP)
 {
 	int x = 0;
@@ -31,20 +76,19 @@ bool Tsunami::reaction(Player& player, char moveP)
 
 	if ((getX() == player.getX()) && (getY() == player.getY()))
 	{
-		//player.decreaselife(); // lose 1 life
 		switch (moveP)
 		{
 		case 'W':
-			y = 3;
+			y = 2;
 			break;
 		case 'A':
-			x = 3;
+			x = 2;
 			break;
 		case 'S':
-			y = -3;
+			y = -2;
 			break;
 		case 'D':
-			x = -3;
+			x = -2;
 			break;
 		}
 		player.setX(player.getX() + x);

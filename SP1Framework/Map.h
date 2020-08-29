@@ -18,7 +18,7 @@ class Map
 {
 private:
 	int x, y, x_change, y_change, maplevel, xaxis, yaxis;
-	double EQtime, Vtime;
+	double EQtime, Vtime, Ttime;
 	char DisasterPlane[135][135];
 	bool mapchange;
 	bool earthquakeI, tornadoI, tsunamiI, volcanoI;
@@ -26,7 +26,6 @@ private:
 	Earthquake* EQArray[500];
 	Volcano* VArray[500];
 	Tsunami* TArray[2000];
-	Player player;
 	Doors* DoorArray[500];
 
 public:
@@ -55,11 +54,12 @@ public:
 
 	//Input and draw 
 	void nextlevel();
-	void updateMap(double dt);
+	void updateMap(double dt, Player& player);
 	void setMap(int x);
 	void loadMap(std::string anothermap, Player& player);
 	void DrawMap(Console& anotherC, Player& player);
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
 	void spreadcheck();
+	void wave(Player& player);
 };
 
