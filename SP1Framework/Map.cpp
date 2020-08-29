@@ -25,7 +25,7 @@ Map::Map() :
 			DisasterPlane[row][col] = ' ';
 		}
 	}
-	maplevel = 0;
+	maplevel = -1;
 	mapchange = true;
 	xaxis = 0;
 	yaxis = 0;
