@@ -1,54 +1,180 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Boulder.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="Earthquake.cpp" />
-    <ClCompile Include="HealthPotion.cpp" />
-    <ClCompile Include="Key.cpp" />
-    <ClCompile Include="Keycard.cpp" />
-    <ClCompile Include="MovingD.cpp" />
-    <ClCompile Include="Pausemenu.cpp" />
-    <ClCompile Include="Tornado.cpp" />
-    <ClCompile Include="trapfloor.cpp" />
-    <ClCompile Include="Framework\console.cpp" />
-    <ClCompile Include="Framework\timer.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="gameover.cpp" />
-    <ClCompile Include="Item.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="mainmenu.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="SplashScreen.cpp" />
-    <ClCompile Include="Tsunami.cpp" />
-    <ClCompile Include="UI.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Volcano.cpp" />
-    <ClCompile Include="SpreadingD.cpp" />
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Framework">
+      <UniqueIdentifier>{07667b27-3d02-4514-a465-3fd8b26758ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework">
+      <UniqueIdentifier>{37c19c94-9502-4b2b-b3f1-70fa908b49af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Items">
+      <UniqueIdentifier>{7ddc3c0a-58c1-410e-b712-e218ac30fcc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Items">
+      <UniqueIdentifier>{d12178a1-e21e-4862-84fa-68cdb7cf4e61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Disasters">
+      <UniqueIdentifier>{30f1daa5-a91f-4e80-a90f-4e6af557393a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Disasters">
+      <UniqueIdentifier>{47c63c88-8b44-4b0b-b830-e790b58f7637}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Boulder.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="Earthquake.h" />
-    <ClInclude Include="HealthPotion.h" />
-    <ClInclude Include="Key.h" />
-    <ClInclude Include="Keycard.h" />
-    <ClInclude Include="MovingD.h" />
-    <ClInclude Include="Pausemenu.h" />
-    <ClInclude Include="Tornado.h" />
-    <ClInclude Include="trapfloor.h" />
-    <ClInclude Include="Framework\console.h" />
-    <ClInclude Include="Framework\timer.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="gameover.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="mainmenu.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="SplashScreen.h" />
-    <ClInclude Include="Tsunami.h" />
-    <ClInclude Include="UI.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Volcano.h" />
-    <ClInclude Include="SpreadingD.h" />
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\console.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\timer.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gameover.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pausemenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Earthquake.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
+    <ClCompile Include="Boulder.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingD.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
+    <ClCompile Include="Tornado.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
+    <ClCompile Include="trapfloor.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
+    <ClCompile Include="Volcano.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
+    <ClCompile Include="mainmenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthPotion.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Keycard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Doors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Framework\console.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\timer.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mainmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameover.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pausemenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Boulder.h">
+      <Filter>Header Files\Disasters</Filter>
+    </ClInclude>
+    <ClInclude Include="Earthquake.h">
+      <Filter>Header Files\Disasters</Filter>
+    </ClInclude>
+    <ClInclude Include="Tornado.h">
+      <Filter>Header Files\Disasters</Filter>
+    </ClInclude>
+    <ClInclude Include="trapfloor.h">
+      <Filter>Header Files\Disasters</Filter>
+    </ClInclude>
+    <ClInclude Include="Volcano.h">
+      <Filter>Header Files\Disasters</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingD.h">
+      <Filter>Header Files\Disasters</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthPotion.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Keycard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Doors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClear.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

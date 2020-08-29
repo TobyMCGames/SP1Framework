@@ -7,7 +7,8 @@ Map::Map() :
 	y(135),
 	x_change(0),
 	y_change(0),
-	fixed_update(0),
+	EQtime(0),
+	Vtime(0),
 	map{ },
 	DisasterPlane{ },
 	earthquakeI(false),
@@ -27,6 +28,8 @@ Map::Map() :
 	}
 	maplevel = -1;
 	mapchange = true;
+	xaxis = 0;
+	yaxis = 0;
 
 	for (int i = 0; i < 500; i++) 
 	{
@@ -38,7 +41,7 @@ Map::Map() :
 		disasters[i] = nullptr;
 	}
 
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 500; i++)
 	{
 		VArray[i] = nullptr;
 	}
@@ -46,6 +49,11 @@ Map::Map() :
 	for (int i = 0; i < 2000; i++)
 	{
 		TArray[i] = nullptr;
+	}
+}
+	for (int i = 0; i < 500; i++)
+	{
+		DoorArray[i] = nullptr;
 	}
 }
 
@@ -86,13 +94,13 @@ bool Map::collides(char direction, Player& anotherP)
 	}
 	switch (map[anotherP.getY() + y_change][anotherP.getX() + x_change])
 	{
+	case 'H': //Hole
 	case 'S': //Silver Wall
 	case 'W': //Wall
 	case '0': //HP Pot
 	case 'k': //key
-	case 'C':
+	case 'C': //Card
 	case 'G': //Endgame stuff
-	case 'D':
 		return true;
 	case '@':
 		//insert reset stuff here
@@ -102,7 +110,16 @@ bool Map::collides(char direction, Player& anotherP)
 		tornadoI = false;
 		tsunamiI = false;
 		break;
-	case 'E':
+	case 'D': //Door, if active - unable to pass
+		for (int i = 0; i < 500; i++)
+		{
+			if (DoorArray[i] != nullptr && DoorArray[i]->getX() == anotherP.getX() + x_change && DoorArray[i]->getY() == anotherP.getY() + y_change && DoorArray[i]->getState() == true)
+			{
+				return true; 
+			}
+		}
+		break;
+	case 'E': //Earthquake, if active - unable to pass
 		for (int i = 0; i < 500; i++)
 		{
 			if (EQArray[i] != nullptr && EQArray[i]->getX() == anotherP.getX() + x_change && EQArray[i]->getY() == anotherP.getY() + y_change && EQArray[i]->getState() == true)
@@ -111,12 +128,12 @@ bool Map::collides(char direction, Player& anotherP)
 			}
 		}
 		break;
-	case 'F':
+	case 'F': //Door, if active - take damage
 		for (int i = 0; i < 50; i++)
 		{
 			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x_change && VArray[i]->getY() == anotherP.getY() + y_change && VArray[i]->getState() == true)
 			{
-				player.decreaselife();
+				anotherP.decreaselife();
 			}
 		}
 		break;
@@ -133,7 +150,12 @@ bool Map::collides(char direction, Player& anotherP)
 	return false;
 }
 
-char Map::interact(Player& player)
+char Map::getPlayerfront(Player& player)
+{
+	return map[player.getY() + y_change][player.getX() + x_change];
+}
+
+void Map::interact(Player& player)
 {
 	switch (map[player.getY() + y_change][player.getX() + x_change])
 	{
@@ -149,86 +171,180 @@ char Map::interact(Player& player)
 		player.addInventory('C');
 		map[player.getY() + y_change][player.getX() + x_change] = ' ';
 		break;
-	case 'G':
-		return 'G';
-	case 'D':
-		int x = player.getX() + x_change, col = player.getX() + x_change;
-		int y = player.getY() + y_change, row = player.getY() + y_change;
+	}
+}
+
+void Map::unlockDoor(Player& player, int doortype)
+{
+	int x = player.getX() + x_change;
+	int y = player.getY() + y_change;
+	int idx = 1, set = 0, origin = 0;
+	for (int i = 0; i < 500; i++)
+	{
+		if (DoorArray[i]->getX() == x && DoorArray[i]->getY() == y && DoorArray[i]->getDoorType() == doortype && DoorArray != nullptr)
+		{
+			idx = i;
+			set = i;
+			origin = i;
+			break;
+		}
+	}
+	while (true) {
 		while (true)
 		{
-			while (true)
-			{
-				map[row][col] = ' ';
-				if (map[row][col - 1] == 'D')
+			if (DoorArray[idx] != nullptr) {
+				DoorArray[idx]->changeState();
+				if (map[DoorArray[idx]->getY()][DoorArray[idx]->getX() - 1] == 'D')
 				{
-					col--;
+					if (idx > 0) {
+						idx--;
+					}
 				}
 				else
 				{
-					col = x;
+					idx = set;
 					break;
 				}
-			}
-			while (true)
-			{
-				map[row][col] = ' ';
-				if (map[row][col + 1] == 'D')
-				{
-					col++;
-				}
-				else
-				{
-					col = x;
-					break;
-				}
-			}
-			if (map[row - 1][col] == 'D') {
-				row--;
-			}
-			else
-			{
-				row = y;
-				break;
 			}
 		}
 		while (true)
 		{
-			while (true)
-			{
-				map[row][col] = ' ';
-				if (map[row][col - 1] == 'D')
+			if (DoorArray[idx] != nullptr) {
+				DoorArray[idx]->changeState();
+				if (map[DoorArray[idx]->getY()][DoorArray[idx]->getX() + 1] == 'D')
 				{
-					col--;
+					idx++;
 				}
 				else
 				{
-					col = x;
+					idx = set;
 					break;
+				}
+			}
+		}
+		if (map[DoorArray[idx]->getY() - 1][DoorArray[idx]->getX()] == 'D') {
+			for (int i = 0; i < 500; i++)
+			{
+				if (DoorArray[i]->getX() == DoorArray[idx]->getX() && DoorArray[i]->getY() == DoorArray[idx]->getY() - 1) {
+					idx = i;
+					set = i;
+					break;
+				}
+			}
+		}
+		else
+		{
+			idx = origin;
+			set = origin;
+			break;
+		}
+	}
+	/////////////
+	if (map[DoorArray[idx]->getY() + 1][DoorArray[idx]->getX()] == 'D') {
+		for (int i = 0; i < 500; i++)
+		{
+			if (DoorArray[i]->getX() == DoorArray[idx]->getX() && DoorArray[i]->getY() == DoorArray[idx]->getY() + 1) {
+				idx = i;
+				set = i;
+				break;
+			}
+		}
+		while (true) {
+			while (true)
+			{
+				if (DoorArray[idx] != nullptr) {
+					DoorArray[idx]->changeState();
+					if (map[DoorArray[idx]->getY()][DoorArray[idx]->getX() - 1] == 'D')
+					{
+						idx--;
+					}
+					else
+					{
+						idx = set;
+						break;
+					}
 				}
 			}
 			while (true)
 			{
-				map[row][col] = ' ';
-				if (map[row][col + 1] == 'D')
-				{
-					col++;
-				}
-				else
-				{
-					col = x;
-					break;
+				if (DoorArray[idx] != nullptr) {
+					DoorArray[idx]->changeState();
+					if (map[DoorArray[idx]->getY()][DoorArray[idx]->getX() + 1] == 'D')
+					{
+						idx++;
+					}
+					else
+					{
+						idx = set;
+						break;
+					}
 				}
 			}
-			if (map[row + 1][col] == 'D') {
-				row++;
+			if (map[DoorArray[idx]->getY() + 1][DoorArray[idx]->getX()] == 'D') {
+				for (int i = 0; i < 500; i++)
+				{
+					if (DoorArray[i] != nullptr) {
+						if (DoorArray[i]->getX() == DoorArray[idx]->getX() && DoorArray[i]->getY() == DoorArray[idx]->getY() + 1) {
+							idx = i;
+							set = i;
+							break;
+						}
+					}
+				}
 			}
 			else
 			{
-				row = y;
+				idx = origin;
+				set = origin;
 				break;
 			}
 		}
 	}
+	/*while (true) {
+		DoorArray[idx]->changeState();
+		if (DoorArray[idx - 1]->getX() == col - 1 && DoorArray[idx - 1]->getY() == row) {
+			idx--;
+			col--;
+		}
+		else {
+
+		}
+	}*/
+}
+
+int Map::frontDoortype(Player& player)
+{
+	for (int i = 0; i < 500; i++)
+	{
+		if (DoorArray[i] != nullptr) {
+			if (DoorArray[i]->getX() == player.getX() + x_change && DoorArray[i]->getY() == player.getY() + y_change)
+			{
+				return DoorArray[i]->getDoorType();
+			}
+		}
+		else {
+			break;
+		}
+	}
+	return 0;
+}
+
+bool Map::frontDoorState(Player& player)
+{
+	for (int i = 0; i < 500; i++)
+	{
+		if (DoorArray[i] != nullptr)
+		{
+			if (DoorArray[i]->getX() == player.getX() + x_change && DoorArray[i]->getY() == player.getY() + y_change)
+			{
+				return DoorArray[i]->getState();
+			}
+		}
+		else {
+			break;
+		}
+	}
+	return false;
 }
 
 void Map::nextlevel()
@@ -255,6 +371,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 	int Vidx = 0;
 	int Tidx = 0;
 	int Didx = 0;
+	int Dooridx = 0;
 	int col = 0;
 	int row = 0;
 	while (getline(f, line))  //gets the line
@@ -304,6 +421,11 @@ void Map::loadMap(std::string anothermap, Player& player)
 						tornadoI = true;
 						DisasterPlane[row][col] = 'T';
 						break;
+					case 'D':       //Door object
+						map[row][col] = 'D';
+						DoorArray[Dooridx] = new Doors;
+						DoorArray[Dooridx]->setcord(col, row);
+						break;
 					case '0':		//HP Potion
 						map[row][col] = '0';
 						break;
@@ -333,23 +455,40 @@ void Map::loadMap(std::string anothermap, Player& player)
 				{
 					switch (cell[i])
 					{
+					case 'A':
+						if (cell[i - 1] == 'F' && Vidx >0)
+						{
+							VArray[Vidx - 1]->toggle();
+						}
+						break;
 					case 'U':
 						disasters[Didx]->changeDirection('W');
+						Didx++;
 						break;
 					case 'D':
 						disasters[Didx]->changeDirection('S');
+						Didx++;
 						break;
 					case 'L':
 						disasters[Didx]->changeDirection('A');
+						Didx++;
 						break;
 					case 'R':
 						disasters[Didx]->changeDirection('D');
+						Didx++;
+						break;
+					case '1':
+						DoorArray[Dooridx]->setType(1);
+						Dooridx++;
+						break;
+					case '2':
+						DoorArray[Dooridx]->setType(2);
+						Dooridx++;
 						break;
 					case 'Q':
 						TArray[(Tidx - 1)]->toggle();
 						break;
 					}
-					Didx++;
 				}
 			}
 			col++;
@@ -360,27 +499,19 @@ void Map::loadMap(std::string anothermap, Player& player)
 	}
 	f.close();
 	mapchange = false;
+
 }
 
 void Map::updateMap(double dt, Player& player)
 {
 	int EQidx;
-	int Vidx;
-	int T_tiles = 0;
-	int Tidx_temp = 0;
-	int Tidx_active[2000];
-	for (int i = 0; i < 2000; i++) {
-		Tidx_active[i] = -1;
-		if (TArray[i] != nullptr) {
-			T_tiles++;
-		}
-	}
-	fixed_update += dt;
-	if (fixed_update >= 0.16 * 1) 
+	EQtime += dt;
+	Vtime += dt;
+	if (EQtime >= 0.16 * 1)
 	{
-		if (earthquakeI) //EarthQuake Tiles
+		for (int i = 0; i < 5; i++) //EarthQuake Tiles
 		{
-			for (int i = 0; i < 5; i++)
+			if (earthquakeI)
 			{
 				EQidx = rand() % 500;
 				while (EQArray[EQidx] == nullptr)
@@ -391,123 +522,30 @@ void Map::updateMap(double dt, Player& player)
 				if (EQArray[EQidx]->getState() != true)
 				{
 					EQArray[EQidx]->toggle();
-					fixed_update = 0;
+					EQtime = 0;
 				}
 			}
 		}
-
-		if (volcanoI) //Volcano Tiles
-		{
-			for (int j = 0; j < 5; j++)
-			{
-				Vidx = rand() % 50;
-				while (VArray[Vidx] == nullptr)
-				{
-					Vidx = rand() % 50;
-				}
-
-				if (VArray[Vidx]->getState() != true)
-				{
-					VArray[Vidx]->toggle();
-					fixed_update = 0;
-				}
-			}
-		}
-
-		if (tsunamiI) //Tsunami Tiles
-		{
-			for (int Tidx = 0; Tidx < T_tiles; Tidx++) //move right and diagonally right down.
-			{
-				for (int k = 0; k < 5; k++)
-				{
-					if (TArray[Tidx]->getState() == true && ((std::find(Tidx_active, Tidx_active + 2000, Tidx)) == Tidx_active + 2000))
-					{
-						Tidx_temp = Tidx;
-						Tidx_active[std::distance(Tidx_active, std::find(Tidx_active, Tidx_active + 2000, -1))] = Tidx;
-						break;
-					}
-
-					if (TArray[Tidx]->getState() == false)
-					{
-						if (((TArray[Tidx]->getX() + 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY()))
-						{
-							TArray[Tidx]->toggle();
-							TArray[Tidx]->reaction(player, 'D');
-							fixed_update = 0;
-							break;
-						}
-						else if ((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() + 1) == TArray[Tidx_temp]->getY()))
-						{
-							TArray[Tidx]->toggle();
-							TArray[Tidx]->reaction(player, 'W');
-							fixed_update = 0;
-							break;
-						}
-						else if (((TArray[Tidx]->getX() - 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY()))
-						{
-							TArray[Tidx]->toggle();
-							TArray[Tidx]->reaction(player, 'A');
-							fixed_update = 0;
-							break;
-						}
-						else if ((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() - 1) == TArray[Tidx_temp]->getY()))
-						{
-							TArray[Tidx]->toggle();
-							TArray[Tidx]->reaction(player, 'S');
-							fixed_update = 0;
-							break;
-						}
-					}
-				}
-			}
-
-			for (int Tidx = (T_tiles-1); Tidx > -1; Tidx--) //move left and diagonally left up
-			{
-				for (int k = 0; k < 5; k++)
-				{
-					if (TArray[Tidx]->getState() == true && ((std::find(Tidx_active, Tidx_active + 2000, Tidx)) == Tidx_active + 2000))
-					{
-						Tidx_temp = Tidx;
-						Tidx_active[std::distance(Tidx_active, std::find(Tidx_active, Tidx_active + 2000, -1))] = Tidx;
-						break;
-					}
-
-					if (TArray[Tidx]->getState() == false)
-					{
-						if (((TArray[Tidx]->getX() + 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY()))
-						{
-							TArray[Tidx]->toggle();
-							TArray[Tidx]->reaction(player, 'D');
-							fixed_update = 0;
-							break;
-						}
-						else if ((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() + 1) == TArray[Tidx_temp]->getY()))
-						{
-							TArray[Tidx]->toggle();
-							TArray[Tidx]->reaction(player, 'W');
-							fixed_update = 0;
-							break;
-						}
-						else if (((TArray[Tidx]->getX() - 1) == TArray[Tidx_temp]->getX()) && (TArray[Tidx]->getY() == TArray[Tidx_temp]->getY()))
-						{
-							TArray[Tidx]->toggle();
-							TArray[Tidx]->reaction(player, 'A');
-							fixed_update = 0;
-							break;
-						}
-						else if ((TArray[Tidx]->getX() == TArray[Tidx_temp]->getX()) && ((TArray[Tidx]->getY() - 1) == TArray[Tidx_temp]->getY()))
-						{
-							TArray[Tidx]->toggle();
-							TArray[Tidx]->reaction(player, 'S');
-							fixed_update = 0;
-							break;
-						}
-					}
-				}
-			}
-		}
-		//The rest of the disasters
 	}
+		//Volcano Tiles
+	if (Vtime >= 0.16 * 5)
+	{
+		if (volcanoI)
+		{
+
+
+			spreadcheck();
+
+
+			Vtime = 0;
+
+
+		}
+	}
+		
+	
+		//The rest of the disasters
+	
 
 }
 
@@ -559,6 +597,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'W':
 					anotherC.writeToBuffer(45 + j * 2, i, "±±", 0x08);
 					break;
+				case 'H':
+					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x00);
+					break;
 				case ' ':
 					anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x8F);
 					break;
@@ -594,6 +635,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'F':
 					for (int k = 0; k < 500; k++)
 					{
+
 						if (VArray[k] != nullptr && VArray[k]->getX() == j + offset.X && VArray[k]->getY() == i + offset.Y)
 						{
 							anotherC.writeToBuffer(45 + j * 2, i, "²²", VArray[k]->getColor());
@@ -613,7 +655,13 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
 					break;
 				case 'D':
-					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xB0);
+					for (int k = 0; k < 500; k++)
+					{
+						if (DoorArray[k] != nullptr && DoorArray[k]->getX() == j + offset.X && DoorArray[k]->getY() == i + offset.Y)
+						{
+							anotherC.writeToBuffer(45 + j * 2, i, "²²", DoorArray[k]->getcolor());
+						}
+					}
 					break;
 			}	
 			switch (DisasterPlane[i + offset.Y][j + offset.X])
@@ -654,6 +702,41 @@ bool Map::getvolcanoI()
 	return volcanoI;
 }
 
+void Map::spreadcheck()
+{
+	int x = 0;
+	int y = 0;
+	bool added = false;
+	for (int j = 0; j < 500; j++)
+	{
+		if (VArray[j] != nullptr)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				VArray[j]->setDirection(i);
+				x = VArray[j]->getxchange();
+				y = VArray[j]->getychange();
+				if (map[VArray[j]->getY() + y][VArray[j]->getX() + x] == ' ' )
+				{
+					map[VArray[j]->getY() + y][VArray[j]->getX() + x] = 'F';
+					for (int k = 0; k < 500; k++)
+					{
+						if (VArray[k] == nullptr && added == false)
+						{
+							VArray[k] = new Volcano;
+							VArray[k] -> setCOORD(VArray[j]->getX() + x, VArray[j]->getY() + y);
+							VArray[k]->toggle();
+							added = true;
+						}
+					}
+					added = false;
+				}
+			}
+		}
+	};
+}
+
+
 
 // Disaster functions
 void Map::Dmoves(Player& player)
@@ -678,6 +761,12 @@ void Map::Dmoves(Player& player)
 			case 'D':
 				x = 1;
 				break;
+			}
+			if (disasters[i]->reaction(player, map[cord.Y + y][cord.X + x]) == true)
+			{
+				DisasterPlane[cord.Y][cord.X] = 'p';
+				cord = disasters[i]->getcord();
+				DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
 			}
 			if ((DisasterPlane[cord.Y + y][cord.X + x] != 'p') &&  (DisasterPlane[cord.Y + y][cord.X + x] != 'h'))
 			{
@@ -733,13 +822,6 @@ void Map::Dmoves(Player& player)
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
 			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
-			if (disasters[i]->reaction(player, map[cord.Y + y][cord.X + x]) == true)
-			{
-				DisasterPlane[cord.Y][cord.X] = 'p';
-				disasters[i]->BTSpawner();
-				cord = disasters[i]->getcord();
-				DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
-			}
 		}
 	}
 }

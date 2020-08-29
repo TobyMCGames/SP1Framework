@@ -4,6 +4,7 @@
 #include "HealthPotion.h"
 #include "Key.h"
 #include "Keycard.h"
+#include "Doors.h"
 #include <string>
 #include <sstream>
 
@@ -37,10 +38,11 @@ public:
 
 	//inventory
 	Item* getInventory(int slot);
+	Item* getSelected();
 	void setInventory(int slot, char item, int value);
 	void addInventory(char item);
 	void nextItem();
-	void useItem();
+	void useItem(char front, int doortype, bool isActive);
 
 	//set functions
 	void setmodel(char direction);
