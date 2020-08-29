@@ -700,15 +700,6 @@ void Map::spreadcheck()
 	};
 }
 
-int Map::getxaxis()
-{
-	return xaxis;
-}
-
-int Map::getyaxis()
-{
-	return yaxis;
-}
 
 
 // Disaster functions
