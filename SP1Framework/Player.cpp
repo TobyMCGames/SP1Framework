@@ -99,7 +99,8 @@ void Player::addInventory(char item)
 	bool added = false;
 	for (int i = 0; i < 4; i++)
 	{
-		if (inventory[i]) {
+		if (inventory[i]) 
+		{
 			switch (inventory[i]->GetType())
 			{
 			case Item::ITEM_TYPE::HP:

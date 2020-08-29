@@ -17,6 +17,7 @@ Map::Map() :
 	volcanoI(false),
 	disasters { },
 	EQArray{ },
+	DoorArray{ },
 	VArray{ }
 {
 	for (int row = 0; row < x; row++) {
@@ -27,8 +28,6 @@ Map::Map() :
 	}
 	maplevel = 0;
 	mapchange = true;
-	xaxis = 0;
-	yaxis = 0;
 
 	for (int i = 0; i < 500; i++) 
 	{
@@ -121,8 +120,8 @@ bool Map::collides(char direction, Player& anotherP)
 			}
 		}
 		break;
-	case 'F': //Door, if active - take damage
-		for (int i = 0; i < 50; i++)
+	case 'F': 
+		for (int i = 0; i < 500; i++)
 		{
 			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x_change && VArray[i]->getY() == anotherP.getY() + y_change && VArray[i]->getState() == true)
 			{
@@ -346,6 +345,18 @@ void Map::loadMap(std::string anothermap, Player& player)
 			disasters[i] = nullptr;
 		}
 	}
+	
+	for (int i = 0; i < 500; i++)
+	{
+		delete DoorArray[i];
+		DoorArray[i] = nullptr;
+
+		delete VArray[i];
+		VArray[i] = nullptr;
+
+		delete EQArray[i];
+		EQArray[i] = nullptr;
+	}
 	std::string path = "Maps\\" + anothermap;
 	std::ifstream f;
 	f.open(path);
@@ -505,24 +516,14 @@ void Map::updateMap(double dt)
 		}
 	}
 		//Volcano Tiles
-	if (Vtime >= 0.16 * 5)
+	if (Vtime >= 0.16 * 3)
 	{
 		if (volcanoI)
 		{
-
-
 			spreadcheck();
-
-
 			Vtime = 0;
-
-
 		}
 	}
-		
-	
-		//The rest of the disasters
-	
 
 }
 
@@ -674,34 +675,35 @@ void Map::spreadcheck()
 {
 	int x = 0;
 	int y = 0;
+	int max = VArray[0]->getamt();
 	bool added = false;
-	for (int j = 0; j < 500; j++)
+	for (int j = 0; j < max; j++) //Starting Point
 	{
 		if (VArray[j] != nullptr)
 		{
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 4; i++) //Spread
 			{
 				VArray[j]->setDirection(i);
-				x = VArray[j]->getxchange();
-				y = VArray[j]->getychange();
-				if (map[VArray[j]->getY() + y][VArray[j]->getX() + x] == ' ' )
-				{
-					map[VArray[j]->getY() + y][VArray[j]->getX() + x] = 'F';
-					for (int k = 0; k < 500; k++)
+					x = VArray[j]->getxchange();
+					y = VArray[j]->getychange();
+					if (map[VArray[j]->getY() + y][VArray[j]->getX() + x] == ' ')
 					{
-						if (VArray[k] == nullptr && added == false)
+						map[VArray[j]->getY() + y][VArray[j]->getX() + x] = 'F';
+						for (int k = 0; k < 500; k++)
 						{
-							VArray[k] = new Volcano;
-							VArray[k] -> setCOORD(VArray[j]->getX() + x, VArray[j]->getY() + y);
-							VArray[k]->toggle();
-							added = true;
+							if (VArray[k] == nullptr && added == false)
+							{
+								VArray[k] = new Volcano;
+								VArray[k]->setCOORD(VArray[j]->getX() + x, VArray[j]->getY() + y);
+								VArray[k]->toggle();
+								added = true;
+							}
 						}
+						added = false;
 					}
-					added = false;
-				}
 			}
 		}
-	};
+	}
 }
 
 

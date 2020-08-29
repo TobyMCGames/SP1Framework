@@ -16,7 +16,7 @@
 class Map
 {
 private:
-	int x, y, x_change, y_change, maplevel, xaxis, yaxis;
+	int x, y, x_change, y_change, maplevel;
 	double EQtime, Vtime;
 	char DisasterPlane[135][135];
 	bool mapchange;
