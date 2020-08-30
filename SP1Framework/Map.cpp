@@ -790,7 +790,7 @@ void Map::wave(Player& player)
 							added = true;
 							if (getPlayerfront(player) == 'M') {
 								TArray[k]->reaction_towards(player, player.getFacing());
-								if (map[player.getY()][player.getX()] == 'W') {
+								if (map[player.getY()][player.getX()] == 'W' || map[player.getY()][player.getX()] == 'M') {
 									for (int y = 0; y < 5; y++) {
 										player.decreaselife();
 									}
@@ -799,7 +799,7 @@ void Map::wave(Player& player)
 							}
 							else {
 								TArray[k]->reaction_away(player, player.getFacing());
-								if (map[player.getY()][player.getX()] == 'W') {
+								if (map[player.getY()][player.getX()] == 'W' || map[player.getY()][player.getX()] == 'M') {
 									for (int y = 0; y < 5; y++) {
 										player.decreaselife();
 									}
