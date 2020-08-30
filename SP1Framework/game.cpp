@@ -411,17 +411,17 @@ void updateGameClear()
 {
     if (g_skKeyEvent[(int)EKEYS::K_W].keyDown)
     {
-        _gameover.decreaseselector();
+        _gameclear.decreaseselector();
     }
     else if (g_skKeyEvent[(int)EKEYS::K_S].keyDown)
     {
-        _gameover.increaseselector();
+        _gameclear.increaseselector();
     }
 
     if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) && !returnDown)
     {
         returnDown = true;
-        switch (_gameover.getSelector())
+        switch (_gameclear.getSelector())
         {
         case 0: g_eGameState = EGAMESTATES::S_MAINMENU; break;
         case 1: g_bQuitGame = true; break;
@@ -430,7 +430,7 @@ void updateGameClear()
     else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && !spaceDown)
     {
         spaceDown = true;
-        switch (_gameover.getSelector())
+        switch (_gameclear.getSelector())
         {
         case 0: g_eGameState = EGAMESTATES::S_MAINMENU; break;
         case 1: g_bQuitGame = true; break;

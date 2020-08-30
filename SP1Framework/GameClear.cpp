@@ -25,7 +25,7 @@ GameClear::~GameClear()
 
 int GameClear::getSelector()
 {
-	return 0;
+	return selector;
 }
 
 int GameClear::GCCheckbuttons(COORD c)
