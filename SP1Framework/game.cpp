@@ -721,7 +721,7 @@ void render()
     case EGAMESTATES::S_GAMECLEAR: renderGameClear();
         break;
     }
-    renderFramerate();      // renders debug information, frame rate, elapsed time, etc
+    //renderFramerate();      // renders debug information, frame rate, elapsed time, etc
     //renderInputEvents();    // renders status of input events
     renderToScreen();       // dump the contents of the buffer to the screen, one frame worth of game
 }

@@ -537,7 +537,7 @@ void Map::updateMap(double dt, Player& player)
 	{
 		for (int i = 0; i < 5; i++) //EarthQuake Tiles
 		{
-			if (earthquakeI)
+			if (earthquakeI && EQArray[0])
 			{
 				EQidx = rand() % 500;
 				while (EQArray[EQidx] == nullptr)
