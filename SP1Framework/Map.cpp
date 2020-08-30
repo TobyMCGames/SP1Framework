@@ -28,7 +28,7 @@ Map::Map() :
 			DisasterPlane[row][col] = ' ';
 		}
 	}
-	maplevel = 0;
+	maplevel = -1;
 	mapchange = true;
 
 	for (int i = 0; i < 500; i++) 
@@ -788,15 +788,13 @@ void Map::wave(Player& player)
 							TArray[k]->setCOORD(TArray[j]->getX() + x, TArray[j]->getY() + y);
 							TArray[k]->toggle();
 							added = true;
-							if ((player.getFacing() == 'W' && map[player.getY() - 1][player.getX()] == 'M') ||
-								(player.getFacing() == 'A' && map[player.getY()][player.getX() - 1] == 'M') ||
-								(player.getFacing() == 'S' && map[player.getY() + 1][player.getX()] == 'M') ||
-								(player.getFacing() == 'D' && map[player.getY()][player.getX() + 1] == 'M')) {
+							if (getPlayerfront(player) == 'M') {
 								TArray[k]->reaction_towards(player, player.getFacing());
 								if (map[player.getY()][player.getX()] == 'W') {
 									for (int y = 0; y < 5; y++) {
 										player.decreaselife();
 									}
+									break;
 								}
 							}
 							else {
@@ -805,6 +803,7 @@ void Map::wave(Player& player)
 									for (int y = 0; y < 5; y++) {
 										player.decreaselife();
 									}
+									break;
 								}
 							}
 						}

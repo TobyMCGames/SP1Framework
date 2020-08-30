@@ -850,7 +850,7 @@ void renderInputEvents()
 
 void die()
 {
-    if (g_sChar.getlife() == 0)
+    if (g_sChar.getlife() <= 0)
     {
         g_eGameState = EGAMESTATES::S_GAMEOVER;
         reset();
