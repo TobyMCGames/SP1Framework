@@ -42,6 +42,8 @@ enum class EGAMESTATES
 {
     S_SPLASHSCREEN,
     S_MAINMENU,
+    S_HTPMENU,
+    S_CREDITS,
     S_GAME,
     S_COUNT,
     S_GAMEOVER,
@@ -64,6 +66,7 @@ void shutdown    ( void );      // do clean up, free memory
 
 void splashScreenWait();    // waits for time to pass in splash screen
 void updateMenu();          // displays what user selects on mainmenu
+void updateInfoMenu();
 void updatePauseMenu();
 void updateGameClear();
 void updateGameOver();      // update gameover when player dies
@@ -77,6 +80,8 @@ void loadGameOver();
 void loadGameClear();
 void renderSplashScreen();  // renders the splash screen
 void renderMainMenu();      // renders the Main Menu
+void renderHTPMenu();
+void renderCredits();
 void renderGameOver();
 void renderPauseMenu();
 void renderGameClear();

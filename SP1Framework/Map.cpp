@@ -41,12 +41,12 @@ Map::Map() :
 		disasters[i] = nullptr;
 	}
 
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		VArray[i] = nullptr;
 	}
 
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		TArray[i] = nullptr;
 	}
@@ -128,7 +128,7 @@ bool Map::collides(char direction, Player& anotherP)
 		}
 		break;
 	case 'F':
-		for (int i = 0; i < 500; i++)
+		for (int i = 0; i < 1000; i++)
 		{
 			if (VArray[i] != nullptr && VArray[i]->getX() == anotherP.getX() + x_change && VArray[i]->getY() == anotherP.getY() + y_change && VArray[i]->getState() == true)
 			{
@@ -137,7 +137,7 @@ bool Map::collides(char direction, Player& anotherP)
 		}
 		break;
 	case 'M':
-		for (int i = 0; i < 500; i++)
+		for (int i = 0; i < 1000; i++)
 		{
 			if (TArray[i] != nullptr && TArray[i]->getX() == anotherP.getX() + x_change && TArray[i]->getY() == anotherP.getY() + y_change && TArray[i]->getState() == true)
 			{
@@ -362,19 +362,22 @@ void Map::loadMap(std::string anothermap, Player& player)
 		}
 	}
 	
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 1000; i++)
 	{
-		delete DoorArray[i];
-		DoorArray[i] = nullptr;
+		delete TArray[i];
+		TArray[i] = nullptr;
 
 		delete VArray[i];
 		VArray[i] = nullptr;
+		
+		if (i < 500)
+		{
+			delete EQArray[i];
+			EQArray[i] = nullptr;
 
-		delete EQArray[i];
-		EQArray[i] = nullptr;
-
-		delete TArray[i];
-		TArray[i] = nullptr;
+			delete DoorArray[i];
+			DoorArray[i] = nullptr;
+		}
 	}
 	std::string path = "Maps\\" + anothermap;
 	std::ifstream f;
@@ -413,7 +416,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 						Vidx++;
 						volcanoI = true;
 						break;
-					case'M':
+					case'M':		//tsunami waves
 						map[row][col] = cell[i];
 						TArray[Tidx] = new Tsunami;
 						TArray[Tidx]->setCOORD(col, row);
@@ -424,6 +427,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 						map[row][col] = ' ';
 						disasters[Didx] = new Boulder(col, row, 'B');
 						DisasterPlane[row][col] = 'B';
+						earthquakeI = true;
 						break;
 					case 'p':		//Moving Disaster Object path
 						map[row][col] = ' ';
@@ -658,7 +662,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					}
 					break;
 				case 'F':
-					for (int k = 0; k < 500; k++)
+					for (int k = 0; k < 1000; k++)
 					{
 
 						if (VArray[k] != nullptr && VArray[k]->getX() == j + offset.X && VArray[k]->getY() == i + offset.Y)
@@ -668,7 +672,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					}
 					break;
 				case 'M':
-					for (int k = 0; k < 500; k++)
+					for (int k = 0; k < 1000; k++)
 					{
 						if (TArray[k] != nullptr && TArray[k]->getX() == j + offset.X && TArray[k]->getY() == i + offset.Y)
 						{
@@ -692,10 +696,10 @@ void Map::DrawMap(Console& anotherC, Player& player)
 			switch (DisasterPlane[i + offset.Y][j + offset.X])
 			{
 			case 'B':
-				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x6F);
+				anotherC.writeToBuffer(45 + j * 2, i, "±±", 0x68);
 				break;
 			case 'T':
-				anotherC.writeToBuffer(45 + j * 2, i, "  ", 0xBA);
+				anotherC.writeToBuffer(45 + j * 2, i, "°°", 0x2F);
 				break;
 			}
 		}
@@ -744,8 +748,11 @@ void Map::spreadcheck()
 				y = VArray[j]->getychange();
 				if (map[VArray[j]->getY() + y][VArray[j]->getX() + x] == ' ' )
 				{
-					map[VArray[j]->getY() + y][VArray[j]->getX() + x] = 'F';
-					for (int k = 0; k < 500; k++)
+					if (VArray[999] == nullptr)
+					{
+						map[VArray[j]->getY() + y][VArray[j]->getX() + x] = 'F';
+					}
+					for (int k = 0; k < 1000; k++)
 					{
 						if (VArray[k] == nullptr && added == false)
 						{
@@ -779,8 +786,11 @@ void Map::wave(Player& player)
 				y = TArray[j]->getychange();
 				if (map[TArray[j]->getY() + y][TArray[j]->getX() + x] == ' ')
 				{
-					map[TArray[j]->getY() + y][TArray[j]->getX() + x] = 'M';
-					for (int k = 0; k < 500; k++)
+					if (TArray[999] == nullptr)
+					{
+						map[TArray[j]->getY() + y][TArray[j]->getX() + x] = 'M';
+					}
+					for (int k = 0; k < 1000; k++)
 					{
 						if (TArray[k] == nullptr && added == false)
 						{

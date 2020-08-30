@@ -7,6 +7,8 @@
 #include "SplashScreen.h"
 #include "mainmenu.h"
 #include "Pausemenu.h"
+#include "HowToPlay.h"
+#include "Credits.h"
 #include "UI.h"
 #include "Player.h"
 #include "gameover.h"
@@ -31,13 +33,18 @@ SMouseEvent g_mouseEvent;
 // Game specific variables here
 Player  g_sChar;
 Map map;
+UI ui;
+
 SplashScreen splashscreen;
 mainmenu _mainmenu;
+HowToPlay _HTPMenu;
 Pausemenu _pausemenu;
+Credits _creditsmenu;
 gameover _gameover;
 GameClear _gameclear;
-UI ui;
+
 EGAMESTATES g_eGameState = EGAMESTATES::S_SPLASHSCREEN; // initial state
+EGAMESTATES prevGameState = EGAMESTATES::S_MAINMENU;
 
 // Console object
 Console g_Console(180, 42, "Escape 2020");  // Setting console size and name (width, height, programme name)
@@ -132,6 +139,10 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case EGAMESTATES::S_MAINMENU: 
         gameplayKBHandler(keyboardEvent);
         break;
+    case EGAMESTATES::S_CREDITS:
+    case EGAMESTATES:: S_HTPMENU:
+        gameplayKBHandler(keyboardEvent);
+        break;
     case EGAMESTATES::S_GAMEOVER:
         gameplayKBHandler(keyboardEvent);
         break;
@@ -170,6 +181,9 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
     case EGAMESTATES::S_SPLASHSCREEN:  // don't handle anything for the splash screen
         break;
     case EGAMESTATES::S_MAINMENU: gameplayMouseHandler(mouseEvent); 
+        break;
+    case EGAMESTATES::S_CREDITS:
+    case EGAMESTATES::S_HTPMENU: gameplayMouseHandler(mouseEvent);
         break;
     case EGAMESTATES::S_GAMEOVER: gameplayMouseHandler(mouseEvent);
         break;
@@ -269,6 +283,14 @@ void update(double dt)
             fixed_update = 0;
         }
         break;
+    case EGAMESTATES::S_CREDITS:
+    case EGAMESTATES::S_HTPMENU:
+        if (fixed_update > g_dDeltaTime * 5)
+        {
+            updateInfoMenu();
+            fixed_update = 0;
+        }
+        break;
     case EGAMESTATES::S_GAMEOVER:
         if (fixed_update > g_dDeltaTime * 5)
         {
@@ -330,6 +352,14 @@ void updateMenu()
         case 0:
             g_eGameState = EGAMESTATES::S_GAME;
             break;
+        case 1:
+            g_eGameState = EGAMESTATES::S_HTPMENU;
+            prevGameState = EGAMESTATES::S_MAINMENU;
+            break;
+        case 2:
+            g_eGameState = EGAMESTATES::S_CREDITS;
+            prevGameState = EGAMESTATES::S_MAINMENU;
+            break;
         case 3:
             g_bQuitGame = true;
             break;
@@ -343,9 +373,54 @@ void updateMenu()
         case 0:
             g_eGameState = EGAMESTATES::S_GAME;
             break;
+        case 1:
+            g_eGameState = EGAMESTATES::S_HTPMENU;
+            prevGameState = EGAMESTATES::S_MAINMENU;
+            break;
+        case 2:
+            g_eGameState = EGAMESTATES::S_CREDITS;
+            prevGameState = EGAMESTATES::S_MAINMENU;
+            break;
         case 3:
             g_bQuitGame = true;
             break;
+        }
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown)
+    {
+        returnDown = false;
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown)
+    {
+        spaceDown = false;
+    }
+}
+
+void updateInfoMenu()
+{
+    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) && !returnDown)
+    {
+        returnDown = true;
+        if (prevGameState == EGAMESTATES::S_PAUSEMENU)
+        {
+            g_eGameState = EGAMESTATES::S_PAUSEMENU;
+        }
+        else if (prevGameState == EGAMESTATES::S_MAINMENU)
+        {
+            g_eGameState = EGAMESTATES::S_MAINMENU;
+        }
+        
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && !spaceDown)
+    {
+        spaceDown = true;
+        if (prevGameState == EGAMESTATES::S_PAUSEMENU)
+        {
+            g_eGameState = EGAMESTATES::S_PAUSEMENU;
+        }
+        else if (prevGameState == EGAMESTATES::S_MAINMENU)
+        {
+            g_eGameState = EGAMESTATES::S_MAINMENU;
         }
     }
     else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown)
@@ -377,6 +452,10 @@ void updatePauseMenu()
         case 0:
             g_eGameState = EGAMESTATES::S_GAME;
             break;
+        case 1:
+            g_eGameState = EGAMESTATES::S_HTPMENU;
+            prevGameState = EGAMESTATES::S_PAUSEMENU;
+            break;
         case 2:
             g_eGameState = EGAMESTATES::S_MAINMENU;
             reset();
@@ -390,6 +469,10 @@ void updatePauseMenu()
         {
         case 0:
             g_eGameState = EGAMESTATES::S_GAME;
+            break;
+        case 1:
+            g_eGameState = EGAMESTATES::S_HTPMENU;
+            prevGameState = EGAMESTATES::S_PAUSEMENU;
             break;
         case 2:
             g_eGameState = EGAMESTATES::S_MAINMENU;
@@ -625,6 +708,10 @@ void render()
         break;
     case EGAMESTATES::S_MAINMENU: renderMainMenu();
         break;
+    case EGAMESTATES::S_HTPMENU: renderHTPMenu();
+        break;
+    case EGAMESTATES::S_CREDITS: renderCredits();
+        break;
     case EGAMESTATES::S_GAMEOVER: renderGameOver();
         break;
     case EGAMESTATES::S_GAME: renderGame();       
@@ -635,7 +722,7 @@ void render()
         break;
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
-    renderInputEvents();    // renders status of input events
+    //renderInputEvents();    // renders status of input events
     renderToScreen();       // dump the contents of the buffer to the screen, one frame worth of game
 }
 
@@ -674,6 +761,16 @@ void renderSplashScreen()  // renders the splash screen    #Loading screen
 void renderMainMenu()
 {
     _mainmenu.rendermenu(g_Console);
+}
+
+void renderHTPMenu()
+{
+    _HTPMenu.renderHTP(g_Console);
+}
+
+void renderCredits()
+{
+    _creditsmenu.renderCredits(g_Console);
 }
 
 void renderGameOver()
@@ -769,19 +866,19 @@ void renderInputEvents()
             break;
         default: continue;
         }
-        /*if (g_skKeyEvent[i].keyDown)
+        if (g_skKeyEvent[i].keyDown)
             ss << key << " pressed";
         else if (g_skKeyEvent[i].keyReleased)
             ss << key << " released";
         else
-            ss << key << " not pressed";*/
+            ss << key << " not pressed";
 
         COORD c = { startPos.X, startPos.Y + i };
         g_Console.writeToBuffer(c, ss.str(), 0x5F);
     }
 
     // mouse events    
-    /*ss.str("");
+    ss.str("");
     ss << "Mouse position (" << g_mouseEvent.mousePosition.X << ", " << g_mouseEvent.mousePosition.Y << ")";
     g_Console.writeToBuffer(g_mouseEvent.mousePosition, ss.str(), 0x5F);
     ss.str("");
@@ -802,15 +899,15 @@ void renderInputEvents()
                 break;
             }
             
-        }*/
-        //else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 25)
-        //{
-        //   /* ss.str("How to play");
-        //    COORD c = {70, 25};
-        //    gotoXY(c);
-        //    g_Console.writeToBuffer(c, "Survive till the end, Avoid the Disasters using WASD");*/
-        //}
-       /* else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 26)
+        }
+        else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 25)
+        {
+            ss.str("How to play");
+            COORD c = {70, 25};
+            gotoXY(c);
+            g_Console.writeToBuffer(c, "Survive till the end, Avoid the Disasters using WASD");
+        }
+        else if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED && g_mouseEvent.mousePosition.X == 33 && g_mouseEvent.mousePosition.Y == 26)
         {
             ss.str("Options");
             g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 2, ss.str(), 0x5F);
@@ -830,8 +927,8 @@ void renderInputEvents()
             ss.str("Some Button Pressed");
             g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 3, ss.str(), 0x5F);
         }
-        break;*/
-   /* case DOUBLE_CLICK:
+        break;
+    case DOUBLE_CLICK:
         ss.str("Double Clicked");
         g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 4, ss.str(), 0x5F);
         break;        
@@ -841,10 +938,10 @@ void renderInputEvents()
         else
             ss.str("Mouse wheeled up");
         g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 5, ss.str(), 0x5F);
-        break;*/
-    /*default:        
         break;
-    }*/
+    default:        
+        break;
+    }
     
 }
 

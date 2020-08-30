@@ -13,7 +13,6 @@ private:
 	char logo[17][180];
 	Button* buttons[5] = {nullptr, nullptr, nullptr, nullptr,  nullptr};
 	int selector;
-	int option;
 public:
 	mainmenu();
 	~mainmenu();

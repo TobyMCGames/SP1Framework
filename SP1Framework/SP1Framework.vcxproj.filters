@@ -96,13 +96,25 @@
     <ClCompile Include="Key.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
-    <ClCompile Include="Keycard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Doors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameClear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpreadingD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HowToPlay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tsunami.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
+    <ClCompile Include="Keycard.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Credits.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,13 +179,25 @@
     <ClInclude Include="Key.h">
       <Filter>Header Files\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Keycard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Doors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameClear.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpreadingD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HowToPlay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tsunami.h">
+      <Filter>Header Files\Disasters</Filter>
+    </ClInclude>
+    <ClInclude Include="Keycard.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Credits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

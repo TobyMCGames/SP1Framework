@@ -24,8 +24,8 @@ private:
 	bool earthquakeI, tornadoI, tsunamiI, volcanoI;
 	MovingD* disasters[50];
 	Earthquake* EQArray[500];
-	Volcano* VArray[500];
-	Tsunami* TArray[500];
+	Volcano* VArray[1000];
+	Tsunami* TArray[1000];
 	Doors* DoorArray[500];
 
 public:
