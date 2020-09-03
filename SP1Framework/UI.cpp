@@ -25,6 +25,7 @@ void UI::renderUI(Console& anotherC, Player& anotherP, Map& map)
 	rendermapborder(anotherC, anotherP);
 	renderdisasterindicator(anotherC, map);
 	renderInventory(anotherC, anotherP);
+	rendercoin(anotherC, anotherP);
 }
 
 void UI::renderlife(Console& anotherC, Player& anotherP)
@@ -75,6 +76,53 @@ void UI::rendermapborder(Console& anotherC, Player& anotherP)
 		anotherC.writeToBuffer( 43, i, "  ", color);
 		anotherC.writeToBuffer( 135, i, "  ", color);
 	}
+}
+
+void UI::loadcoin()
+{
+	std::ifstream f;
+	f.open("Score/coin.csv");
+	std::string data;
+	int row = 0;
+	int col = 0;
+	while (getline(f, data))
+	{
+		for (int datarow = 0; datarow < (6 * 2 - 1); datarow++) {
+			if (data[datarow] == ',')
+			{
+				continue;
+			}
+			else
+			{
+				coin[row][col] = data[datarow];
+				col++;
+			}
+		}
+		col = 0;
+		row++;
+	}
+	f.close();
+}
+
+void UI::rendercoin(Console& anotherC, Player& anotherP)
+{
+	for (int row = 0; row < 5; row++) {
+		for (int col = 0; col < 6; col++) {
+			switch (coin[row][col])
+			{
+			case ' ':
+				anotherC.writeToBuffer(4 + col, 5 + row, " ", 0x00);
+				break;
+			case 'Y':
+				anotherC.writeToBuffer(4 + col, 5 + row, "Û", 0xEE);
+				break;
+			case 'G':
+				anotherC.writeToBuffer(4 + col, 5 + row, "Û", 0x66);
+				break;
+			}
+		}
+	}
+	anotherC.writeToBuffer(12, 7, "x" + std::to_string(anotherP.getCoins()), 0x07);
 }
 
 void UI::loaddisasterindicator()

@@ -20,6 +20,7 @@ private:
 	int speed;
 	char icon;
 	char facing;
+	int coins;
 
 public:
 	Player();
@@ -35,6 +36,7 @@ public:
 	int getspeed();
 	int getlife();
 	int getselect();
+	int getCoins();
 
 	//inventory
 	Item* getInventory(int slot);
@@ -52,6 +54,7 @@ public:
 	void decreaselife();
 	void interact();
 	void setLife(int x);
+	void increaseCoins();
 
 	//movement
 	void moveLEFT();

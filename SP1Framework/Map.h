@@ -17,7 +17,7 @@
 class Map
 {
 private:
-	int x, y, x_change, y_change, maplevel;
+	int x, y, x_change, y_change, maplevel, coins;
 	double EQtime, Vtime, Ttime;
 	char DisasterPlane[135][135];
 	bool mapchange;
@@ -61,5 +61,6 @@ public:
 	void DrawPlayer(Console& anotherC, Player& anotherP, WORD charColor);
 	void spreadcheck();
 	void wave(Player& player);
+
 };
 

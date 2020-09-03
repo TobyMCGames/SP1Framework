@@ -9,7 +9,8 @@ Player::Player() :
 	select(0),
 	speed(1),
 	icon('P'),
-	facing('W')
+	facing('W'),
+	coins(0)
 {
 	c.X = 2;
 	c.Y = 2;
@@ -63,6 +64,11 @@ int Player::getselect()
 char Player::getFacing()
 {
 	return facing;
+}
+
+int Player::getCoins()
+{
+	return coins;
 }
 
 
@@ -251,6 +257,11 @@ void Player::interact()
 void Player::setLife(int x)
 {
 	life = x;
+}
+
+void Player::increaseCoins()
+{
+	coins++;
 }
 
 void Player::moveLEFT()

@@ -28,6 +28,7 @@ Map::Map() :
 			DisasterPlane[row][col] = ' ';
 		}
 	}
+	coins = 0;
 	maplevel = -1;
 	mapchange = true;
 
@@ -144,6 +145,10 @@ bool Map::collides(char direction, Player& anotherP)
 				return true;
 			}
 		}
+		break;
+	case '$':
+		map[anotherP.getY() + y_change][anotherP.getX() + x_change] = ' ';
+		anotherP.increaseCoins();
 		break;
 	}
 	return false;
@@ -453,6 +458,9 @@ void Map::loadMap(std::string anothermap, Player& player)
 					case 'C':
 						map[row][col] = 'C';
 						break;
+					case '$':
+						map[row][col] = '$';
+						break;
 					default:
 						if (cell[i] == player.getIcon())
 						{
@@ -651,6 +659,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 					break;
 				case 'C':
 					anotherC.writeToBuffer(45 + j * 2, i, "CC", 0x8E);
+					break;
+				case '$':
+					anotherC.writeToBuffer(45 + j * 2, i, "$$", 0x8E);
 					break;
 				case 'E':
 					for (int k = 0; k < 500; k++)
