@@ -16,8 +16,9 @@ mainmenu::mainmenu() :
 	}
 	buttons[0] = new Button(25, 24, 0x0F, "    Start  Game    ");
 	buttons[1] = new Button(25, 26, 0x0F, "    How To Play    ");
-	buttons[2] = new Button(25, 28, 0x0F, "      Credits      ");
-	buttons[3] = new Button(25, 30, 0x0F, "    Leave  Game    ");
+	buttons[2] = new Button(25, 28, 0x0F, "    Highscores     ");
+	buttons[3] = new Button(25, 30, 0x0F, "      Credits      ");
+	buttons[4] = new Button(25, 32, 0x0F, "    Leave  Game    ");
 
 	selector = 0;
 }
@@ -33,7 +34,7 @@ int mainmenu::getselector()
 
 int mainmenu::checkButtons(COORD c)
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		if ((c.X >= buttons[i]->getX()) && (c.X <= buttons[i]->getX() + (buttons[i]->getName()).size()) && (c.Y == buttons[i]->getY()))
 		{
@@ -50,7 +51,7 @@ void mainmenu::setselector(int select)
 
 void mainmenu::increaseselector()
 {
-	if (selector < 3)
+	if (selector < 4)
 	{
 		selector++;
 	}
@@ -68,7 +69,7 @@ void mainmenu::decreaseselector()
 	}
 	else
 	{
-		selector = 3;
+		selector = 4;
 	}
 	
 }
@@ -121,7 +122,7 @@ void mainmenu::rendermenu(Console& anotherC)
 		}
 	}
 
-	for (int x = 0; x < 4; x++) {
+	for (int x = 0; x < 5; x++) {
 		bool onbutton = false;
 		if (x == selector)
 		{

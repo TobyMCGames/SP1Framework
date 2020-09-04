@@ -85,6 +85,7 @@
     <ClCompile Include="Earthquake.cpp" />
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="HealthPotion.cpp" />
+    <ClCompile Include="Highscore.cpp" />
     <ClCompile Include="HowToPlay.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Keycard.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="Earthquake.h" />
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="HealthPotion.h" />
+    <ClInclude Include="Highscore.h" />
     <ClInclude Include="HowToPlay.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Keycard.h" />

@@ -3,13 +3,22 @@
 
 UI::UI() :
 	disasterindicator{ },
-	inventory{ }
+	inventory{ },
+	coin{ }
 {
 	for (int row = 0; row < 42; row++)
 	{
 		for (int col = 0; col < 43; col++)
 		{
 			disasterindicator[row][col] = ' ';
+		}
+	}
+
+	for (int row = 0; row < 5; row++)
+	{
+		for (int col = 0; col < 6; col++)
+		{
+			coin[row][col] = ' ';
 		}
 	}
 }

@@ -48,7 +48,8 @@ enum class EGAMESTATES
     S_COUNT,
     S_GAMEOVER,
     S_PAUSEMENU,
-    S_GAMECLEAR
+    S_GAMECLEAR,
+    S_HIGHSCORE
 };
 
 // struct for the game character
@@ -67,6 +68,7 @@ void shutdown    ( void );      // do clean up, free memory
 void splashScreenWait();    // waits for time to pass in splash screen
 void updateMenu();          // displays what user selects on mainmenu
 void updateInfoMenu();
+void updateScoreMenu();
 void updatePauseMenu();
 void updateGameClear();
 void updateGameOver();      // update gameover when player dies
@@ -78,6 +80,7 @@ void clearScreen();         // clears the current screen and draw from scratch
 void loadMainMenu();        // loads mainmenu
 void loadGameOver();
 void loadGameClear();
+void loadHighScore();
 void renderSplashScreen();  // renders the splash screen
 void renderMainMenu();      // renders the Main Menu
 void renderHTPMenu();
@@ -85,6 +88,7 @@ void renderCredits();
 void renderGameOver();
 void renderPauseMenu();
 void renderGameClear();
+void renderHighScore();
 void renderGame();          // renders the game stuff
 void renderUI();            // renders UI
 void renderMap();           // renders the map to the buffer first

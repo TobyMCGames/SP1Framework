@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "gameover.h"
 #include "GameClear.h"
+#include "Highscore.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -42,6 +43,7 @@ Pausemenu _pausemenu;
 Credits _creditsmenu;
 gameover _gameover;
 GameClear _gameclear;
+Highscore _highscore;
 
 EGAMESTATES g_eGameState = EGAMESTATES::S_SPLASHSCREEN; // initial state
 EGAMESTATES prevGameState = EGAMESTATES::S_MAINMENU;
@@ -71,6 +73,7 @@ void init( void )
     loadMainMenu();
     loadGameOver();
     loadGameClear();
+    loadHighScore();
     splashscreen.loadSplashScreen();
     ui.loaddisasterindicator();
     ui.loadInventory();
@@ -144,6 +147,9 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case EGAMESTATES:: S_HTPMENU:
         gameplayKBHandler(keyboardEvent);
         break;
+    case EGAMESTATES::S_HIGHSCORE:
+        gameplayKBHandler(keyboardEvent);
+        break;
     case EGAMESTATES::S_GAMEOVER:
         gameplayKBHandler(keyboardEvent);
         break;
@@ -185,6 +191,8 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
         break;
     case EGAMESTATES::S_CREDITS:
     case EGAMESTATES::S_HTPMENU: gameplayMouseHandler(mouseEvent);
+        break;
+    case EGAMESTATES::S_HIGHSCORE: gameplayMouseHandler(mouseEvent);
         break;
     case EGAMESTATES::S_GAMEOVER: gameplayMouseHandler(mouseEvent);
         break;
@@ -292,6 +300,13 @@ void update(double dt)
             fixed_update = 0;
         }
         break;
+    case EGAMESTATES::S_HIGHSCORE:
+        if (fixed_update > g_dDeltaTime * 5)
+        {
+            updateScoreMenu();
+            fixed_update = 0;
+        }
+        break;
     case EGAMESTATES::S_GAMEOVER:
         if (fixed_update > g_dDeltaTime * 5)
         {
@@ -358,10 +373,14 @@ void updateMenu()
             prevGameState = EGAMESTATES::S_MAINMENU;
             break;
         case 2:
-            g_eGameState = EGAMESTATES::S_CREDITS;
+            g_eGameState = EGAMESTATES::S_HIGHSCORE;
             prevGameState = EGAMESTATES::S_MAINMENU;
             break;
         case 3:
+            g_eGameState = EGAMESTATES::S_CREDITS;
+            prevGameState = EGAMESTATES::S_MAINMENU;
+            break;
+        case 4:
             g_bQuitGame = true;
             break;
         }
@@ -379,10 +398,14 @@ void updateMenu()
             prevGameState = EGAMESTATES::S_MAINMENU;
             break;
         case 2:
-            g_eGameState = EGAMESTATES::S_CREDITS;
+            g_eGameState = EGAMESTATES::S_HIGHSCORE;
             prevGameState = EGAMESTATES::S_MAINMENU;
             break;
         case 3:
+            g_eGameState = EGAMESTATES::S_CREDITS;
+            prevGameState = EGAMESTATES::S_MAINMENU;
+            break;
+        case 4:
             g_bQuitGame = true;
             break;
         }
@@ -411,6 +434,43 @@ void updateInfoMenu()
             g_eGameState = EGAMESTATES::S_MAINMENU;
         }
         
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && !spaceDown)
+    {
+        spaceDown = true;
+        if (prevGameState == EGAMESTATES::S_PAUSEMENU)
+        {
+            g_eGameState = EGAMESTATES::S_PAUSEMENU;
+        }
+        else if (prevGameState == EGAMESTATES::S_MAINMENU)
+        {
+            g_eGameState = EGAMESTATES::S_MAINMENU;
+        }
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyReleased) && returnDown)
+    {
+        returnDown = false;
+    }
+    else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyReleased) && spaceDown)
+    {
+        spaceDown = false;
+    }
+}
+
+void updateScoreMenu()
+{
+    if ((g_skKeyEvent[(int)EKEYS::K_RETURN].keyDown) && !returnDown)
+    {
+        returnDown = true;
+        if (prevGameState == EGAMESTATES::S_PAUSEMENU)
+        {
+            g_eGameState = EGAMESTATES::S_PAUSEMENU;
+        }
+        else if (prevGameState == EGAMESTATES::S_MAINMENU)
+        {
+            g_eGameState = EGAMESTATES::S_MAINMENU;
+        }
+
     }
     else if ((g_skKeyEvent[(int)EKEYS::K_SPACE].keyDown) && !spaceDown)
     {
@@ -711,6 +771,8 @@ void render()
         break;
     case EGAMESTATES::S_HTPMENU: renderHTPMenu();
         break;
+    case EGAMESTATES::S_HIGHSCORE: renderHighScore();
+        break;
     case EGAMESTATES::S_CREDITS: renderCredits();
         break;
     case EGAMESTATES::S_GAMEOVER: renderGameOver();
@@ -748,6 +810,11 @@ void loadGameClear()
     _gameclear.loadgameclear();
 }
 
+void loadHighScore()
+{
+    _highscore.loadscore(g_sChar);
+}
+
 void renderToScreen()
 {
     // Writes the buffer to the console, hence you will see what you have written
@@ -767,6 +834,11 @@ void renderMainMenu()
 void renderHTPMenu()
 {
     _HTPMenu.renderHTP(g_Console);
+}
+
+void renderHighScore()
+{
+    _highscore.renderhighscore(g_Console);
 }
 
 void renderCredits()
