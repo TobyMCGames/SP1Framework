@@ -109,7 +109,7 @@ void HowToPlay::renderHTP(Console& anotherC)
 	//KeyCard
 	anotherC.writeToBuffer(right, "CC", 0x8E);
 	right.X += 2;
-	anotherC.writeToBuffer(right, "  -  Unlocks Level 1 Door", 0x0F);
+	anotherC.writeToBuffer(right, "  -  Unlocks Level 2 Door", 0x0F);
 	right.X -= 2;
 	right.Y += 2;
 	anotherC.writeToBuffer(right, "²²", 0x40);

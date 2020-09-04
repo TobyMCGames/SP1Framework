@@ -10,13 +10,16 @@ Map::Map() :
 	EQtime(0),
 	Vtime(0),
 	Ttime(0),
+	Ctime(0),
 	map{ },
 	DisasterPlane{ },
 	earthquakeI(false),
 	tornadoI(false),
 	tsunamiI(false),
 	volcanoI(false),
+	virusI(false),
 	disasters { },
+	virus{ },
 	EQArray{ },
 	DoorArray{ },
 	VArray{ },
@@ -40,6 +43,11 @@ Map::Map() :
 	for (int i = 0; i < 50; i++)
 	{
 		disasters[i] = nullptr;
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		virus[i] = nullptr;
 	}
 
 	for (int i = 0; i < 1000; i++)
@@ -366,6 +374,15 @@ void Map::loadMap(std::string anothermap, Player& player)
 			disasters[i] = nullptr;
 		}
 	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (virus[i] != nullptr)
+		{
+			delete virus[i];
+			virus[i] = nullptr;
+		}
+	}
 	
 	for (int i = 0; i < 1000; i++)
 	{
@@ -393,6 +410,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 	int Vidx = 0;
 	int Tidx = 0;
 	int Didx = 0;
+	int Cidx = 0;
 	int Dooridx = 0;
 	int col = 0;
 	int row = 0;
@@ -444,6 +462,12 @@ void Map::loadMap(std::string anothermap, Player& player)
 						tornadoI = true;
 						DisasterPlane[row][col] = 'T';
 						break;
+					case 'V':		//Virus Object
+						map[row][col] = ' ';
+						virus[Cidx] = new Virus(col, row, 'V');
+						virus[Cidx]->setspawner();
+						virusI = true;
+						DisasterPlane[row][col] = 'V';
 					case 'D':       //Door object
 						map[row][col] = 'D';
 						DoorArray[Dooridx] = new Doors;
@@ -541,6 +565,7 @@ void Map::updateMap(double dt, Player& player)
 	EQtime += dt;
 	Vtime += dt;
 	Ttime += dt;
+	Ctime += dt;
 	if (EQtime >= 0.16 * 1)
 	{
 		for (int i = 0; i < 5; i++) //EarthQuake Tiles
@@ -584,6 +609,14 @@ void Map::updateMap(double dt, Player& player)
 		}
 	}
 
+	if (Ctime >= 0.08)
+	{
+		if (virusI)
+		{
+			Dchase(player);
+			Ctime = 0;
+		}
+	}
 }
 
 
@@ -637,6 +670,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'H':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x00);
 					break;
+				case 'Z':
 				case ' ':
 					anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x8F);
 					break;
@@ -711,6 +745,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				break;
 			case 'T':
 				anotherC.writeToBuffer(45 + j * 2, i, "°°", 0x2F);
+				break;
+			case 'V':
+				anotherC.writeToBuffer(45 + j * 2, i, "°°", 0x5D);
 				break;
 			}
 		}
@@ -922,6 +959,58 @@ void Map::Dmoves(Player& player)
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
 			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
+		}
+	}
+}
+
+void Map::Dchase(Player& player)
+{
+
+	for (int j = 0; j < 2; j++)
+	{
+		if (virus[j] != nullptr)
+		{
+			COORD cord = virus[j]->getcord();
+			int xdiff = 0;
+			int ydiff = 0;
+			int x = 0;
+			int y = 0;
+			xdiff = cord.X - player.getX();
+			ydiff = cord.Y - player.getY();
+			virus[j]->setDistance(ydiff, xdiff);
+			if (virus[j]->reaction(player, map[cord.Y][cord.X]) == false)
+			{
+				if (virus[j]->getdistancex() < 9 && virus[j]->getdistancex() < virus[j]->getdistancey() && virus[j]->getdistancex() > 0)
+				{
+					virus[j]->changeDirection('W');
+				}
+				else if (virus[j]->getdistancex() > -9 && virus[j]->getdistancex() < virus[j]->getdistancey() && virus[j]->getdistancex() < 0)
+				{
+					virus[j]->changeDirection('S');
+				}
+				else if (virus[j]->getdistancey() < 9 && virus[j]->getdistancey() < virus[j]->getdistancex() && virus[j]->getdistancey() > 0)
+				{
+					virus[j]->changeDirection('A');
+				}
+				else if (virus[j]->getdistancey() > -9 && virus[j]->getdistancey() < virus[j]->getdistancex() && virus[j]->getdistancey() < 0)
+				{
+					virus[j]->changeDirection('D');
+				}
+				else if (virus[j]->getdistancey() == 0 && virus[j]->getdistancex() == 0)
+				{
+					virus[j]->changeDirection('Q');
+				}
+			}
+			{
+				COORD cord = virus[j]->getcord();
+				DisasterPlane[cord.Y][cord.X] = ' ';
+			}
+			{
+
+				virus[j]->move();
+				COORD cord = virus[j]->getcord();
+				DisasterPlane[cord.Y][cord.X] = virus[j]->geticon();
+			}
 		}
 	}
 }

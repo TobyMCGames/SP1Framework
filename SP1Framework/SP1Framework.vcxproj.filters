@@ -19,9 +19,6 @@
     <Filter Include="Source Files\Framework">
       <UniqueIdentifier>{37c19c94-9502-4b2b-b3f1-70fa908b49af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Items">
-      <UniqueIdentifier>{7ddc3c0a-58c1-410e-b712-e218ac30fcc8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Items">
       <UniqueIdentifier>{d12178a1-e21e-4862-84fa-68cdb7cf4e61}</UniqueIdentifier>
     </Filter>
@@ -30,6 +27,9 @@
     </Filter>
     <Filter Include="Source Files\Disasters">
       <UniqueIdentifier>{47c63c88-8b44-4b0b-b830-e790b58f7637}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Items">
+      <UniqueIdentifier>{7ddc3c0a-58c1-410e-b712-e218ac30fcc8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -117,8 +117,22 @@
     <ClCompile Include="Credits.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
+<<<<<<< HEAD
     <ClCompile Include="Highscore.cpp">
       <Filter>Source Files</Filter>
+=======
+=======
+>>>>>>> 815c760013a26ccfb9962723c7f3cb19674db11d
+    <ClCompile Include="ChaseD.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
+    <ClCompile Include="Virus.cpp">
+      <Filter>Source Files\Disasters</Filter>
+<<<<<<< HEAD
+>>>>>>> 815c760013a26ccfb9962723c7f3cb19674db11d
+=======
+>>>>>>> 815c760013a26ccfb9962723c7f3cb19674db11d
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -203,8 +217,22 @@
     <ClInclude Include="Credits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
+<<<<<<< HEAD
     <ClInclude Include="Highscore.h">
       <Filter>Header Files</Filter>
+=======
+=======
+>>>>>>> 815c760013a26ccfb9962723c7f3cb19674db11d
+    <ClInclude Include="Virus.h">
+      <Filter>Header Files\Disasters</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaseD.h">
+      <Filter>Header Files\Disasters</Filter>
+<<<<<<< HEAD
+>>>>>>> 815c760013a26ccfb9962723c7f3cb19674db11d
+=======
+>>>>>>> 815c760013a26ccfb9962723c7f3cb19674db11d
     </ClInclude>
   </ItemGroup>
 </Project>
