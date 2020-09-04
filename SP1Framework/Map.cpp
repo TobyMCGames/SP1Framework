@@ -611,7 +611,7 @@ void Map::updateMap(double dt, Player& player)
 		}
 	}
 
-	if (Ctime >= 0.03)
+	if (Ctime >= 0.08)
 	{
 		if (virusI)
 		{
@@ -980,62 +980,62 @@ void Map::Dchase(Player& player)
 			//int oldx = 0;
 			//int oldy = 0;
 			//int active = 0;
-			switch (virus[j]->getdirection())
-			{
-			case 'W':
-				y = -1;
-				x = 0;
-				//Vturn = true;
-				//active = 1;
-				break;
-			case 'A':
-				x = -1;
-				y = 0;
-				//Vturn = true;
-				//active = 2;
-				break;
-			case 'S':
-				y = 1;
-				x = 0;
-				//Vturn = true;
-				//active = 3;
-				break;
-			case 'D':
-				x = 1;
-				y = 0;
-				//Vturn = true;
-				//active = 4;
-				break;
-			}
+			//switch (virus[j]->getdirection())
+			//{
+			//case 'W':
+			//	y = -1;
+			//	x = 0;
+			//	//Vturn = true;
+			//	//active = 1;
+			//	break;
+			//case 'A':
+			//	x = -1;
+			//	y = 0;
+			//	//Vturn = true;
+			//	//active = 2;
+			//	break;
+			//case 'S':
+			//	y = 1;
+			//	x = 0;
+			//	//Vturn = true;
+			//	//active = 3;
+			//	break;
+			//case 'D':
+			//	x = 1;
+			//	y = 0;
+			//	//Vturn = true;
+			//	//active = 4;
+			//	break;
+			//}
 			xdiff = cord.X - player.getX();
 			ydiff = cord.Y - player.getY();
 			virus[j]->setDistance(ydiff, xdiff);
-			if (virus[j]->reaction(player, map[cord.Y][cord.X]) == true);
+			if (virus[j]->reaction(player, map[cord.Y][cord.X]) == false)
 			{
-				if (virus[j]->getdistancex() > -9 && virus[j]->getdistancex() < virus[j]->getdistancey() && virus[j]->getdistancex() < 0)
-				{
-					//oldx = x;
-					//oldy = y;
-					virus[j]->changeDirection('S');
-					virus[j]->move();
-					DisasterPlane[cord.Y][cord.X] = ' ';
-					DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
-					//DisasterPlane[cord.Y + oldy][cord.X + oldx] = ' ';
-					/*if (Vturn == true && active == 3)
-					{
-						DisasterPlane[cord.Y + y][cord.X + x] = ' ';
-					}*/
-				}
-				else if (virus[j]->getdistancex() < 9 && virus[j]->getdistancex() < virus[j]->getdistancey() && virus[j]->getdistancex() > 0)
+				if (virus[j]->getdistancex() < 9 && virus[j]->getdistancex() < virus[j]->getdistancey() && virus[j]->getdistancex() > 0)
 				{
 					//oldx = x;
 					//oldy = y;
 					virus[j]->changeDirection('W');
-					virus[j]->move();
-					DisasterPlane[cord.Y][cord.X] = ' ';
-					DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
+					//virus[j]->move();
+					//DisasterPlane[cord.Y][cord.X] = ' ';
+					//DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
 					//DisasterPlane[cord.Y + oldy][cord.X + oldx] = ' ';
 					/*if (Vturn == true && active == 1)
+					{
+						DisasterPlane[cord.Y + y][cord.X + x] = ' ';
+					}*/
+				}
+				else if (virus[j]->getdistancex() > -9 && virus[j]->getdistancex() < virus[j]->getdistancey() && virus[j]->getdistancex() < 0)
+				{
+					//oldx = x;
+					//oldy = y;
+					virus[j]->changeDirection('S');
+					//virus[j]->move();
+					//DisasterPlane[cord.Y][cord.X] = ' ';
+					//DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
+					//DisasterPlane[cord.Y + oldy][cord.X + oldx] = ' ';
+					/*if (Vturn == true && active == 3)
 					{
 						DisasterPlane[cord.Y + y][cord.X + x] = ' ';
 					}*/
@@ -1045,9 +1045,9 @@ void Map::Dchase(Player& player)
 					//oldx = x;
 					//oldy = y;
 					virus[j]->changeDirection('A');
-					virus[j]->move();
-					DisasterPlane[cord.Y][cord.X] = ' ';
-					DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
+					//virus[j]->move();
+					//DisasterPlane[cord.Y][cord.X] = ' ';
+					//DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
 					//DisasterPlane[cord.Y + oldy][cord.X + oldx] = ' ';
 					/*if (Vturn == true && active == 2)
 					{
@@ -1059,17 +1059,31 @@ void Map::Dchase(Player& player)
 					//oldx = x;
 					//oldy = y;
 					virus[j]->changeDirection('D');
-					virus[j]->move();
-					DisasterPlane[cord.Y][cord.X] = ' ';
-					DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
+					//virus[j]->move();
+					//DisasterPlane[cord.Y][cord.X] = ' ';
+					//DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
 					//DisasterPlane[cord.Y + oldy][cord.X + oldx] = ' ';
 					/*if (Vturn == true && active == 4)
 					{
 						DisasterPlane[cord.Y + y][cord.X + x] = ' ';
 					}*/
 				}
+				else if (virus[j]->getdistancey() == 0 && virus[j]->getdistancex() == 0)
+				{
+					virus[j]->changeDirection('Q');
+				}
 				//Vturn = false;
 				//active = 0;
+			}
+			{
+				COORD cord = virus[j]->getcord();
+				DisasterPlane[cord.Y][cord.X] = ' ';
+			}
+			{
+
+				virus[j]->move();
+				COORD cord = virus[j]->getcord();
+				DisasterPlane[cord.Y][cord.X] = virus[j]->geticon();
 			}
 		}
 	}

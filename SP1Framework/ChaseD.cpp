@@ -73,13 +73,18 @@ void ChaseD::changeDirection(char d)
 	direction = d;
 }
 
+void ChaseD::changeicon(char i)
+{
+	icon = i;
+}
+
 void ChaseD::setDistance(int dx, int dy)
 {
 	distancex = dx;
 	distancey = dy;
 }
 
-void ChaseD::setDirection()
+/*void ChaseD::setDirection()
 {
 	if (distancex < 0)
 	{
@@ -97,7 +102,7 @@ void ChaseD::setDirection()
 	{
 		direction = 'S';
 	}
-}
+}*/
 
 void ChaseD::move()
 {
@@ -105,15 +110,23 @@ void ChaseD::move()
 	{
 	case 'W':
 		c.Y -= 1;
+		c.X += 0;
 		break;
 	case 'A':
 		c.X -= 1;
+		c.Y += 0;
 		break;
 	case 'S':
 		c.Y += 1;
+		c.X += 0;
 		break;
 	case 'D':
 		c.X += 1;
+		c.Y += 0;
+		break;
+	case 'Q':
+		c.X += 0;
+		c.Y += 0;
 		break;
 	}
 }

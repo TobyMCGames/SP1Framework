@@ -24,10 +24,11 @@ public:
 	int getdistancey();
 
 	void setspawner();
-	void BTspawner(); //Sends cord back to spawner
+	void BTspawner();
 	void changeDirection(char d);
+	void changeicon(char i);
 	void setDistance(int dx, int dy);
-	void setDirection();
+	//void setDirection();
 	void move();
 	virtual bool reaction(Player& player, char tile) = 0;
 

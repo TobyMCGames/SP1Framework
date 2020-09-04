@@ -20,7 +20,7 @@ class Map
 {
 private:
 	int x, y, x_change, y_change, maplevel, coins;
-	double EQtime, Vtime, Ttime;
+	double EQtime, Vtime, Ttime, Ctime;
 	char DisasterPlane[135][135];
 	bool mapchange;
 	bool earthquakeI, tornadoI, tsunamiI, volcanoI, virusI;
