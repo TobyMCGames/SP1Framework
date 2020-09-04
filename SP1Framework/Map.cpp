@@ -10,13 +10,17 @@ Map::Map() :
 	EQtime(0),
 	Vtime(0),
 	Ttime(0),
+	Ctime(0),
 	map{ },
 	DisasterPlane{ },
 	earthquakeI(false),
 	tornadoI(false),
 	tsunamiI(false),
 	volcanoI(false),
+	virusI(false),
+	Vturn(false),
 	disasters { },
+	virus{ },
 	EQArray{ },
 	DoorArray{ },
 	VArray{ },
@@ -39,6 +43,11 @@ Map::Map() :
 	for (int i = 0; i < 50; i++)
 	{
 		disasters[i] = nullptr;
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		virus[i] = nullptr;
 	}
 
 	for (int i = 0; i < 1000; i++)
@@ -108,6 +117,7 @@ bool Map::collides(char direction, Player& anotherP)
 		volcanoI = false;
 		tornadoI = false;
 		tsunamiI = false;
+		Vturn = false;
 		break;
 	case 'D': //Door, if active - unable to pass
 		for (int i = 0; i < 500; i++)
@@ -361,6 +371,15 @@ void Map::loadMap(std::string anothermap, Player& player)
 			disasters[i] = nullptr;
 		}
 	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (virus[i] != nullptr)
+		{
+			delete virus[i];
+			virus[i] = nullptr;
+		}
+	}
 	
 	for (int i = 0; i < 1000; i++)
 	{
@@ -388,6 +407,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 	int Vidx = 0;
 	int Tidx = 0;
 	int Didx = 0;
+	int Cidx = 0;
 	int Dooridx = 0;
 	int col = 0;
 	int row = 0;
@@ -439,6 +459,12 @@ void Map::loadMap(std::string anothermap, Player& player)
 						tornadoI = true;
 						DisasterPlane[row][col] = 'T';
 						break;
+					case 'V':		//Virus Object
+						map[row][col] = ' ';
+						virus[Cidx] = new Virus(col, row, 'V');
+						virus[Cidx]->setspawner();
+						virusI = true;
+						DisasterPlane[row][col] = 'V';
 					case 'D':       //Door object
 						map[row][col] = 'D';
 						DoorArray[Dooridx] = new Doors;
@@ -533,6 +559,7 @@ void Map::updateMap(double dt, Player& player)
 	EQtime += dt;
 	Vtime += dt;
 	Ttime += dt;
+	Ctime += dt;
 	if (EQtime >= 0.16 * 1)
 	{
 		for (int i = 0; i < 5; i++) //EarthQuake Tiles
@@ -576,6 +603,14 @@ void Map::updateMap(double dt, Player& player)
 		}
 	}
 
+	if (Ctime >= 0.03)
+	{
+		if (virusI)
+		{
+			Dchase(player);
+			Ctime = 0;
+		}
+	}
 }
 
 
@@ -629,6 +664,7 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				case 'H':
 					anotherC.writeToBuffer(45 + j * 2, i, "  ", 0x00);
 					break;
+				case 'Z':
 				case ' ':
 					anotherC.writeToBuffer(45 + j * 2, i, "²²", 0x8F);
 					break;
@@ -700,6 +736,9 @@ void Map::DrawMap(Console& anotherC, Player& player)
 				break;
 			case 'T':
 				anotherC.writeToBuffer(45 + j * 2, i, "°°", 0x2F);
+				break;
+			case 'V':
+				anotherC.writeToBuffer(45 + j * 2, i, "°°", 0x5D);
 				break;
 			}
 		}
@@ -911,6 +950,116 @@ void Map::Dmoves(Player& player)
 			disasters[i]->move();
 			cord = disasters[i]->getcord();
 			DisasterPlane[cord.Y][cord.X] = disasters[i]->geticon();
+		}
+	}
+}
+
+void Map::Dchase(Player& player)
+{
+
+	for (int j = 0; j < 2; j++)
+	{
+		if (virus[j] != nullptr)
+		{
+			COORD cord = virus[j]->getcord();
+			int xdiff = 0;
+			int ydiff = 0;
+			int x = 0;
+			int y = 0;
+			//int oldx = 0;
+			//int oldy = 0;
+			//int active = 0;
+			switch (virus[j]->getdirection())
+			{
+			case 'W':
+				y = -1;
+				x = 0;
+				//Vturn = true;
+				//active = 1;
+				break;
+			case 'A':
+				x = -1;
+				y = 0;
+				//Vturn = true;
+				//active = 2;
+				break;
+			case 'S':
+				y = 1;
+				x = 0;
+				//Vturn = true;
+				//active = 3;
+				break;
+			case 'D':
+				x = 1;
+				y = 0;
+				//Vturn = true;
+				//active = 4;
+				break;
+			}
+			xdiff = cord.X - player.getX();
+			ydiff = cord.Y - player.getY();
+			virus[j]->setDistance(ydiff, xdiff);
+			if (virus[j]->reaction(player, map[cord.Y][cord.X]) == true);
+			{
+				if (virus[j]->getdistancex() > -9 && virus[j]->getdistancex() < virus[j]->getdistancey() && virus[j]->getdistancex() < 0)
+				{
+					//oldx = x;
+					//oldy = y;
+					virus[j]->changeDirection('S');
+					virus[j]->move();
+					DisasterPlane[cord.Y][cord.X] = ' ';
+					DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
+					//DisasterPlane[cord.Y + oldy][cord.X + oldx] = ' ';
+					/*if (Vturn == true && active == 3)
+					{
+						DisasterPlane[cord.Y + y][cord.X + x] = ' ';
+					}*/
+				}
+				else if (virus[j]->getdistancex() < 9 && virus[j]->getdistancex() < virus[j]->getdistancey() && virus[j]->getdistancex() > 0)
+				{
+					//oldx = x;
+					//oldy = y;
+					virus[j]->changeDirection('W');
+					virus[j]->move();
+					DisasterPlane[cord.Y][cord.X] = ' ';
+					DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
+					//DisasterPlane[cord.Y + oldy][cord.X + oldx] = ' ';
+					/*if (Vturn == true && active == 1)
+					{
+						DisasterPlane[cord.Y + y][cord.X + x] = ' ';
+					}*/
+				}
+				else if (virus[j]->getdistancey() < 9 && virus[j]->getdistancey() < virus[j]->getdistancex() && virus[j]->getdistancey() > 0)
+				{
+					//oldx = x;
+					//oldy = y;
+					virus[j]->changeDirection('A');
+					virus[j]->move();
+					DisasterPlane[cord.Y][cord.X] = ' ';
+					DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
+					//DisasterPlane[cord.Y + oldy][cord.X + oldx] = ' ';
+					/*if (Vturn == true && active == 2)
+					{
+						DisasterPlane[cord.Y + y][cord.X + x] = ' ';
+					}*/
+				}
+				else if (virus[j]->getdistancey() > -9 && virus[j]->getdistancey() < virus[j]->getdistancex() && virus[j]->getdistancey() < 0)
+				{
+					//oldx = x;
+					//oldy = y;
+					virus[j]->changeDirection('D');
+					virus[j]->move();
+					DisasterPlane[cord.Y][cord.X] = ' ';
+					DisasterPlane[cord.Y + y][cord.X + x] = virus[j]->geticon();
+					//DisasterPlane[cord.Y + oldy][cord.X + oldx] = ' ';
+					/*if (Vturn == true && active == 4)
+					{
+						DisasterPlane[cord.Y + y][cord.X + x] = ' ';
+					}*/
+				}
+				//Vturn = false;
+				//active = 0;
+			}
 		}
 	}
 }

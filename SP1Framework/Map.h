@@ -13,16 +13,20 @@
 #include "Volcano.h"
 #include "Tsunami.h"
 #include "Doors.h"
+#include "ChaseD.h"
+#include "Virus.h"
 
 class Map
 {
 private:
 	int x, y, x_change, y_change, maplevel;
-	double EQtime, Vtime, Ttime;
+	double EQtime, Vtime, Ttime, Ctime;
 	char DisasterPlane[135][135];
 	bool mapchange;
-	bool earthquakeI, tornadoI, tsunamiI, volcanoI;
+	bool earthquakeI, tornadoI, tsunamiI, volcanoI, virusI;
+	bool Vturn;
 	MovingD* disasters[50];
+	ChaseD* virus[50];
 	Earthquake* EQArray[500];
 	Volcano* VArray[1000];
 	Tsunami* TArray[1000];
@@ -45,6 +49,7 @@ public:
 
 	//Disaster movements
 	void Dmoves(Player& player);  // How Disaster moves
+	void Dchase(Player& player); //How Disaster chase
 
 	//Inventory Stuff
 	void interact(Player& player);  // Interact actions

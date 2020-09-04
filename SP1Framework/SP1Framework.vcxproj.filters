@@ -117,6 +117,12 @@
     <ClCompile Include="Credits.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ChaseD.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
+    <ClCompile Include="Virus.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -199,6 +205,12 @@
     </ClInclude>
     <ClInclude Include="Credits.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Virus.h">
+      <Filter>Header Files\Disasters</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaseD.h">
+      <Filter>Header Files\Disasters</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

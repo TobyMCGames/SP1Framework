@@ -1,0 +1,35 @@
+#pragma once
+#include "Player.h"
+#include "Framework/console.h"
+
+class ChaseD
+{
+protected:
+	COORD spawner;
+	COORD c;
+	char direction;
+	char icon;
+	int distancex;
+	int distancey;
+
+public:
+	ChaseD();
+	~ChaseD();
+
+	COORD getcord();
+	COORD getspawnCord();
+	char getdirection();
+	char geticon();
+	int getdistancex();
+	int getdistancey();
+
+	void setspawner();
+	void BTspawner(); //Sends cord back to spawner
+	void changeDirection(char d);
+	void setDistance(int dx, int dy);
+	void setDirection();
+	void move();
+	virtual bool reaction(Player& player, char tile) = 0;
+
+};
+

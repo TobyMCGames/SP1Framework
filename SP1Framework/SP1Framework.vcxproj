@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="Boulder.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ChaseD.cpp" />
     <ClCompile Include="Credits.cpp" />
     <ClCompile Include="Doors.cpp" />
     <ClCompile Include="Earthquake.cpp" />
@@ -105,11 +106,13 @@
     <ClCompile Include="Tsunami.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Virus.cpp" />
     <ClCompile Include="Volcano.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boulder.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ChaseD.h" />
     <ClInclude Include="Credits.h" />
     <ClInclude Include="Doors.h" />
     <ClInclude Include="Earthquake.h" />
@@ -134,6 +137,7 @@
     <ClInclude Include="Tsunami.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Virus.h" />
     <ClInclude Include="Volcano.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
