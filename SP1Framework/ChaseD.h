@@ -28,7 +28,6 @@ public:
 	void changeDirection(char d);
 	void changeicon(char i);
 	void setDistance(int dx, int dy);
-	//void setDirection();
 	void move();
 	virtual bool reaction(Player& player, char tile) = 0;
 

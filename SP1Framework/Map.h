@@ -24,7 +24,6 @@ private:
 	char DisasterPlane[135][135];
 	bool mapchange;
 	bool earthquakeI, tornadoI, tsunamiI, volcanoI, virusI;
-	bool Vturn;
 	MovingD* disasters[50];
 	ChaseD* virus[50];
 	Earthquake* EQArray[500];
