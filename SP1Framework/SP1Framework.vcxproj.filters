@@ -134,6 +134,12 @@
 =======
 >>>>>>> 815c760013a26ccfb9962723c7f3cb19674db11d
     </ClCompile>
+    <ClCompile Include="ChaseD.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
+    <ClCompile Include="Virus.cpp">
+      <Filter>Source Files\Disasters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
