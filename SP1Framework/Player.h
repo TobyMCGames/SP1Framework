@@ -55,6 +55,7 @@ public:
 	void interact();
 	void setLife(int x);
 	void increaseCoins();
+	void resetcoins();
 
 	//movement
 	void moveLEFT();

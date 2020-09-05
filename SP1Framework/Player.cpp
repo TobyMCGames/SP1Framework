@@ -264,6 +264,11 @@ void Player::increaseCoins()
 	coins++;
 }
 
+void Player::resetcoins()
+{
+	coins = 0;
+}
+
 void Player::moveLEFT()
 {
 	if (getX() > 23 && getX() <= 113)

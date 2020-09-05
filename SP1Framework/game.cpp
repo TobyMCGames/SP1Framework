@@ -784,8 +784,8 @@ void render()
     case EGAMESTATES::S_GAMECLEAR: renderGameClear();
         break;
     }
-    //renderFramerate();      // renders debug information, frame rate, elapsed time, etc
-    //renderInputEvents();    // renders status of input events
+    renderFramerate();      // renders debug information, frame rate, elapsed time, etc
+    renderInputEvents();    // renders status of input events
     renderToScreen();       // dump the contents of the buffer to the screen, one frame worth of game
 }
 
@@ -812,7 +812,7 @@ void loadGameClear()
 
 void loadHighScore()
 {
-    _highscore.loadscore(g_sChar);
+    _highscore.loadscore();
 }
 
 void renderToScreen()
@@ -859,6 +859,7 @@ void renderPauseMenu()
 void renderGameClear()
 {
     _gameclear.renderGC(g_Console);
+    _highscore.savescore(g_sChar);
 }
 
 void renderGame()
@@ -1023,6 +1024,7 @@ void die()
     if (g_sChar.getlife() <= 0)
     {
         g_eGameState = EGAMESTATES::S_GAMEOVER;
+        g_sChar.resetcoins();
         reset();
     }
 }
