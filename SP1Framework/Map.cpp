@@ -1009,7 +1009,18 @@ void Map::Dchase(Player& player)
 
 				virus[j]->move();
 				COORD cord = virus[j]->getcord();
+				if (map[cord.Y][cord.X] == 'W')
+				{
+					DisasterPlane[cord.Y][cord.X] = ' ';
+				}
+				else if (map[cord.Y][cord.X] == 'H')
+				{
+					DisasterPlane[cord.Y][cord.X] = ' ';
+				}
+				else
+				{
 				DisasterPlane[cord.Y][cord.X] = virus[j]->geticon();
+				}
 			}
 		}
 	}
