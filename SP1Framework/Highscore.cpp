@@ -28,7 +28,7 @@ Highscore::~Highscore()
 
 }
 
-void Highscore::loadscore(Player& player)
+void Highscore::loadscore()
 {
 	std::ifstream f;
 	f.open("Score/highscore.csv");
@@ -54,31 +54,35 @@ void Highscore::loadscore(Player& player)
 	}
 	f.close();
 
-	std::fstream file;
+	std::ifstream file;
 	file.open("score/Highscore.txt");
 	std::string line;
-	std::vector<std::string> scores;
-	while (file.good())
+	for (int i = 0; i < 10; i++)
 	{
 		string substr;
 		getline(file, substr, ',');
-		scores.push_back(substr);
+		score[i] = std::stoi(substr);
 	}
-	for (int i = 0; i < scores.size(); i++) {
-		score[i] = std::stoi(scores[i]);
-	}
+	file.close();
+}
+
+void Highscore::savescore(Player& player)
+{
+	std::ofstream file("score/Highscore.txt");
 	int tempscore = player.getCoins();
 	for (int i = 0; i < 10; i++) {
 		if (tempscore >= score[i]) {
-			(tempscore ^= score[i]), (score[i] ^= tempscore), (tempscore ^= score[i]);
+			int tempscore2 = score[i];
+			score[i] = tempscore;
+			tempscore = tempscore2;
+			//(tempscore ^= score[i]), (score[i] ^= tempscore), (tempscore ^= score[i]);
 		}
 	}
-	string tempstr = to_string(score[0]);
-	for (int i = 1; i < 10; i++) {
-		tempstr += to_string(score[i]);
+	string tempstr;
+	for (int i = 0; i < 9; i++) {
+		tempstr += (to_string(score[i]) + ",");
 	}
-	//file.close();
-	//std::ofstream file("score/Highscore.txt");
+	tempstr += to_string(score[9]);
 	file << tempstr;
 	file.close();
 }

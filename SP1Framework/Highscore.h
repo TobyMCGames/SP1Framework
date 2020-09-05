@@ -18,8 +18,9 @@ public:
 	Highscore();
 	~Highscore();
 
-	void loadscore(Player& player);
+	void loadscore();
 	void renderhighscore(Console& anotherC);
 	int getselector();
 	void setselector(int select);
+	void savescore(Player& player);
 };
