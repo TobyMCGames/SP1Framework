@@ -45,7 +45,7 @@ Map::Map() :
 		disasters[i] = nullptr;
 	}
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		virus[i] = nullptr;
 	}
@@ -375,7 +375,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 		}
 	}
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		if (virus[i] != nullptr)
 		{
@@ -966,7 +966,7 @@ void Map::Dmoves(Player& player)
 void Map::Dchase(Player& player)
 {
 
-	for (int j = 0; j < 2; j++)
+	for (int j = 0; j < 4; j++)
 	{
 		if (virus[j] != nullptr)
 		{
