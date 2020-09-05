@@ -45,7 +45,7 @@ Map::Map() :
 		disasters[i] = nullptr;
 	}
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		virus[i] = nullptr;
 	}
@@ -375,7 +375,7 @@ void Map::loadMap(std::string anothermap, Player& player)
 		}
 	}
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		if (virus[i] != nullptr)
 		{
@@ -466,8 +466,10 @@ void Map::loadMap(std::string anothermap, Player& player)
 						map[row][col] = ' ';
 						virus[Cidx] = new Virus(col, row, 'V');
 						virus[Cidx]->setspawner();
+						Cidx++;
 						virusI = true;
 						DisasterPlane[row][col] = 'V';
+						break;
 					case 'D':       //Door object
 						map[row][col] = 'D';
 						DoorArray[Dooridx] = new Doors;
@@ -966,7 +968,7 @@ void Map::Dmoves(Player& player)
 void Map::Dchase(Player& player)
 {
 
-	for (int j = 0; j < 2; j++)
+	for (int j = 0; j < 4; j++)
 	{
 		if (virus[j] != nullptr)
 		{
@@ -1000,6 +1002,28 @@ void Map::Dchase(Player& player)
 				{
 					virus[j]->changeDirection('Q');
 				}
+				else
+				{
+					int chance = rand() % 5;
+					switch (chance)
+					{
+					case 0:
+						virus[j]->changeDirection('W');
+						break;
+					case 1:
+						virus[j]->changeDirection('A');
+						break;
+					case 2:
+						virus[j]->changeDirection('S');
+						break;
+					case 3:
+						virus[j]->changeDirection('D');
+						break;
+					case 4:
+						virus[j]->changeDirection('Q');
+						break;
+					}
+				}
 			}
 			{
 				COORD cord = virus[j]->getcord();
@@ -1009,7 +1033,18 @@ void Map::Dchase(Player& player)
 
 				virus[j]->move();
 				COORD cord = virus[j]->getcord();
+				if (map[cord.Y][cord.X] == 'W')
+				{
+					DisasterPlane[cord.Y][cord.X] = ' ';
+				}
+				else if (map[cord.Y][cord.X] == 'H')
+				{
+					DisasterPlane[cord.Y][cord.X] = ' ';
+				}
+				else
+				{
 				DisasterPlane[cord.Y][cord.X] = virus[j]->geticon();
+				}
 			}
 		}
 	}

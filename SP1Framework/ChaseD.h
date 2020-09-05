@@ -26,7 +26,6 @@ public:
 	void setspawner();
 	void BTspawner();
 	void changeDirection(char d);
-	void changeicon(char i);
 	void setDistance(int dx, int dy);
 	void move();
 	virtual bool reaction(Player& player, char tile) = 0;
