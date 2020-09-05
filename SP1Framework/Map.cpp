@@ -466,8 +466,10 @@ void Map::loadMap(std::string anothermap, Player& player)
 						map[row][col] = ' ';
 						virus[Cidx] = new Virus(col, row, 'V');
 						virus[Cidx]->setspawner();
+						Cidx++;
 						virusI = true;
 						DisasterPlane[row][col] = 'V';
+						break;
 					case 'D':       //Door object
 						map[row][col] = 'D';
 						DoorArray[Dooridx] = new Doors;
@@ -999,6 +1001,28 @@ void Map::Dchase(Player& player)
 				else if (virus[j]->getdistancey() == 0 && virus[j]->getdistancex() == 0)
 				{
 					virus[j]->changeDirection('Q');
+				}
+				else
+				{
+					int chance = rand() % 5;
+					switch (chance)
+					{
+					case 0:
+						virus[j]->changeDirection('W');
+						break;
+					case 1:
+						virus[j]->changeDirection('A');
+						break;
+					case 2:
+						virus[j]->changeDirection('S');
+						break;
+					case 3:
+						virus[j]->changeDirection('D');
+						break;
+					case 4:
+						virus[j]->changeDirection('Q');
+						break;
+					}
 				}
 			}
 			{
