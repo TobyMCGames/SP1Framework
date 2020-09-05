@@ -70,8 +70,8 @@ void Highscore::savescore(Player& player)
 {
 	std::ofstream file("score/Highscore.txt");
 	int tempscore = player.getCoins();
-	for (int i = 0; i < 10; i++) {
-		if (tempscore >= score[i]) {
+	for (int i = 9; i > -1; i--) {
+		if (tempscore < score[i]) {
 			int tempscore2 = score[i];
 			score[i] = tempscore;
 			tempscore = tempscore2;
@@ -108,7 +108,7 @@ void Highscore::renderhighscore(Console& anotherC)
 		}
 	}
 	buttons[0]->renderButton(anotherC, false);
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 9; i += 2) {
 		anotherC.writeToBuffer(c, to_string(i) + ". " + to_string(score[i]), 0x0F);
 		anotherC.writeToBuffer(c.X + 10, c.Y, to_string(i + 1) + ". " + to_string(score[i + 1]), 0x0F);
 		c.Y += 2;
